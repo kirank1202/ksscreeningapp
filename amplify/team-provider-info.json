@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-ksscreeningapp-dev-161006-authRole",
+      "UnauthRoleArn": "arn:aws:iam::699887736378:role/amplify-ksscreeningapp-dev-161006-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::699887736378:role/amplify-ksscreeningapp-dev-161006-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-ksscreeningapp-dev-161006-deployment",
+      "UnauthRoleName": "amplify-ksscreeningapp-dev-161006-unauthRole",
+      "StackName": "amplify-ksscreeningapp-dev-161006",
+      "StackId": "arn:aws:cloudformation:us-east-1:699887736378:stack/amplify-ksscreeningapp-dev-161006/005ecb30-f861-11ea-801a-0a803f1342f3",
+      "AmplifyAppId": "d2cgkd4u6vde6y"
+    },
+    "categories": {
+      "auth": {
+        "ksscreeningapp52a85d91": {}
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+type Student @model {
+  id: ID!
+  code: String!
+  name: String
+  gender: String
+  district: String
+  school: String
+  grade: String
+  leftimage: String
+  rightimage: String
+  topimage: String
+  bottomimage: String
+  evaluation: String
+  evalcomments: String
+}
