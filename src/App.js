@@ -73,7 +73,7 @@ function App() {
         {
           students.map(student => (
             <div key={student.id || student.code}>
-               <h5>..........................................................................................</h5>
+               <h5>................................................................................................................</h5>
               <h5>{student.code} {student.name} {student.gender} {student.district} {student.school} {student.grade}
               <button onClick={() => deleteStudent(student)}>Delete Student</button> </h5>
             </div>
