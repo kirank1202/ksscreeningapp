@@ -13,7 +13,7 @@ function App() {
   const [formData, setFormData] = useState(initialFormState);
 
   useEffect(() => {
-    fetchAllStudents();
+   /* fetchAllStudents(); */
   }, []);
 
   async function fetchAllStudents() {
@@ -37,15 +37,18 @@ function App() {
   return (
     <div className="App">
       <h1>KS Screening App</h1>
+      
+      <input
+        onChange={e => setFormData({ ...formData, 'name': e.target.value})}
+        placeholder="Nurse Name"
+        value={formData.name}
+      />
+       <button onClick={fetchAllStudents}>Retrieve All Students</button>
+      <p></p>
       <input
         onChange={e => setFormData({ ...formData, 'code': e.target.value})}
         placeholder="Student Code"
         value={formData.code}
-      />
-      <input
-        onChange={e => setFormData({ ...formData, 'name': e.target.value})}
-        placeholder="Student Name"
-        value={formData.name}
       />
       <input
         onChange={e => setFormData({ ...formData, 'gender': e.target.value})}
