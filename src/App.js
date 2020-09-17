@@ -22,10 +22,11 @@ function App() {
   }
 
   async function createStudent() {
-    if (!formData.code|| !formData.name) return;
+    if (!formData.code|| !formData.gender) return;
     await API.graphql({ query: createStudentMutation, variables: { input: formData } });
     setStudents([ ...students, formData ]);
     setFormData(initialFormState);
+  
   }
 
   async function deleteStudent( {id}) {
@@ -70,7 +71,16 @@ function App() {
         placeholder="Student Grade"
         value={formData.grade}
       />
-      <button onClick={createStudent}>Create student</button>
+       <h4>Upload Indicated Pictures: 
+       <input type="file" id="leftimage" name="leftimage" /> 
+       <input type="file" id="rightimage" name="rightimage" /> 
+       <input type="file" id="topmage" name="topimage" /> 
+       <input type="file" id="bottomimage" name="bottomimage" /> 
+       </h4>
+
+      <h4>
+      <button onClick={createStudent}>Submit Student</button>
+      </h4> 
 
       <div style={{marginBottom: 30}}>
         {
