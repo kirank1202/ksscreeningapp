@@ -24,5 +24,11 @@
         }
       }
     }
+  },
+  "storage": {
+    "dentalimages": {
+      "service": "S3",
+      "providerPlugin": "awscloudformation"
+    }
   }
 }
