@@ -86,6 +86,7 @@ async function onChangebottomimage(e) {
     }
     setStudents([ ...students, formData ]);
     setFormData(resetStudentState);
+    alert("Uploaded Successfully");
   }
 
   async function deleteStudent( {id}) {
