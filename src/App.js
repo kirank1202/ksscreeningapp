@@ -160,11 +160,11 @@ async function onChangebottomimage(e) {
               <button onClick={() => deleteStudent(student)}>Delete Student</button> </h5>
             </div>
             
-              /*        
+                      
               {
                 student.leftimage && <img src={student.leftimage} style={{width: 400}} />
               }             
-              */
+              
           ))
           
         }
