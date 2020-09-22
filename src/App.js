@@ -123,7 +123,6 @@ async function onChangebottomimage(e) {
         placeholder="Student Grade"
         value={formData.grade}
       /> </h5>
-      <h4>..........................................................  </h4>
       <h5> STUDENT CODE: 
       <input
         onChange={e => setFormData({ ...formData, 'code': e.target.value})}
