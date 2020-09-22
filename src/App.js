@@ -100,51 +100,51 @@ async function onChangebottomimage(e) {
     <div className="App">
       <h2>Screening App</h2>
  
-      <h5>DATA COLLECTOR: </h5> <input
+      <h5>DATA COLLECTOR: <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
-        placeholder="Nurse Name"
+        placeholder="Data Collector Name"
         value={formData.name}
-      />
-      <p></p><h5>SCHOOL DISTRICT: </h5>
+      /> </h5> 
+      <h5>SCHOOL DISTRICT: 
       <input
         onChange={e => setFormData({ ...formData, 'district': e.target.value})}
         placeholder="School District"
         value={formData.district}
-      />
-      <p></p>SCHOOL:
+      /> </h5>
+      <h5>SCHOOL:
       <input
         onChange={e => setFormData({ ...formData, 'school': e.target.value})}
         placeholder="Student School"
         value={formData.school}
-      />
-      <p></p> GRADE: 
+      /> </h5>
+      <h5> GRADE: 
       <input
         onChange={e => setFormData({ ...formData, 'grade': e.target.value})}
         placeholder="Student Grade"
         value={formData.grade}
-      />
+      /> </h5>
       <h4>..........................................................  </h4>
-      <p></p>STUDENT CODE: 
+      <h5> STUDENT CODE: 
       <input
         onChange={e => setFormData({ ...formData, 'code': e.target.value})}
         placeholder="Student Code"
         value={formData.code}
-      />
-      <p></p> GENDER: 
+      /> </h5>
+     <h5> GENDER: 
       <input
         onChange={e => setFormData({ ...formData, 'gender': e.target.value})}
         placeholder="Student Gender"
         value={formData.gender}
-      />
+      /> </h5>
        <h4>Upload Indicated Pictures: </h4>
-       <h4> Left Image: 
-       <input type="file" name='leftimageselection' onChange={onChangeleftimage} /> </h4>
-       <h4> Right Image: 
-       <input type="file" name= 'rightimageselection' onChange={onChangerightimage} /> </h4>
-       <h4> Top Image: 
-       <input type="file" onChange={onChangetopimage} /> </h4>
-       <h4> Bottom Image: 
-       <input type="file" onChange={onChangebottomimage} /> </h4>
+       <h5> Image 1: 
+       <input type="file" name='leftimageselection' onChange={onChangeleftimage} /> </h5>
+       <h5> Image 2: 
+       <input type="file" name= 'rightimageselection' onChange={onChangerightimage} /> </h5>
+       <h5> Image 3: 
+       <input type="file" onChange={onChangetopimage} /> </h5>
+       <h5> Image 4: 
+       <input type="file" onChange={onChangebottomimage} /> </h5>
 
       <h4>
       <button onClick={createStudent}>Submit Student</button> 
