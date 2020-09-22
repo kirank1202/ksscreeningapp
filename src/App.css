@@ -1,5 +1,5 @@
 .App {
-  text-align: left;
+  text-align: center;
 }
 
 .App-logo {
@@ -13,7 +13,7 @@
   }
 }
 body{
-  background-color: #618de4;
+  background-color: #f0f3f8;
 }
 .App-header {
   background-color: #0b46bb;

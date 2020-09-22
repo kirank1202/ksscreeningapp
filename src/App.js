@@ -98,26 +98,26 @@ async function onChangebottomimage(e) {
 
   return (
     <div className="App">
-      <h1>Kansas Dental Screening App</h1>
+      <h2>Screening App</h2>
  
-      DATA COLLECTOR'S NAME: <input
+      DATA COLLECTOR: <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
         placeholder="Nurse Name"
         value={formData.name}
       />
-      <p></p>STUDENT SCHOOL DISTRICT: 
+      <p></p>SCHOOL DISTRICT: 
       <input
         onChange={e => setFormData({ ...formData, 'district': e.target.value})}
         placeholder="School District"
         value={formData.district}
       />
-      <p></p>STUDENT'S SCHOOL:
+      <p></p>SCHOOL:
       <input
         onChange={e => setFormData({ ...formData, 'school': e.target.value})}
         placeholder="Student School"
         value={formData.school}
       />
-      <p></p>STUDENT GRADE: 
+      <p></p> GRADE: 
       <input
         onChange={e => setFormData({ ...formData, 'grade': e.target.value})}
         placeholder="Student Grade"
@@ -130,20 +130,20 @@ async function onChangebottomimage(e) {
         placeholder="Student Code"
         value={formData.code}
       />
-      <p></p>STUDENT GENDER: 
+      <p></p> GENDER: 
       <input
         onChange={e => setFormData({ ...formData, 'gender': e.target.value})}
         placeholder="Student Gender"
         value={formData.gender}
       />
        <h4>Upload Indicated Pictures: </h4>
-       <h4> Upload left Image: 
+       <h4> Left Image: 
        <input type="file" name='leftimageselection' onChange={onChangeleftimage} /> </h4>
-       <h4> Upload Right Image: 
+       <h4> Right Image: 
        <input type="file" name= 'rightimageselection' onChange={onChangerightimage} /> </h4>
-       <h4> Upload Top Image: 
+       <h4> Top Image: 
        <input type="file" onChange={onChangetopimage} /> </h4>
-       <h4> Upload Bottom Image: 
+       <h4> Bottom Image: 
        <input type="file" onChange={onChangebottomimage} /> </h4>
 
       <h4>
@@ -160,11 +160,11 @@ async function onChangebottomimage(e) {
               <button onClick={() => deleteStudent(student)}>Delete Student</button> </h5>
             </div>
             
-                      
+              /*       
               {
                 student.leftimage && <img src={student.leftimage} style={{width: 400}} />
               }             
-              
+              */
           ))
           
         }
