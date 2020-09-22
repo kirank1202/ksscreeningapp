@@ -100,12 +100,12 @@ async function onChangebottomimage(e) {
     <div className="App">
       <h2>Screening App</h2>
  
-      DATA COLLECTOR: <input
+      <h5>DATA COLLECTOR: </h5> <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
         placeholder="Nurse Name"
         value={formData.name}
       />
-      <p></p>SCHOOL DISTRICT: 
+      <p></p><h5>SCHOOL DISTRICT: </h5>
       <input
         onChange={e => setFormData({ ...formData, 'district': e.target.value})}
         placeholder="School District"
