@@ -92,6 +92,7 @@ async function onChangebottomimage(e) {
     const newStudentArray = students.filter(student => student.id !== id);
     setStudents(newStudentArray);
     await API.graphql({ query: deleteStudentMutation, variables: { input: { id } }});
+    setFormData(initialFormState);
 
   }
 
@@ -159,7 +160,7 @@ async function onChangebottomimage(e) {
               <button onClick={() => deleteStudent(student)}>Delete Student</button> </h5>
             </div>
             
-              /*          
+              /*        
               {
                 student.leftimage && <img src={student.leftimage} style={{width: 400}} />
               }             
