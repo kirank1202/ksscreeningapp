@@ -1,4 +1,16 @@
 import React, { useState, useEffect } from 'react';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import { makeStyles } from '@material-ui/core/styles';
+import NativeSelect from '@material-ui/core/NativeSelect';
+
 import './App.css';
 import { API, Storage } from 'aws-amplify';
 import { withAuthenticator, AmplifySignOut, AmplifyAuthFields } from '@aws-amplify/ui-react';
@@ -13,6 +25,18 @@ function App() {
   const [students, setStudents] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
 
+  const useStyles = makeStyles((theme) => ({
+    formControl: {
+      margin: theme.spacing(1),
+      minWidth: 120,
+    },
+    selectEmpty: {
+      marginTop: theme.spacing(2),
+    },
+  }));
+
+  const classes = useStyles();
+
   useEffect(() => {
    /*fetchAllStudents(); */
   }, []);
@@ -20,17 +44,22 @@ function App() {
 
 /* Store leftimage if a file is selected */
 async function onChangeleftimage(e) {
+  alert('left image changed ${e.target.files[0].name} now');
     if (!e.target.files[0]) return
+    alert('left image changed-after empty file check');
     const file = e.target.files[0];
     setFormData({ ...formData, leftimage: file.name });
     await Storage.put(file.name, file);
+    alert('left image changed');
     fetchAllStudents();
     } 
 async function onChangerightimage(e) {
+  alert('right image changed');
       if (!e.target.files[0]) return
       const file = e.target.files[0];
       setFormData({ ...formData, rightimage: file.name });
       await Storage.put(file.name, file);
+      
       fetchAllStudents();
       } 
 async function onChangetopimage(e) {
@@ -60,16 +89,16 @@ async function onChangebottomimage(e) {
         student.leftimage = image;
       }
       if (student.rightimage) {
-        const image = await Storage.get(student.leftimage);
-        student.leftimage = image;
+        const image = await Storage.get(student.rightimage);
+        student.rightimage = image;
       }
       if (student.topimage) {
-        const image = await Storage.get(student.leftimage);
-        student.leftimage = image;
+        const image = await Storage.get(student.topimage);
+        student.topimage = image;
       }
       if (student.bottomimage) {
-        const image = await Storage.get(student.leftimage);
-        student.leftimage = image;
+        const image = await Storage.get(student.bottomimage);
+        student.bottomimage = image;
       }
       return student;
     }))
@@ -87,6 +116,7 @@ async function onChangebottomimage(e) {
     setStudents([ ...students, formData ]);
     setFormData(resetStudentState);
     alert(`Student ${formData.code} Uploaded Successfully`);
+    fetchAllStudents();
   }
 
   async function deleteStudent( {id}) {
@@ -101,6 +131,15 @@ async function onChangebottomimage(e) {
     <div className="App">
       <h2>Screening App</h2>
  
+      <FormControl component="fieldset">
+       <FormLabel component="legend">Data Collection Location</FormLabel>
+       <RadioGroup aria-label="location" name="location" value={formData.location} onChange={e => setFormData({ ...formData, 'location': e.target.value})}>
+       <FormControlLabel value="Home" control={<Radio />} label="Home" />
+       <FormControlLabel value="School" control={<Radio />} label="School" />
+      <FormControlLabel value="other" control={<Radio />} label="Other" />
+     </RadioGroup>
+    </FormControl>
+
       <h5>DATA COLLECTOR: <input
         onChange={e => setFormData({ ...formData, 'name': e.target.value})}
         placeholder="Data Collector Name"
@@ -124,6 +163,21 @@ async function onChangebottomimage(e) {
         placeholder="Student Grade"
         value={formData.grade}
       /> </h5>
+
+<FormControl className={classes.formControl}>
+        <InputLabel id="demo-simple-select-label">Grade</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={formData.grade}
+          onChange={e => setFormData({ ...formData, 'grade': e.target.value})}
+        >
+          <MenuItem value={9}>Nine</MenuItem>
+          <MenuItem value={10}>Tenth</MenuItem>
+          <MenuItem value={11}>Eleven</MenuItem>
+        </Select>
+      </FormControl>
+
       <h5> STUDENT CODE: 
       <input
         onChange={e => setFormData({ ...formData, 'code': e.target.value})}
@@ -136,6 +190,24 @@ async function onChangebottomimage(e) {
         placeholder="Student Gender"
         value={formData.gender}
       /> </h5>
+
+
+    <FormControl className={classes.formControl}>
+        <InputLabel htmlFor="gender">Gender</InputLabel>
+        <Select native
+          value={formData.gender}
+          onChange={e => setFormData({ ...formData, 'gender': e.target.value})}
+          inputProps={{ name: 'gender',id: 'gender', }}
+        >
+          <option aria-label="None" value="" />
+          <option value={'Male'}>Male</option>
+          <option value={'Female'}>Female</option>
+          <option value={'Other'}>Other</option>
+        </Select>
+    </FormControl>
+
+
+
        <h4>Upload Indicated Pictures: </h4>
        <h5> Image 1: 
        <input type="file" name='leftimageselection' onChange={onChangeleftimage} /> </h5>
@@ -150,6 +222,10 @@ async function onChangebottomimage(e) {
       <button onClick={createStudent}>Submit Student</button> 
       </h4>
 
+      <h4>
+      <button onClick={fetchAllStudents}>Fetch All Students</button> 
+      </h4>
+      
       <div style={{marginBottom: 30}}>
         {
           
@@ -157,13 +233,16 @@ async function onChangebottomimage(e) {
             <div key={student.id || student.code}>
                <h5>................................................................................................................</h5>
               <h5>{student.code} {student.gender} {student.grade}
-              <button onClick={() => deleteStudent(student)}>Delete Student</button> </h5>
+          {student.leftimage && <img src={student.leftimage} style={{width: 400}} /> }
+          {student.rightimage && <img src={student.rightimage} style={{width: 400}} /> }
+          {student.topimage && <img src={student.topimage} style={{width: 400}} /> }
+          {student.bottomimage && <img src={student.bottomimage} style={{width: 400}} />}
+          
+          <button onClick={() => deleteStudent(student)}>Delete Student</button> </h5>
             </div>
             
               /*       
-              {
-                student.leftimage && <img src={student.leftimage} style={{width: 400}} />
-              }             
+            
               */
           ))
           
