@@ -6,6 +6,7 @@ export const onCreateStudent = /* GraphQL */ `
     onCreateStudent {
       id
       code
+      location
       name
       gender
       district
@@ -27,6 +28,7 @@ export const onUpdateStudent = /* GraphQL */ `
     onUpdateStudent {
       id
       code
+      location
       name
       gender
       district
@@ -48,6 +50,7 @@ export const onDeleteStudent = /* GraphQL */ `
     onDeleteStudent {
       id
       code
+      location
       name
       gender
       district

@@ -9,6 +9,7 @@ export const createStudent = /* GraphQL */ `
     createStudent(input: $input, condition: $condition) {
       id
       code
+      location
       name
       gender
       district
@@ -33,6 +34,7 @@ export const updateStudent = /* GraphQL */ `
     updateStudent(input: $input, condition: $condition) {
       id
       code
+      location
       name
       gender
       district
@@ -57,6 +59,7 @@ export const deleteStudent = /* GraphQL */ `
     deleteStudent(input: $input, condition: $condition) {
       id
       code
+      location
       name
       gender
       district

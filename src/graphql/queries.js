@@ -6,6 +6,7 @@ export const getStudent = /* GraphQL */ `
     getStudent(id: $id) {
       id
       code
+      location
       name
       gender
       district
@@ -32,6 +33,7 @@ export const listStudents = /* GraphQL */ `
       items {
         id
         code
+        location
         name
         gender
         district

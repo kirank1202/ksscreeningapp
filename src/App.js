@@ -17,6 +17,24 @@ import { withAuthenticator, AmplifySignOut, AmplifyAuthFields } from '@aws-ampli
 import { listStudents } from './graphql/queries';
 import { createStudent as createStudentMutation, deleteStudent as deleteStudentMutation } from './graphql/mutations';
 
+/*
+import { DataGrid } from '@material-ui/data-grid';
+import { useDemoData } from '@material-ui/x-grid-data-generator';
+
+export function SingleRowSelectionGrid() {
+  const { data } = useDemoData({
+    dataSet: 'Commodity',
+    rowLength: 10,
+    maxColumns: 6,
+  });
+
+  return (
+    <div style={{ height: 400, width: '100%' }}>
+      <DataGrid {...data} />
+    </div>
+  );
+}
+*/ 
 const initialFormState = { code: '', name: '', gender: '', district: '', school: '', grade: '', leftimage: '', rightimage: ''}
 
 const resetStudentState = {code:'', gender:'', leftimageselection:'', rightimageselection:''}
@@ -41,6 +59,9 @@ function App() {
    /*fetchAllStudents(); */
   }, []);
 
+const generateImageFileName = (fileName) => {
+  return `${formData.code}-${fileName}`;
+};
 
 /* Store leftimage if a file is selected */
 async function onChangeleftimage(e) {
@@ -48,8 +69,8 @@ async function onChangeleftimage(e) {
     if (!e.target.files[0]) return
     alert('left image changed-after empty file check');
     const file = e.target.files[0];
-    setFormData({ ...formData, leftimage: file.name });
-    await Storage.put(file.name, file);
+    setFormData({ ...formData, leftimage: generateImageFileName(file.name)});
+    await Storage.put(generateImageFileName(file.name), file);
     alert('left image changed');
     fetchAllStudents();
     } 
@@ -57,23 +78,23 @@ async function onChangerightimage(e) {
   alert('right image changed');
       if (!e.target.files[0]) return
       const file = e.target.files[0];
-      setFormData({ ...formData, rightimage: file.name });
-      await Storage.put(file.name, file);
+      setFormData({ ...formData, rightimage: generateImageFileName(file.name)});
+      await Storage.put(generateImageFileName(file.name), file);
       
       fetchAllStudents();
       } 
 async function onChangetopimage(e) {
         if (!e.target.files[0]) return
         const file = e.target.files[0];
-        setFormData({ ...formData, topimage: file.name });
-        await Storage.put(file.name, file);
+        setFormData({ ...formData, topimage: generateImageFileName(file.name)});
+        await Storage.put(generateImageFileName(file.name), file);
         fetchAllStudents(); 
         } 
 async function onChangebottomimage(e) {
           if (!e.target.files[0]) return
           const file = e.target.files[0];
-          setFormData({ ...formData, bottomimage: file.name });
-          await Storage.put(file.name, file);
+          setFormData({ ...formData, bottomimage: generateImageFileName(file.name)});
+          await Storage.put(generateImageFileName(file.name), file);
           fetchAllStudents();
           } 
             
@@ -120,10 +141,16 @@ async function onChangebottomimage(e) {
   }
 
   async function deleteStudent( {id}) {
+    const student = students.find(student => student.id === id);
     const newStudentArray = students.filter(student => student.id !== id);
     setStudents(newStudentArray);
     await API.graphql({ query: deleteStudentMutation, variables: { input: { id } }});
+    await Storage.remove(student.leftimage);
+    await Storage.remove(student.rightimage);
+    await Storage.remove(student.topimage);
+    await Storage.remove(student.bottomimage);
     setFormData(initialFormState);
+    
 
   }
 
@@ -233,10 +260,10 @@ async function onChangebottomimage(e) {
             <div key={student.id || student.code}>
                <h5>................................................................................................................</h5>
               <h5>{student.code} {student.gender} {student.grade}
-          {student.leftimage && <img src={student.leftimage} style={{width: 400}} /> }
-          {student.rightimage && <img src={student.rightimage} style={{width: 400}} /> }
-          {student.topimage && <img src={student.topimage} style={{width: 400}} /> }
-          {student.bottomimage && <img src={student.bottomimage} style={{width: 400}} />}
+          {student.leftimage && <img src={student.leftimage} style={{width: 100, height:100}} /> }
+          {student.rightimage && <img src={student.rightimage} style={{width: 100, height:100}} /> }
+          {student.topimage && <img src={student.topimage} style={{width: 100, height:100}} /> }
+          {student.bottomimage && <img src={student.bottomimage} style={{width: 100, height:100}} />}
           
           <button onClick={() => deleteStudent(student)}>Delete Student</button> </h5>
             </div>
@@ -250,8 +277,7 @@ async function onChangebottomimage(e) {
       </div>
 
       
-      <AmplifySignOut />
-
+    <AmplifySignOut />
     </div>
   );
 }
