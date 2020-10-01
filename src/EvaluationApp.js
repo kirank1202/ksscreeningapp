@@ -75,16 +75,17 @@ const EvaluationApp = () => {
             <div key={student.id || student.code}>
                <h5>................................................................................................................</h5>
               <h5>{student.code} {student.gender} {student.grade}
-          {student.leftimage && <img src={student.leftimage} style={{width: 100, height:100}} /> }
-          {student.rightimage && <img src={student.rightimage} style={{width: 100, height:100}} /> }
-          {student.topimage && <img src={student.topimage} style={{width: 100, height:100}} /> }
-          {student.bottomimage && <img src={student.bottomimage} style={{width: 100, height:100}} />}
+                  {student.leftimage && <img src={student.leftimage} style={{width: 100, height:100}} /> }
+                  {student.rightimage && <img src={student.rightimage} style={{width: 100, height:100}} /> }
+                  {student.topimage && <img src={student.topimage} style={{width: 100, height:100}} /> }
+                  {student.bottomimage && <img src={student.bottomimage} style={{width: 100, height:100}} />}
           
-          <button onClick={() => deleteStudent(student)}>Delete Student</button> </h5>
+               
+             </h5> 
             </div>
             
               /*       
-            
+               <button onClick={() => deleteStudent(student)}>Delete Student</button>
               */
           ))
           

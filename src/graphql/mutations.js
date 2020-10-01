@@ -9,18 +9,27 @@ export const createStudent = /* GraphQL */ `
     createStudent(input: $input, condition: $condition) {
       id
       code
+      parentEmail
       location
       name
       gender
       district
       school
       grade
+      haveDentalInsurance
+      okToReceiveMedicaidInfo
+      nonsmilingface
+      frontTeeth
       leftimage
       rightimage
       topimage
       bottomimage
-      evaluation
+      untreatedDecay
+      treatedDecay
+      sealantsPresent
+      treatmentRecommendationCode
       evalcomments
+      virtualScreeningExperience
       createdAt
       updatedAt
     }
@@ -34,18 +43,27 @@ export const updateStudent = /* GraphQL */ `
     updateStudent(input: $input, condition: $condition) {
       id
       code
+      parentEmail
       location
       name
       gender
       district
       school
       grade
+      haveDentalInsurance
+      okToReceiveMedicaidInfo
+      nonsmilingface
+      frontTeeth
       leftimage
       rightimage
       topimage
       bottomimage
-      evaluation
+      untreatedDecay
+      treatedDecay
+      sealantsPresent
+      treatmentRecommendationCode
       evalcomments
+      virtualScreeningExperience
       createdAt
       updatedAt
     }
@@ -59,18 +77,27 @@ export const deleteStudent = /* GraphQL */ `
     deleteStudent(input: $input, condition: $condition) {
       id
       code
+      parentEmail
       location
       name
       gender
       district
       school
       grade
+      haveDentalInsurance
+      okToReceiveMedicaidInfo
+      nonsmilingface
+      frontTeeth
       leftimage
       rightimage
       topimage
       bottomimage
-      evaluation
+      untreatedDecay
+      treatedDecay
+      sealantsPresent
+      treatmentRecommendationCode
       evalcomments
+      virtualScreeningExperience
       createdAt
       updatedAt
     }

@@ -6,18 +6,27 @@ export const onCreateStudent = /* GraphQL */ `
     onCreateStudent {
       id
       code
+      parentEmail
       location
       name
       gender
       district
       school
       grade
+      haveDentalInsurance
+      okToReceiveMedicaidInfo
+      nonsmilingface
+      frontTeeth
       leftimage
       rightimage
       topimage
       bottomimage
-      evaluation
+      untreatedDecay
+      treatedDecay
+      sealantsPresent
+      treatmentRecommendationCode
       evalcomments
+      virtualScreeningExperience
       createdAt
       updatedAt
     }
@@ -28,18 +37,27 @@ export const onUpdateStudent = /* GraphQL */ `
     onUpdateStudent {
       id
       code
+      parentEmail
       location
       name
       gender
       district
       school
       grade
+      haveDentalInsurance
+      okToReceiveMedicaidInfo
+      nonsmilingface
+      frontTeeth
       leftimage
       rightimage
       topimage
       bottomimage
-      evaluation
+      untreatedDecay
+      treatedDecay
+      sealantsPresent
+      treatmentRecommendationCode
       evalcomments
+      virtualScreeningExperience
       createdAt
       updatedAt
     }
@@ -50,18 +68,27 @@ export const onDeleteStudent = /* GraphQL */ `
     onDeleteStudent {
       id
       code
+      parentEmail
       location
       name
       gender
       district
       school
       grade
+      haveDentalInsurance
+      okToReceiveMedicaidInfo
+      nonsmilingface
+      frontTeeth
       leftimage
       rightimage
       topimage
       bottomimage
-      evaluation
+      untreatedDecay
+      treatedDecay
+      sealantsPresent
+      treatmentRecommendationCode
       evalcomments
+      virtualScreeningExperience
       createdAt
       updatedAt
     }

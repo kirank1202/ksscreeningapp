@@ -6,18 +6,27 @@ export const getStudent = /* GraphQL */ `
     getStudent(id: $id) {
       id
       code
+      parentEmail
       location
       name
       gender
       district
       school
       grade
+      haveDentalInsurance
+      okToReceiveMedicaidInfo
+      nonsmilingface
+      frontTeeth
       leftimage
       rightimage
       topimage
       bottomimage
-      evaluation
+      untreatedDecay
+      treatedDecay
+      sealantsPresent
+      treatmentRecommendationCode
       evalcomments
+      virtualScreeningExperience
       createdAt
       updatedAt
     }
@@ -33,18 +42,27 @@ export const listStudents = /* GraphQL */ `
       items {
         id
         code
+        parentEmail
         location
         name
         gender
         district
         school
         grade
+        haveDentalInsurance
+        okToReceiveMedicaidInfo
+        nonsmilingface
+        frontTeeth
         leftimage
         rightimage
         topimage
         bottomimage
-        evaluation
+        untreatedDecay
+        treatedDecay
+        sealantsPresent
+        treatmentRecommendationCode
         evalcomments
+        virtualScreeningExperience
         createdAt
         updatedAt
       }

@@ -1,16 +1,25 @@
 type Student @model {
   id: ID!
   code: String!
+  parentEmail: String
   location: String
   name: String
   gender: String
   district: String
   school: String
   grade: String
+  haveDentalInsurance: String
+  okToReceiveMedicaidInfo: String
+  nonsmilingface: String
+  frontTeeth: String
   leftimage: String
   rightimage: String
   topimage: String
   bottomimage: String
-  evaluation: String
+  untreatedDecay: String
+  treatedDecay: String
+  sealantsPresent: String
+  treatmentRecommendationCode: String
   evalcomments: String
+  virtualScreeningExperience: String
 }
