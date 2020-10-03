@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
-import './App.css';
-import { Auth } from 'aws-amplify';
-import { withAuthenticator, AmplifySignOut, AmplifyAuthFields } from '@aws-amplify/ui-react';
+import React, { useState, useEffect } from "react";
+import { makeStyles } from "@material-ui/core/styles";
+import "./App.css";
+import { Auth } from "aws-amplify";
+import {
+  withAuthenticator,
+  AmplifySignOut,
+  AmplifyAuthFields,
+} from "@aws-amplify/ui-react";
 import EvaluationApp from "./EvaluationApp";
-import CollectionApp from "./CollectionApp"; 
+import CollectionApp from "./CollectionApp";
+import Details from "./details";
+import { Route, BrowserRouter, Switch } from "react-router-dom";
 
 /*
 import { DataGrid } from '@material-ui/data-grid';
@@ -23,55 +29,45 @@ export function SingleRowSelectionGrid() {
     </div>
   );
 }
-*/ 
-
+*/
 
 function App() {
-  const DATA_COLLECTION_GROUP = "DataCollection";
-  const DATA_EVALUATOR_GROUP = "DataEvaluator";
+  const [userType, setUserType] = useState("");
 
-  
-  let currentUserGroup =``; 
+  let currentUserGroup = ``;
 
   useEffect(() => {
-   async function fetchCurrentUserGroup() { 
-    Auth.currentAuthenticatedUser().then((authuser) =>  {
-      currentUserGroup =   authuser.signInUserSession.idToken.payload["cognito:groups"][0];
-      console.log(currentUserGroup,'this is the currentuser in useEffect',currentUserGroup.length);
-    })
-   }
+    async function fetchCurrentUserGroup() {
+      Auth.currentAuthenticatedUser().then((authuser) => {
+        currentUserGroup =
+          authuser.signInUserSession.idToken.payload["cognito:groups"][0];
+        setUserType(currentUserGroup);
+      });
+    }
 
-  fetchCurrentUserGroup();
-  console.log(currentUserGroup,'this is the currentuser after fetchuserGroup method', {fetchCurrentUserGroup}.length);
-  
-}, []);
+    fetchCurrentUserGroup();
+  }, []);
 
-
-async function fetchCurrentUserGroup() { 
-    
-  Auth.currentAuthenticatedUser().then((authuser) =>  {
-    currentUserGroup =   authuser.signInUserSession.idToken.payload["cognito:groups"][0];
-    console.log(currentUserGroup,'this is the currentuser in fetchFunction',currentUserGroup.length);
-    return currentUserGroup;
-  })
- 
- }
-  
- Auth.currentAuthenticatedUser().then((authuser) =>  {
-  currentUserGroup =   authuser.signInUserSession.idToken.payload["cognito:groups"][0];
-  console.log(currentUserGroup,'this is the currentuser rightafter fetching it',currentUserGroup.length);
- });
-
- console.log(currentUserGroup,'this is the currentuser before return',currentUserGroup.length);
+  const HomePage = () => {
+    console.log(userType, "userType");
+    return (
+      <div>
+        {userType !== "DataCollection" ? <CollectionApp /> : <EvaluationApp />}
+        <AmplifySignOut />
+      </div>
+    );
+  };
 
   return (
     <div className="App">
-      <h2>Screening App</h2>  
-      {fetchCurrentUserGroup}
-      {currentUserGroup != "DataCollection" ?<CollectionApp /> :<EvaluationApp />}
-        <AmplifySignOut />
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/details" component={Details} />
+        </Switch>
+      </BrowserRouter>
     </div>
   );
-  
 }
+
 export default withAuthenticator(App);
