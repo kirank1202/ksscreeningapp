@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { API, Storage } from 'aws-amplify';
-import { listStudents } from './graphql/queries';
+import React, { useState, useEffect } from "react";
+import { API, Storage } from "aws-amplify";
+import { listStudents } from "./graphql/queries";
 import {
   createStudent as createStudentMutation,
   deleteStudent as deleteStudentMutation,
-} from './graphql/mutations';
-import './App.css';
-import InputGroup from 'react-bootstrap/InputGroup';
-import FormControl from 'react-bootstrap/FormControl';
-import { makeStyles } from '@material-ui/core/styles';
+} from "./graphql/mutations";
+import "./App.css";
+import InputGroup from "react-bootstrap/InputGroup";
+import FormControl from "react-bootstrap/FormControl";
+import { makeStyles } from "@material-ui/core/styles";
 
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import logo from './TeledentalSolutionLogo13.png';
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import logo from "./TeledentalSolutionLogo13.png";
 
 const EvaluationApp = ({ history }) => {
   const [students, setStudents] = useState([]);
+  const [imageData, setImageData] = useState();
 
   useEffect(() => {
-    /*fetchAllStudents(); */
+    fetchAllStudents();
   }, []);
 
   /* retrieve all students from DynamoDB using graphql API interace */
@@ -82,9 +82,9 @@ const EvaluationApp = ({ history }) => {
       // flexGrow: 1,
     },
     flexToolbar: {
-      padding: '0 100px',
-      display: 'flex',
-      justifyContent: 'space-between',
+      padding: "0 100px",
+      display: "flex",
+      justifyContent: "space-between",
     },
   }));
 
@@ -97,7 +97,7 @@ const EvaluationApp = ({ history }) => {
     } */
 
     <div className="App">
-      {students.length === 0 && (
+      {/* {students.length === 0 && (
         <>
           <h2>Screening Evaluation App</h2>
 
@@ -105,7 +105,7 @@ const EvaluationApp = ({ history }) => {
             <button onClick={fetchAllStudents}>Fetch All Students</button>
           </h4>
         </>
-      )}
+      )} */}
       {students.length > 1 && (
         <>
           <div className={classes.root}>
@@ -117,13 +117,13 @@ const EvaluationApp = ({ history }) => {
           </div>
 
           <div className="content-container">
-            <InputGroup className="mb-3">
+            {/* <InputGroup className="mb-3">
               <FormControl
                 placeholder="Search Student ID # Or School ID #"
                 aria-label="Username"
                 aria-describedby="basic-addon1"
               />
-            </InputGroup>
+            </InputGroup> */}
             <table>
               <thead>
                 <tr>
@@ -137,22 +137,21 @@ const EvaluationApp = ({ history }) => {
                 {students.map((student, key) => (
                   <tr
                     key={key}
-                    onClick={() =>
-                      history.push({
-                        pathname: '/details',
-                        state: student,
-                      })
+                    onClick={() => setImageData(student)}
+                    className={
+                      imageData && student.name === imageData.name
+                        ? "table-row-page-active"
+                        : "table-row-page"
                     }
-                    className="table-row-page"
                   >
                     <td>{student.name}</td>
                     <td>{student.school}</td>
                     <td>{student.location}</td>
                     <td>
                       {new Date(student.createdAt).toLocaleString(undefined, {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric',
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
                       })}
                     </td>
                   </tr>
@@ -160,9 +159,120 @@ const EvaluationApp = ({ history }) => {
               </tbody>
             </table>
           </div>
+          {imageData ? (
+            <div>
+              <p>Name: {imageData.name}</p>
+              <p>School: {imageData.school}</p>
+              <p>Location: {imageData.location}</p>
+
+              <div>
+                <label>1. Untreated Decay</label>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div style={{ margin: "2px" }}>
+                    <input type="radio" />
+                    Yes
+                  </div>
+                  <div style={{ margin: "2px" }}>
+                    <input type="radio" />
+                    No
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label>2. Treated Decay</label>
+
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div style={{ margin: "2px" }}>
+                    <input type="radio" />
+                    Yes
+                  </div>
+                  <div style={{ margin: "2px" }}>
+                    <input type="radio" />
+                    No
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label>3. Sealants Present</label>
+
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div style={{ margin: "2px" }}>
+                    <input type="radio" />
+                    Yes
+                  </div>
+                  <div style={{ margin: "2px" }}>
+                    <input type="radio" />
+                    No
+                  </div>
+                </div>
+              </div>
+              <div>
+                <label>4. Treatment Recomendation codes</label>
+
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                  }}
+                >
+                  <div style={{ margin: "2px" }}>
+                    <input type="radio" />
+                    No obvious problem
+                  </div>
+
+                  <div style={{ margin: "2px" }}>
+                    <input type="radio" />
+                    Evaluate for preventive sealants
+                  </div>
+
+                  <div style={{ margin: "2px" }}>
+                    <input type="radio" />
+                    Evaluate for Restorative care
+                  </div>
+
+                  <div style={{ margin: "2px" }}>
+                    <input type="radio" />
+                    Urgent care needed
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <button type="submit">Submit</button>
+              </div>
+
+              <div
+                style={{
+                  marginBottom: "20px",
+                  marginTop: "20px",
+                }}
+                className="teeth-image-container"
+              >
+                <img src={imageData.leftimage} alt="..." />
+                <img src={imageData.rightimage} alt="..." />
+                <img src={imageData.topimage} alt="..." />
+                <img src={imageData.bottomimage} alt="..." />
+              </div>
+            </div>
+          ) : null}
         </>
       )}
     </div>
   );
 };
-export default withRouter(EvaluationApp);
+export default EvaluationApp;

@@ -6,13 +6,7 @@
   height: 40vmin;
   pointer-events: none;
 }
-/*
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-*/
+
 body {
   background-color: #f0f3f8;
 }
@@ -38,7 +32,7 @@ body {
 
 /* Clear floats after the columns */
 .row:after {
-  content: '';
+  content: "";
   display: table;
   clear: both;
 }
@@ -88,7 +82,7 @@ body {
 .formContainer {
   display: flex;
   justify-content: space-between;
-  height: 35vh;
+  height: 45vh;
 }
 
 .leftArea {
@@ -140,7 +134,7 @@ body {
   visibility: hidden;
 }
 .input-file::before {
-  content: '+';
+  content: "+";
   display: inline-block;
   /* background: linear-gradient(top, #f9f9f9, #e3e3e3); */
   border: 1px solid #999;
@@ -190,6 +184,10 @@ td {
 
 .table-row-page {
   cursor: pointer;
+}
+
+.table-row-page-active {
+  border: 1px solid blue;
 }
 
 th {
@@ -249,4 +247,24 @@ tr:nth-child(even) {
 .details-user-user {
   display: flex;
   align-items: center;
+}
+
+.teeth-image-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.teeth-image-container > img {
+  width: 20%;
+}
+
+#dropdown-basic::after {
+  position: absolute;
+  top: 50%;
+  right: 15px;
+}
+
+.image-placeholder {
+  width: 70%;
+  height: 150px;
 }
