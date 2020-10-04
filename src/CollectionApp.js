@@ -202,7 +202,12 @@ const CollectionApp = () => {
       </div>
 
       <div className="mainContainer">
-        <h1 className="BasicDetails">Basic Details</h1>
+        <h1 className="BasicDetails">School Dental Screening</h1>
+        <h5 align= "Left">
+        If you would like to know the results from your student’s school screening, please enter the guardian’s e-mail address.  
+        If you do not choose to have information emailed to you, please enter your student’s school ID number ONLY so we know their screening has been completed.  
+        Student or Guardian information is not provided to individuals outside the school, including dental professionals.  
+        </h5>
         <div className="form">
           <form>
             <div className="formContainer">
@@ -281,8 +286,7 @@ const CollectionApp = () => {
               <div className="rightArea">
                 <div>
                   <p>
-                    Data Collector (Only Required if you would like your student
-                    Screening test)
+                    Data Collector
                   </p>
                   <InputGroup>
                     <FormCntrl
@@ -297,6 +301,10 @@ const CollectionApp = () => {
                       }
                     />
                   </InputGroup>
+                  <p> <h8>
+                    *Required only if you like to receive student screening results
+                    </h8>
+                  </p>
                 </div>
                 <div>
                   <p>Grade</p>
@@ -375,9 +383,6 @@ const CollectionApp = () => {
                       <Dropdown.Item eventKey="Female" href="#/action-2">
                         Female
                       </Dropdown.Item>
-                      <Dropdown.Item eventKey="Other" href="#/action-3">
-                        Other
-                      </Dropdown.Item>
                     </Dropdown.Menu>
                   </Dropdown>
                 </div>
@@ -413,7 +418,11 @@ const CollectionApp = () => {
       </div>
 
       <div style={{ padding: "20px 150px" }}>
-        <h1 className="BasicDetails">Demo Pictures</h1>
+        <h1 className="BasicDetails">Photos</h1>
+        <h5 align="left">
+        Please have your student in good lighting and take the pictures as shown.  
+        You can refer to this video on how to take the best photos <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y"> </a>
+        </h5>
 
         <div className="uploadPictures">
           <div>
