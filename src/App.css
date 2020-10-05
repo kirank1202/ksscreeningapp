@@ -187,7 +187,7 @@ td {
 }
 
 .table-row-page-active {
-  border: 1px solid blue;
+  border: 2px solid blue;
 }
 
 th {
@@ -200,9 +200,9 @@ th:last-of-type {
   border-right: none;
 }
 
-tr:nth-child(even) {
+tr {
+  border-bottom: 1px solid grey;
 }
-
 .content-container {
   width: 90%;
   margin: 0 auto;
