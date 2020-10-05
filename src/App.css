@@ -268,3 +268,21 @@ tr:nth-child(even) {
   width: 70%;
   height: 150px;
 }
+
+.image-info-container{
+  display: flex;
+  justify-content: center;
+}
+
+.image-info-container > p{
+  margin: 10px 20px;
+}
+
+.inputs-container{
+  display: flex;
+  justify-content: center;
+}
+
+.inputs-container > label{
+  padding-right: 10px;
+} 

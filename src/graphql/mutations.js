@@ -103,3 +103,19 @@ export const deleteStudent = /* GraphQL */ `
     }
   }
 `;
+
+export const createStudentInfo = /* GraphQL */ `
+  mutation CreateStudentInfo(
+    $input: CreateStudentInfoInput!
+  ) {
+    createStudentInfo(input: $input) {
+      id
+      untreatedDecay
+      treatedDecay
+      sealants
+      treatmentRecommendation
+      createdAt
+      updatedAt
+    }
+  }
+`;
