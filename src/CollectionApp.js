@@ -8,7 +8,7 @@ import LeftImg from "./Susan101-mandibular.PNG";
 import RightImg from "./Susan101-maxillary.PNG";
 import TopImg from "./Susan101-left.PNG";
 import BottomImg from "./Susan101-right.PNG";
-import nonsmilingface from "./nonsmiling.jpg";
+import nonsmilingface from "./nonsmiling.JPG";
 import frontTeeth from "./frontteeth.jpeg";
 
 import Dropdown from "react-bootstrap/Dropdown";
