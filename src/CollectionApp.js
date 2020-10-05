@@ -248,12 +248,13 @@ const CollectionApp = () => {
         <AppBar position="static" color="#fff">
           <Toolbar className={classes.flexToolbar}>
             <img src={logo} alt="..." />
+            <h1 className="BasicDetails">School Dental Screening</h1>
           </Toolbar>
         </AppBar>
       </div>
       <form onSubmit={createStudent}>
         <div className="mainContainer">
-          <h1 className="BasicDetails">School Dental Screening</h1>
+          <h2 className="BasicDetails">Welcome</h2>
           <h5 align="Left">
             If you would like to know the results from your student’s school
             screening, please enter the guardian’s e-mail address. If you do not

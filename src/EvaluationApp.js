@@ -56,11 +56,11 @@ const EvaluationApp = ({ history }) => {
           student.bottomimage = image;
         }
         if (student.nonsmilingface) {
-          const image = await Storage.get(student.bottomimage);
+          const image = await Storage.get(student.nonsmilingface);
           student.nonsmilingface = image;
         }
         if (student.frontTeeth) {
-          const image = await Storage.get(student.bottomimage);
+          const image = await Storage.get(student.frontTeeth);
           student.frontTeeth = image;
         }
         return student;
@@ -81,6 +81,8 @@ const EvaluationApp = ({ history }) => {
     await Storage.remove(student.rightimage);
     await Storage.remove(student.topimage);
     await Storage.remove(student.bottomimage);
+    await Storage.remove(student.nonsmilingface);
+    await Storage.remove(student.frontTeeth);
   }
 
   async function handleSubmit(e) {
@@ -154,6 +156,7 @@ const EvaluationApp = ({ history }) => {
             <AppBar position="static" color="#fff">
               <Toolbar className={classes.flexToolbar}>
                 <img src={logo} alt="..." />
+                <h1 className="BasicDetails">School Dental Screening Evaluation</h1>
               </Toolbar>
             </AppBar>
           </div>
@@ -169,7 +172,7 @@ const EvaluationApp = ({ history }) => {
             <table>
               <thead>
                 <tr>
-                  <th>Name</th>
+                  <th>Student ID</th>
                   <th>School</th>
                   <th>Location</th>
                   <th>Date</th>
@@ -186,7 +189,7 @@ const EvaluationApp = ({ history }) => {
                         : "table-row-page"
                     }
                   >
-                    <td>{student.name}</td>
+                    <td>{student.code}</td>
                     <td>{student.school}</td>
                     <td>{student.location}</td>
                     <td>
@@ -211,9 +214,9 @@ const EvaluationApp = ({ history }) => {
                         fontSize: "18px",
                       }}
                     >
-                      Name:
+                      Student Id:
                     </b>
-                    {imageData.name}
+                    {imageData.code}
                   </p>
                   <p>
                     <b
@@ -244,12 +247,12 @@ const EvaluationApp = ({ history }) => {
                   }}
                   className="teeth-image-container"
                 >
+                  <img src={imageData.nonsmilingface} alt="..." />
+                  <img src={imageData.frontTeeth} alt="..." />
                   <img src={imageData.leftimage} alt="..." />
                   <img src={imageData.rightimage} alt="..." />
                   <img src={imageData.topimage} alt="..." />
                   <img src={imageData.bottomimage} alt="..." />
-                  <img src={imageData.nonsmilingface} alt="..." />
-                  <img src={imageData.frontTeeth} alt="..." />
                 </div>
 
                 <div className="inputs-container">
