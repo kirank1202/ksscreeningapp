@@ -181,7 +181,7 @@ const EvaluationApp = ({ history }) => {
                     key={key}
                     onClick={() => setImageData(student)}
                     className={
-                      imageData && student.name === imageData.name
+                      imageData && student.id === imageData.id
                         ? "table-row-page-active"
                         : "table-row-page"
                     }
@@ -203,32 +203,53 @@ const EvaluationApp = ({ history }) => {
           </div>
           {imageData ? (
             <div>
-              <div
-                style={{
-                  marginBottom: "20px",
-                  marginTop: "20px",
-                }}
-                className="teeth-image-container"
-              >
-                <img src={imageData.leftimage} alt="..." />
-                <img src={imageData.rightimage} alt="..." />
-                <img src={imageData.topimage} alt="..." />
-                <img src={imageData.bottomimage} alt="..." />
-                <img src={imageData.nonsmilingface} alt="..." />
-                <img src={imageData.frontTeeth} alt="..." />
-              </div>
-
               <form onSubmit={handleSubmit}>
                 <div className="image-info-container">
                   <p>
-                    <b>Name:</b> {imageData.name}
+                    <b
+                      style={{
+                        fontSize: "18px",
+                      }}
+                    >
+                      Name:
+                    </b>
+                    {imageData.name}
                   </p>
                   <p>
-                    <b>School:</b> {imageData.school}
+                    <b
+                      style={{
+                        fontSize: "18px",
+                      }}
+                    >
+                      School:
+                    </b>{" "}
+                    {imageData.school}
                   </p>
                   <p>
-                    <b>Location:</b> {imageData.location}
+                    <b
+                      style={{
+                        fontSize: "18px",
+                      }}
+                    >
+                      Location:
+                    </b>
+                    {imageData.location}
                   </p>
+                </div>
+
+                <div
+                  style={{
+                    marginBottom: "20px",
+                    marginTop: "20px",
+                  }}
+                  className="teeth-image-container"
+                >
+                  <img src={imageData.leftimage} alt="..." />
+                  <img src={imageData.rightimage} alt="..." />
+                  <img src={imageData.topimage} alt="..." />
+                  <img src={imageData.bottomimage} alt="..." />
+                  <img src={imageData.nonsmilingface} alt="..." />
+                  <img src={imageData.frontTeeth} alt="..." />
                 </div>
 
                 <div className="inputs-container">
