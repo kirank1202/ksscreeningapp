@@ -23,3 +23,13 @@ type Student @model {
   evalcomments: String
   virtualScreeningExperience: String
 }
+
+type Comments @model {
+  id: ID!
+  Name: String!
+  untreatedDecay: String
+  treatedDecay: String
+  sealantsPresent: String
+  treatmentRecommendationCode: String
+  StudentId: String
+}
