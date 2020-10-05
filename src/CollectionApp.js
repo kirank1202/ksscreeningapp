@@ -8,8 +8,8 @@ import LeftImg from "./Susan101-mandibular.PNG";
 import RightImg from "./Susan101-maxillary.PNG";
 import TopImg from "./Susan101-left.PNG";
 import BottomImg from "./Susan101-right.PNG";
-import nonsmilingface from "./Susan101-mandibular.PNG";
-import frontTeeth from "./Susan101-maxillary.PNG";
+import nonsmilingface from "./nonsmiling.jpg";
+import frontTeeth from "./frontteeth.jpeg";
 
 import Dropdown from "react-bootstrap/Dropdown";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -151,6 +151,7 @@ const CollectionApp = () => {
             topimage: generateImageFileName(file.name),
         });
         await Storage.put(generateImageFileName(file.name), file);
+        alert("top image changes");
     }
 
     async function onChangebottomimage(e) {
@@ -175,7 +176,8 @@ const CollectionApp = () => {
             bottomimage: generateImageFileName(file.name),
         });
         await Storage.put(generateImageFileName(file.name), file);
-        alert("left image changes");
+       // alert("left image changes");
+        alert("bottom image changes");
     }
 
     async function onChangeNonSmilingimage(e) {
@@ -533,13 +535,27 @@ const CollectionApp = () => {
                     <h5 align="left">
                         Please have your student in good lighting and take the
                         pictures as shown. You can refer to this video on how to
-                        take the best photos{" "}
+                        take the best photos for screening{" "}
                         <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y">
                             {" "}
                         </a>
                     </h5>
 
                     <div className="uploadPictures">
+                        <div>
+                            <img
+                                className="image-placeholder"
+                                src={nonsmilingface}
+                                alt="..."
+                            />
+                        </div>
+                        <div>
+                            <img
+                                className="image-placeholder"
+                                src={frontTeeth}
+                                alt="..."
+                            />
+                        </div>
                         <div>
                             <img
                                 className="image-placeholder"
@@ -568,23 +584,41 @@ const CollectionApp = () => {
                                 alt="..."
                             />
                         </div>
-                        <div>
-                            <img
-                                className="image-placeholder"
-                                src={nonsmilingface}
-                                alt="..."
-                            />
-                        </div>
-                        <div>
-                            <img
-                                className="image-placeholder"
-                                src={frontTeeth}
-                                alt="..."
-                            />
-                        </div>
+
                     </div>
 
                     <div className="uploadPictures">
+                            {/* New - KK moved to front*/}
+                        <div>
+                            <input
+                                id="home-file-input-nonSmiling"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangeNonSmilingimage}
+                            />
+                            <label
+                                id="non-smiling"
+                                className="image-input-label"
+                                htmlFor="home-file-input-nonSmiling"
+                            >
+                                +
+                            </label>
+                        </div>
+                        <div>
+                            <input
+                                id="home-file-input-frontTeeth"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangeFrontTeethimage}
+                            />
+                            <label
+                                id="front-teeth"
+                                className="image-input-label"
+                                htmlFor="home-file-input-frontTeeth"
+                            >
+                                +
+                            </label>
+                        </div>
                         <div>
                             <input
                                 id="home-file-input-left"
@@ -645,37 +679,7 @@ const CollectionApp = () => {
                                 +
                             </label>
                         </div>
-                        {/* New */}
-                        <div>
-                            <input
-                                id="home-file-input-nonSmiling"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangeNonSmilingimage}
-                            />
-                            <label
-                                id="non-smiling"
-                                className="image-input-label"
-                                htmlFor="home-file-input-nonSmiling"
-                            >
-                                +
-                            </label>
-                        </div>
-                        <div>
-                            <input
-                                id="home-file-input-frontTeeth"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangeFrontTeethimage}
-                            />
-                            <label
-                                id="front-teeth"
-                                className="image-input-label"
-                                htmlFor="home-file-input-frontTeeth"
-                            >
-                                +
-                            </label>
-                        </div>
+                        
                     </div>
                     <h4>
                         <button
