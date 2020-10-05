@@ -201,7 +201,6 @@ th:last-of-type {
 }
 
 tr:nth-child(even) {
-  box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.5);
 }
 
 .content-container {
@@ -269,20 +268,20 @@ tr:nth-child(even) {
   height: 150px;
 }
 
-.image-info-container{
+.image-info-container {
   display: flex;
   justify-content: center;
 }
 
-.image-info-container > p{
+.image-info-container > p {
   margin: 10px 20px;
 }
 
-.inputs-container{
+.inputs-container {
   display: flex;
   justify-content: center;
 }
 
-.inputs-container > label{
+.inputs-container > label {
   padding-right: 10px;
-} 
+}
