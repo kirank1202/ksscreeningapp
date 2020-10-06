@@ -16,606 +16,803 @@ import InputGroup from "react-bootstrap/InputGroup";
 import FormCntrl from "react-bootstrap/FormControl";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { makeStyles } from "@material-ui/core/styles";
+import Modal from "@material-ui/core/Modal";
 
 import "./App.css";
 import { API, Storage, Auth } from "aws-amplify";
 
 import { createStudent as createStudentMutation } from "./graphql/mutations";
+import { Button } from "@material-ui/core";
 
 const initialFormState = {
-  code: "",
-  name: "",
-  gender: "Male",
-  district: "",
-  school: "",
-  grade: "1",
-  leftimage: "",
-  rightimage: "",
-  location: "Home",
-  haveDentalInsurance: "Yes",
-  evalStatus: "New"
+    code: "",
+    name: "",
+    gender: "Male",
+    district: "",
+    school: "",
+    grade: "1",
+    leftimage: "",
+    rightimage: "",
+    location: "Home",
+    haveDentalInsurance: "Yes",
 };
 
 const resetStudentState = {
-  code: "",
-  gender: "Male",
-  leftimageselection: "",
-  rightimageselection: "",
+    code: "",
+    gender: "Male",
+    leftimageselection: "",
+    rightimageselection: "",
 };
 
+function getModalStyle() {
+    const top = 50;
+    const left = 50;
+
+    return {
+        top: `${top}%`,
+        left: `${left}%`,
+        transform: `translate(-${top}%, -${left}%)`,
+    };
+}
+
 const CollectionApp = () => {
-  const [formData, setFormData] = useState(initialFormState);
-  const [students, setStudents] = useState([]);
+    const [formData, setFormData] = useState(initialFormState);
+    const [students, setStudents] = useState([]);
+    const [modalStyle] = React.useState(getModalStyle);
+    const [open, setOpen] = React.useState(false);
+    const [thankYouModel, setThankYouModel] = React.useState(false);
 
-  const useStyles = makeStyles((theme) => ({
-    formControl: {
-      margin: theme.spacing(1),
-      minWidth: 120,
-    },
-    selectEmpty: {
-      marginTop: theme.spacing(2),
-    },
-    root: {
-      flexGrow: 1,
-    },
-    menuButton: {
-      marginRight: theme.spacing(2),
-    },
-    title: {
-      // flexGrow: 1,
-    },
-    flexToolbar: {
-      padding: "0 100px",
-      display: "flex",
-      justifyContent: "space-between",
-    },
-  }));
-
-  const classes = useStyles();
-
-  const generateImageFileName = (fileName) => {
-    return `${formData.code}-${fileName}`;
-  };
-
-  /* Store leftimage if a file is selected */
-  async function onChangeleftimage(e) {
-    if (!e.target.files[0]) return;
-    const file = e.target.files[0];
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-      const el = document.getElementById("left");
-      el.style.display = "block";
-      el.style.background = `url(${e.target.result})`;
-      el.style.backgroundRepeat = "no-repeat";
-      el.style.backgroundSize = "cover";
-      el.style.width = "149.7px";
-      el.style.height = "142px";
-      el.innerHTML = "";
+    const handleOpen = () => {
+        setOpen(!open);
     };
 
-    reader.readAsDataURL(file);
-    setFormData({
-      ...formData,
-      leftimage: generateImageFileName(file.name),
-    });
-    await Storage.put(generateImageFileName(file.name), file);
-  }
-  async function onChangerightimage(e) {
-    if (!e.target.files[0]) return;
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-      const el = document.getElementById("right");
-      el.style.display = "block";
-      el.style.background = `url(${e.target.result})`;
-      el.style.backgroundRepeat = "no-repeat";
-      el.style.backgroundSize = "cover";
-      el.style.width = "149.7px";
-      el.style.height = "142px";
-      el.innerHTML = "";
+    const handleThankYouModel = () => {
+        setThankYouModel(!thankYouModel);
     };
 
-    const file = e.target.files[0];
-    reader.readAsDataURL(file);
-
-    setFormData({
-      ...formData,
-      rightimage: generateImageFileName(file.name),
-    });
-    await Storage.put(generateImageFileName(file.name), file);
-  }
-
-  async function onChangetopimage(e) {
-    if (!e.target.files[0]) return;
-    const file = e.target.files[0];
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-      const el = document.getElementById("top");
-      el.style.display = "block";
-      el.style.background = `url(${e.target.result})`;
-      el.style.backgroundRepeat = "no-repeat";
-      el.style.backgroundSize = "cover";
-      el.style.width = "149.7px";
-      el.style.height = "142px";
-      el.innerHTML = "";
+    const handleThankModelClose = () => {
+        setFormData(initialFormState);
+        setThankYouModel(!thankYouModel);
     };
 
-    reader.readAsDataURL(file);
+    const useStyles = makeStyles((theme) => ({
+        formControl: {
+            margin: theme.spacing(1),
+            minWidth: 120,
+        },
+        selectEmpty: {
+            marginTop: theme.spacing(2),
+        },
+        root: {
+            flexGrow: 1,
+        },
+        menuButton: {
+            marginRight: theme.spacing(2),
+        },
+        title: {
+            // flexGrow: 1,
+        },
+        flexToolbar: {
+            padding: "0 100px",
+            display: "flex",
+            justifyContent: "space-between",
+        },
+        paper: {
+            position: "absolute",
+            width: 400,
+            backgroundColor: theme.palette.background.paper,
+            border: "2px solid #000",
+            boxShadow: theme.shadows[5],
+            padding: theme.spacing(2, 4, 3),
+        },
+    }));
 
-    setFormData({
-      ...formData,
-      topimage: generateImageFileName(file.name),
-    });
-    await Storage.put(generateImageFileName(file.name), file);
-    alert("top image changes");
-  }
+    const classes = useStyles();
 
-  async function onChangebottomimage(e) {
-    if (!e.target.files[0]) return;
-    var reader = new FileReader();
-
-    reader.onload = function (e) {
-      const el = document.getElementById("bottom");
-      el.style.display = "block";
-      el.style.background = `url(${e.target.result})`;
-      el.style.backgroundRepeat = "no-repeat";
-      el.style.backgroundSize = "cover";
-      el.style.width = "149.7px";
-      el.style.height = "142px";
-      el.innerHTML = "";
+    const generateImageFileName = (fileName) => {
+        return `${formData.code}-${fileName}`;
     };
 
-    const file = e.target.files[0];
-    reader.readAsDataURL(file);
-    setFormData({
-      ...formData,
-      bottomimage: generateImageFileName(file.name),
-    });
-    await Storage.put(generateImageFileName(file.name), file);
-    // alert("left image changes");
-    alert("bottom image changes");
-  }
+    /* Store leftimage if a file is selected */
+    async function onChangeleftimage(e) {
+        if (!e.target.files[0]) return;
+        const file = e.target.files[0];
+        var reader = new FileReader();
 
-  async function onChangeNonSmilingimage(e) {
-    if (!e.target.files[0]) return;
-    var reader = new FileReader();
+        reader.onload = function (e) {
+            const el = document.getElementById("left");
+            el.style.display = "block";
+            el.style.background = `url(${e.target.result})`;
+            el.style.backgroundRepeat = "no-repeat";
+            el.style.backgroundSize = "cover";
+            el.style.width = "149.7px";
+            el.style.height = "142px";
+            el.innerHTML = "";
+        };
 
-    reader.onload = function (e) {
-      const el = document.getElementById("non-smiling");
-      el.style.display = "block";
-      el.style.background = `url(${e.target.result})`;
-      el.style.backgroundRepeat = "no-repeat";
-      el.style.backgroundSize = "cover";
-      el.style.width = "149.7px";
-      el.style.height = "142px";
-      el.innerHTML = "";
-    };
+        reader.readAsDataURL(file);
+        setFormData({
+            ...formData,
+            leftimage: generateImageFileName(file.name),
+        });
+        await Storage.put(generateImageFileName(file.name), file);
+    }
+    async function onChangerightimage(e) {
+        if (!e.target.files[0]) return;
+        var reader = new FileReader();
 
-    const file = e.target.files[0];
-    reader.readAsDataURL(file);
-    setFormData({
-      ...formData,
-      nonsmilingface: generateImageFileName(file.name),
-    });
-    await Storage.put(generateImageFileName(file.name), file);
-    alert("nonsmiling-face image changes");
-  }
+        reader.onload = function (e) {
+            const el = document.getElementById("right");
+            el.style.display = "block";
+            el.style.background = `url(${e.target.result})`;
+            el.style.backgroundRepeat = "no-repeat";
+            el.style.backgroundSize = "cover";
+            el.style.width = "149.7px";
+            el.style.height = "142px";
+            el.innerHTML = "";
+        };
 
-  async function onChangeFrontTeethimage(e) {
-    if (!e.target.files[0]) return;
-    var reader = new FileReader();
+        const file = e.target.files[0];
+        reader.readAsDataURL(file);
 
-    reader.onload = function (e) {
-      const el = document.getElementById("front-teeth");
-      el.style.display = "block";
-      el.style.background = `url(${e.target.result})`;
-      el.style.backgroundRepeat = "no-repeat";
-      el.style.backgroundSize = "cover";
-      el.style.width = "149.7px";
-      el.style.height = "142px";
-      el.innerHTML = "";
-    };
-
-    const file = e.target.files[0];
-    reader.readAsDataURL(file);
-    setFormData({
-      ...formData,
-      frontTeeth: generateImageFileName(file.name),
-    });
-    await Storage.put(generateImageFileName(file.name), file);
-    alert("Front-Teeth image changes");
-  }
-
-  async function createStudent() {
-    if (!formData.code || !formData.gender) return;
-    await API.graphql({
-      query: createStudentMutation,
-      variables: { input: formData },
-    });
-    if (formData.leftimage) {
-      const image = await Storage.get(formData.leftimage);
-      formData.leftimage = image;
+        setFormData({
+            ...formData,
+            rightimage: generateImageFileName(file.name),
+        });
+        await Storage.put(generateImageFileName(file.name), file);
     }
 
-    setFormData(resetStudentState);
-    alert(`Student ${formData.code} Uploaded Successfully`);
-  }
+    async function onChangetopimage(e) {
+        if (!e.target.files[0]) return;
+        const file = e.target.files[0];
+        var reader = new FileReader();
 
-  return (
-    <div className="CollectionApp">
-      <div className={classes.root}>
-        <AppBar position="static" color="#fff">
-          <Toolbar className={classes.flexToolbar}>
-            <img src={logo} alt="..." />
-            <h1 className="BasicDetails">School Dental Screening</h1>
-          </Toolbar>
-        </AppBar>
-      </div>
-      <form onSubmit={createStudent}>
-        <div className="mainContainer">
-          <h2 className="BasicDetails">Welcome</h2>
-          <h5 align="Left">
-            If you would like to know the results from your student’s school
-            screening, please enter the guardian’s e-mail address. If you do not
-            choose to have information emailed to you, please enter your
-            student’s school ID number ONLY so we know their screening has been
-            completed. Student or Guardian information is not provided to
-            individuals outside the school, including dental professionals.
-          </h5>
-          <div className="form">
-            <div className="formContainer">
-              <div className="leftArea">
-                <div>
-                  <p>Data Collection Location</p>
-                  <Dropdown
-                    aria-label="location"
-                    name="location"
-                    value={formData.location}
-                    onSelect={(e) => {
-                      setFormData({
-                        ...formData,
-                        location: e,
-                      });
-                    }}
-                  >
-                    <Dropdown.Toggle id="dropdown-basic">
-                      {formData.location}
-                    </Dropdown.Toggle>
+        reader.onload = function (e) {
+            const el = document.getElementById("top");
+            el.style.display = "block";
+            el.style.background = `url(${e.target.result})`;
+            el.style.backgroundRepeat = "no-repeat";
+            el.style.backgroundSize = "cover";
+            el.style.width = "149.7px";
+            el.style.height = "142px";
+            el.innerHTML = "";
+        };
 
-                    <Dropdown.Menu>
-                      <Dropdown.Item eventKey="Home">Home</Dropdown.Item>
-                      <Dropdown.Item eventKey="School">School</Dropdown.Item>
-                      <Dropdown.Item eventKey="other">Other</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+        reader.readAsDataURL(file);
+
+        setFormData({
+            ...formData,
+            topimage: generateImageFileName(file.name),
+        });
+        await Storage.put(generateImageFileName(file.name), file);
+        alert("top image changes");
+    }
+
+    async function onChangebottomimage(e) {
+        if (!e.target.files[0]) return;
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            const el = document.getElementById("bottom");
+            el.style.display = "block";
+            el.style.background = `url(${e.target.result})`;
+            el.style.backgroundRepeat = "no-repeat";
+            el.style.backgroundSize = "cover";
+            el.style.width = "149.7px";
+            el.style.height = "142px";
+            el.innerHTML = "";
+        };
+
+        const file = e.target.files[0];
+        reader.readAsDataURL(file);
+        setFormData({
+            ...formData,
+            bottomimage: generateImageFileName(file.name),
+        });
+        await Storage.put(generateImageFileName(file.name), file);
+        // alert("left image changes");
+        alert("bottom image changes");
+    }
+
+    async function onChangeNonSmilingimage(e) {
+        if (!e.target.files[0]) return;
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            const el = document.getElementById("non-smiling");
+            el.style.display = "block";
+            el.style.background = `url(${e.target.result})`;
+            el.style.backgroundRepeat = "no-repeat";
+            el.style.backgroundSize = "cover";
+            el.style.width = "149.7px";
+            el.style.height = "142px";
+            el.innerHTML = "";
+        };
+
+        const file = e.target.files[0];
+        reader.readAsDataURL(file);
+        setFormData({
+            ...formData,
+            nonsmilingface: generateImageFileName(file.name),
+        });
+        await Storage.put(generateImageFileName(file.name), file);
+        alert("nonsmiling-face image changes");
+    }
+
+    async function onChangeFrontTeethimage(e) {
+        if (!e.target.files[0]) return;
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            const el = document.getElementById("front-teeth");
+            el.style.display = "block";
+            el.style.background = `url(${e.target.result})`;
+            el.style.backgroundRepeat = "no-repeat";
+            el.style.backgroundSize = "cover";
+            el.style.width = "149.7px";
+            el.style.height = "142px";
+            el.innerHTML = "";
+        };
+
+        const file = e.target.files[0];
+        reader.readAsDataURL(file);
+        setFormData({
+            ...formData,
+            frontTeeth: generateImageFileName(file.name),
+        });
+        await Storage.put(generateImageFileName(file.name), file);
+        alert("Front-Teeth image changes");
+    }
+
+    async function createStudent(e) {
+        e.preventDefault();
+        if (!formData.code || !formData.gender) return;
+        await API.graphql({
+            query: createStudentMutation,
+            variables: { input: formData },
+        });
+        if (formData.leftimage) {
+            const image = await Storage.get(formData.leftimage);
+            formData.leftimage = image;
+        }
+        handleThankYouModel();
+        alert(`Student ${formData.code} Uploaded Successfully`);
+    }
+
+    return (
+        <div className="CollectionApp">
+            <div className={classes.root}>
+                <AppBar position="static" color="#fff">
+                    <Toolbar className={classes.flexToolbar}>
+                        <img src={logo} alt="..." />
+                    </Toolbar>
+                </AppBar>
+            </div>
+            <form onSubmit={createStudent}>
+                <div className="mainContainer">
+                    <h1 className="BasicDetails">School Dental Screening</h1>
+                    <h5 align="Left">
+                        If you would like to know the results from your
+                        student’s school screening, please enter the guardian’s
+                        e-mail address. If you do not choose to have information
+                        emailed to you, please enter your student’s school ID
+                        number ONLY so we know their screening has been
+                        completed. Student or Guardian information is not
+                        provided to individuals outside the school, including
+                        dental professionals.
+                    </h5>
+                    <div className="form">
+                        <div className="formContainer">
+                            <div className="leftArea">
+                                <div>
+                                    <p>Data Collection Location</p>
+                                    <Dropdown
+                                        aria-label="location"
+                                        name="location"
+                                        value={formData.location}
+                                        onSelect={(e) => {
+                                            setFormData({
+                                                ...formData,
+                                                location: e,
+                                            });
+                                        }}
+                                    >
+                                        <Dropdown.Toggle id="dropdown-basic">
+                                            {formData.location}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item eventKey="Home">
+                                                Home
+                                            </Dropdown.Item>
+                                            <Dropdown.Item eventKey="School">
+                                                School
+                                            </Dropdown.Item>
+                                            <Dropdown.Item eventKey="other">
+                                                Other
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </div>
+
+                                <div>
+                                    <p>School District</p>
+                                    <InputGroup className="mb-3">
+                                        <FormCntrl
+                                            value={formData.district}
+                                            aria-label="district"
+                                            aria-describedby="basic-addon1"
+                                            onChange={(e) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    district: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </InputGroup>
+                                </div>
+                                <div>
+                                    <p>Student ID</p>
+                                    <InputGroup className="mb-3">
+                                        <FormCntrl
+                                            value={formData.code}
+                                            aria-label="code"
+                                            aria-describedby="basic-addon1"
+                                            onChange={(e) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    code: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </InputGroup>
+                                </div>
+                                <div>
+                                    <p>School Name/ID</p>
+                                    <InputGroup className="mb-3">
+                                        <FormCntrl
+                                            value={formData.school}
+                                            aria-label="code"
+                                            aria-describedby="basic-addon1"
+                                            onChange={(e) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    school: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </InputGroup>
+                                </div>
+                            </div>
+                            <div className="rightArea">
+                                <div>
+                                    <p>Data Collector</p>
+                                    <InputGroup>
+                                        <FormCntrl
+                                            placeholder="Data collector Email"
+                                            aria-label="Username"
+                                            aria-describedby="basic-addon1"
+                                            type="email"
+                                            value={formData.name}
+                                            onChange={(e) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    name: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </InputGroup>
+                                    <p>
+                                        {" "}
+                                        <h8>
+                                            *Required only if you like to
+                                            receive student screening results
+                                        </h8>
+                                    </p>
+                                </div>
+                                <div>
+                                    <p>Grade</p>
+                                    <Dropdown
+                                        value={formData.grade}
+                                        onSelect={(e) => {
+                                            setFormData({
+                                                ...formData,
+                                                grade: e,
+                                            });
+                                        }}
+                                    >
+                                        <Dropdown.Toggle id="dropdown-basic">
+                                            {formData.grade}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                eventKey={1}
+                                                href="#/action-1"
+                                            >
+                                                One
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey={2}
+                                                href="#/action-1"
+                                            >
+                                                Two
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey={3}
+                                                href="#/action-1"
+                                            >
+                                                Three
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey={4}
+                                                href="#/action-1"
+                                            >
+                                                Four
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey={5}
+                                                href="#/action-1"
+                                            >
+                                                Five
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey={6}
+                                                href="#/action-1"
+                                            >
+                                                Six
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey={7}
+                                                href="#/action-1"
+                                            >
+                                                Seven
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey={8}
+                                                href="#/action-1"
+                                            >
+                                                Eight
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey={9}
+                                                href="#/action-1"
+                                            >
+                                                Nine
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey={10}
+                                                href="#/action-2"
+                                            >
+                                                Ten
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey={11}
+                                                href="#/action-3"
+                                            >
+                                                Eleven
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey={12}
+                                                href="#/action-1"
+                                            >
+                                                Twelve
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </div>
+                                <div>
+                                    <p>Gender</p>
+                                    <Dropdown
+                                        value={formData.gender}
+                                        onSelect={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                gender: e,
+                                            })
+                                        }
+                                    >
+                                        <Dropdown.Toggle id="dropdown-basic">
+                                            {formData.gender}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                eventKey="Male"
+                                                href="#/action-1"
+                                            >
+                                                Male
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey="Female"
+                                                href="#/action-2"
+                                            >
+                                                Female
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </div>
+                                <div>
+                                    <p>Does student have dental insurance?</p>
+                                    <Dropdown
+                                        value={formData.haveDentalInsurance}
+                                        onSelect={(e) => {
+                                            setFormData({
+                                                ...formData,
+                                                haveDentalInsurance: e,
+                                            });
+                                            if (e === "No") {
+                                                handleOpen();
+                                            }
+                                        }}
+                                    >
+                                        <Dropdown.Toggle id="dropdown-basic">
+                                            {formData.haveDentalInsurance}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                eventKey="Yes"
+                                                href="#/action-1"
+                                            >
+                                                Yes
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey="No"
+                                                href="#/action-2"
+                                            >
+                                                No
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                  <p>School District</p>
-                  <InputGroup className="mb-3">
-                    <FormCntrl
-                      aria-label="district"
-                      aria-describedby="basic-addon1"
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          district: e.target.value,
-                        })
-                      }
-                    />
-                  </InputGroup>
-                </div>
-                <div>
-                  <p>Student ID</p>
-                  <InputGroup className="mb-3">
-                    <FormCntrl
-                      aria-label="code"
-                      aria-describedby="basic-addon1"
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          code: e.target.value,
-                        })
-                      }
-                    />
-                  </InputGroup>
-                </div>
-                <div>
-                  <p>School Name/ID</p>
-                  <InputGroup className="mb-3">
-                    <FormCntrl
-                      aria-label="code"
-                      aria-describedby="basic-addon1"
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          school: e.target.value,
-                        })
-                      }
-                    />
-                  </InputGroup>
-                </div>
-              </div>
-              <div className="rightArea">
-                <div>
-                  <p>Data Collector</p>
-                  <InputGroup>
-                    <FormCntrl
-                      placeholder="Data collector Email"
-                      aria-label="Username"
-                      aria-describedby="basic-addon1"
-                      type="email"
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          name: e.target.value,
-                        })
-                      }
-                    />
-                  </InputGroup>
-                  <p>
-                    {" "}
-                    <h8>
-                      *Required only if you like to receive student screening
-                      results
-                    </h8>
-                  </p>
-                </div>
-                <div>
-                  <p>Grade</p>
-                  <Dropdown
-                    value={formData.grade}
-                    onSelect={(e) => {
-                      setFormData({
-                        ...formData,
-                        grade: e,
-                      });
-                    }}
-                  >
-                    <Dropdown.Toggle id="dropdown-basic">
-                      {formData.grade}
-                    </Dropdown.Toggle>
+                <div style={{ padding: "20px 150px" }}>
+                    <h1 className="BasicDetails">Photos</h1>
+                    <h5 align="left">
+                        Please have your student in good lighting and take the
+                        pictures as shown. You can refer to this video on how to
+                        take the best photos for screening{" "}
+                        <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y">
+                            Visit Youtube Channel
+                        </a>
+                    </h5>
 
-                    <Dropdown.Menu>
-                      <Dropdown.Item eventKey={1} href="#/action-1">
-                        One
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={2} href="#/action-1">
-                        Two
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={3} href="#/action-1">
-                        Three
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={4} href="#/action-1">
-                        Four
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={5} href="#/action-1">
-                        Five
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={6} href="#/action-1">
-                        Six
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={7} href="#/action-1">
-                        Seven
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={8} href="#/action-1">
-                        Eight
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={9} href="#/action-1">
-                        Nine
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={10} href="#/action-2">
-                        Ten
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={11} href="#/action-3">
-                        Eleven
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey={12} href="#/action-1">
-                        Twelve
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
+                    <div className="uploadPictures">
+                        <div>
+                            <img
+                                className="image-placeholder"
+                                src={nonsmilingface}
+                                alt="..."
+                            />
+                        </div>
+                        <div>
+                            <img
+                                className="image-placeholder"
+                                src={frontTeeth}
+                                alt="..."
+                            />
+                        </div>
+                        <div>
+                            <img
+                                className="image-placeholder"
+                                src={LeftImg}
+                                alt="..."
+                            />
+                        </div>
+                        <div>
+                            <img
+                                className="image-placeholder"
+                                src={RightImg}
+                                alt="..."
+                            />
+                        </div>
+                        <div>
+                            <img
+                                className="image-placeholder"
+                                src={TopImg}
+                                alt="..."
+                            />
+                        </div>
+                        <div>
+                            <img
+                                className="image-placeholder"
+                                src={BottomImg}
+                                alt="..."
+                            />
+                        </div>
+                    </div>
+
+                    <div className="uploadPictures">
+                        {/* New - KK moved to front*/}
+                        <div>
+                            <input
+                                id="home-file-input-nonSmiling"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangeNonSmilingimage}
+                            />
+                            <label
+                                id="non-smiling"
+                                className="image-input-label"
+                                htmlFor="home-file-input-nonSmiling"
+                            >
+                                +
+                            </label>
+                        </div>
+                        <div>
+                            <input
+                                id="home-file-input-frontTeeth"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangeFrontTeethimage}
+                            />
+                            <label
+                                id="front-teeth"
+                                className="image-input-label"
+                                htmlFor="home-file-input-frontTeeth"
+                            >
+                                +
+                            </label>
+                        </div>
+                        <div>
+                            <input
+                                id="home-file-input-left"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangeleftimage}
+                            />
+                            <label
+                                id="left"
+                                className="image-input-label"
+                                htmlFor="home-file-input-left"
+                            >
+                                +
+                            </label>
+                        </div>
+                        <div>
+                            <input
+                                id="home-file-input-right"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangerightimage}
+                            />
+                            <label
+                                id="right"
+                                className="image-input-label"
+                                htmlFor="home-file-input-right"
+                            >
+                                +
+                            </label>
+                        </div>
+                        <div>
+                            <input
+                                id="home-file-input-top"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangetopimage}
+                            />
+                            <label
+                                id="top"
+                                className="image-input-label"
+                                htmlFor="home-file-input-top"
+                            >
+                                +
+                            </label>
+                        </div>
+                        <div>
+                            <input
+                                id="home-file-input-bottom"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangebottomimage}
+                            />
+                            <label
+                                id="bottom"
+                                className="image-input-label"
+                                htmlFor="home-file-input-bottom"
+                            >
+                                +
+                            </label>
+                        </div>
+                    </div>
+                    <h4>
+                        <button
+                            className="SubmitButton"
+                            type="submit"
+                            style={{
+                                padding: "20px",
+                                color: "#2a8bf2",
+                                background: "none",
+                                border: "1px solide grey",
+                            }}
+                            disabled={
+                                !(
+                                    formData.nonsmilingface &&
+                                    formData.frontTeeth &&
+                                    formData.topimage &&
+                                    formData.bottomimage &&
+                                    formData.leftimage &&
+                                    formData.rightimage
+                                )
+                            }
+                        >
+                            Submit Student
+                        </button>
+                    </h4>
                 </div>
-                <div>
-                  <p>Gender</p>
-                  <Dropdown
-                    value={formData.gender}
-                    onSelect={(e) =>
-                      setFormData({
-                        ...formData,
-                        gender: e,
-                      })
-                    }
-                  >
-                    <Dropdown.Toggle id="dropdown-basic">
-                      {formData.gender}
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item eventKey="Male" href="#/action-1">
-                        Male
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey="Female" href="#/action-2">
-                        Female
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
-                <div>
-                  <p>Does student have dental insurance?</p>
-                  <Dropdown
-                    value={formData.haveDentalInsurance}
-                    onSelect={(e) =>
-                      setFormData({
-                        ...formData,
-                        haveDentalInsurance: e,
-                      })
-                    }
-                  >
-                    <Dropdown.Toggle id="dropdown-basic">
-                      {formData.haveDentalInsurance}
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item eventKey="Yes" href="#/action-1">
-                        Yes
-                      </Dropdown.Item>
-                      <Dropdown.Item eventKey="No" href="#/action-2">
-                        No
-                      </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div style={{ padding: "20px 150px" }}>
-          <h1 className="BasicDetails">Photos</h1>
-          <h5 align="left">
-            Please have your student in good lighting and take the pictures as
-            shown. You can refer to this video on how to take the best photos
-            for screening{" "}
-            <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y"> </a>
-          </h5>
-
-          <div className="uploadPictures">
-            <div>
-              <img
-                className="image-placeholder"
-                src={nonsmilingface}
-                alt="..."
-              />
-            </div>
-            <div>
-              <img className="image-placeholder" src={frontTeeth} alt="..." />
-            </div>
-            <div>
-              <img className="image-placeholder" src={LeftImg} alt="..." />
-            </div>
-            <div>
-              <img className="image-placeholder" src={RightImg} alt="..." />
-            </div>
-            <div>
-              <img className="image-placeholder" src={TopImg} alt="..." />
-            </div>
-            <div>
-              <img className="image-placeholder" src={BottomImg} alt="..." />
-            </div>
-          </div>
-
-          <div className="uploadPictures">
-            {/* New - KK moved to front*/}
-            <div>
-              <input
-                id="home-file-input-nonSmiling"
-                type="file"
-                class="input-file"
-                onChange={onChangeNonSmilingimage}
-              />
-              <label
-                id="non-smiling"
-                className="image-input-label"
-                htmlFor="home-file-input-nonSmiling"
-              >
-                +
-              </label>
-            </div>
-            <div>
-              <input
-                id="home-file-input-frontTeeth"
-                type="file"
-                class="input-file"
-                onChange={onChangeFrontTeethimage}
-              />
-              <label
-                id="front-teeth"
-                className="image-input-label"
-                htmlFor="home-file-input-frontTeeth"
-              >
-                +
-              </label>
-            </div>
-            <div>
-              <input
-                id="home-file-input-left"
-                type="file"
-                class="input-file"
-                onChange={onChangeleftimage}
-              />
-              <label
-                id="left"
-                className="image-input-label"
-                htmlFor="home-file-input-left"
-              >
-                +
-              </label>
-            </div>
-            <div>
-              <input
-                id="home-file-input-right"
-                type="file"
-                class="input-file"
-                onChange={onChangerightimage}
-              />
-              <label
-                id="right"
-                className="image-input-label"
-                htmlFor="home-file-input-right"
-              >
-                +
-              </label>
-            </div>
-            <div>
-              <input
-                id="home-file-input-top"
-                type="file"
-                class="input-file"
-                onChange={onChangetopimage}
-              />
-              <label
-                id="top"
-                className="image-input-label"
-                htmlFor="home-file-input-top"
-              >
-                +
-              </label>
-            </div>
-            <div>
-              <input
-                id="home-file-input-bottom"
-                type="file"
-                class="input-file"
-                onChange={onChangebottomimage}
-              />
-              <label
-                id="bottom"
-                className="image-input-label"
-                htmlFor="home-file-input-bottom"
-              >
-                +
-              </label>
-            </div>
-          </div>
-          <h4>
-            <button
-              type="submit"
-              style={{
-                padding: "20px",
-                color: "#2a8bf2",
-                background: "none",
-                border: "1px solide grey",
-              }}
+            </form>
+            <Modal
+                open={open}
+                onClose={handleOpen}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
             >
-              Submit Student
-            </button>
-          </h4>
+                <div style={modalStyle} className={classes.paper}>
+                    <p>
+                        Would you like to receive additional information on
+                        Kansas Medicaid:
+                    </p>
+                    <div>
+                        <input
+                            onClick={() => {
+                                setFormData({
+                                    ...formData,
+                                    okToReceiveMedicaidInfo: "Yes",
+                                });
+                                handleOpen();
+                            }}
+                            type="radio"
+                            name="question"
+                            id=""
+                            style={{ marginRight: "5px" }}
+                        />
+                        Yes
+                    </div>
+                    <div>
+                        <input
+                            onClick={() => {
+                                setFormData({
+                                    ...formData,
+                                    okToReceiveMedicaidInfo: "No",
+                                });
+                                handleOpen();
+                            }}
+                            type="radio"
+                            name="question"
+                            style={{ marginRight: "5px" }}
+                        />
+                        No
+                    </div>
+                </div>
+            </Modal>
+            <Modal
+                open={thankYouModel}
+                onClose={handleThankModelClose}
+                aria-labelledby="simple-modal-title"
+                aria-describedby="simple-modal-description"
+            >
+                <div style={modalStyle} className={classes.paper}>
+                    <p>Thank you for your response.</p>
+                    {formData.haveDentalInsurance === "Yes" && (
+                        <a href="www.google.com" alt="...">
+                            Link to Kansas Medicaid
+                        </a>
+                    )}
+                    <br />
+                    <Button
+                        onClick={handleThankModelClose}
+                        style={{ display: "block", margin: "10px auto" }}
+                    >
+                        OK
+                    </Button>
+                </div>
+            </Modal>
         </div>
-      </form>
-    </div>
-  );
+    );
 };
 export default CollectionApp;

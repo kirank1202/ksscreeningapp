@@ -254,7 +254,7 @@ tr {
 }
 
 .teeth-image-container > img {
-  width: 13%;
+  width: 20%;
 }
 
 #dropdown-basic::after {
@@ -284,4 +284,8 @@ tr {
 
 .inputs-container > label {
   padding-right: 10px;
+}
+
+.SubmitButton:disabled{
+  cursor: not-allowed;
 }

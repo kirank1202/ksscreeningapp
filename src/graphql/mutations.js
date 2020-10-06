@@ -29,7 +29,6 @@ export const createStudent = /* GraphQL */ `
       sealantsPresent
       treatmentRecommendationCode
       evalcomments
-      evalStatus
       virtualScreeningExperience
       createdAt
       updatedAt
@@ -64,7 +63,6 @@ export const updateStudent = /* GraphQL */ `
       sealantsPresent
       treatmentRecommendationCode
       evalcomments
-      evalStatus
       virtualScreeningExperience
       createdAt
       updatedAt
@@ -99,8 +97,23 @@ export const deleteStudent = /* GraphQL */ `
       sealantsPresent
       treatmentRecommendationCode
       evalcomments
-      evalStatus
       virtualScreeningExperience
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const createStudentInfo = /* GraphQL */ `
+  mutation CreateStudentInfo(
+    $input: CreateStudentInfoInput!
+  ) {
+    createStudentInfo(input: $input) {
+      id
+      untreatedDecay
+      treatedDecay
+      sealants
+      treatmentRecommendation
       createdAt
       updatedAt
     }
