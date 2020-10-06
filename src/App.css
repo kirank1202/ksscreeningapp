@@ -204,9 +204,9 @@ tr {
   border-bottom: 1px solid grey;
 }
 .content-container {
-  width: 90%;
+  width: 100%;
   margin: 0 auto;
-  padding: 50px;
+  padding: 30px;
 }
 
 .details-details-container {
@@ -280,6 +280,8 @@ tr {
 .inputs-container {
   display: flex;
   justify-content: center;
+  margin: 10px;
+
 }
 
 .inputs-container > label {
@@ -288,4 +290,8 @@ tr {
 
 .SubmitButton:disabled{
   cursor: not-allowed;
+}
+
+.images-data > img{
+  margin: 5px;
 }
