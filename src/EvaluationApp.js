@@ -98,6 +98,7 @@ const EvaluationApp = ({ history }) => {
             treatedDecay: states.treatedDecay.toString(),
             treatmentRecommendationCode: states.treatmentRecommendationCode.toString(),
             sealantsPresent: states.sealantsPresent.toString(),
+            evalStatus: "Completed",
           },
         },
       });
@@ -176,6 +177,7 @@ const EvaluationApp = ({ history }) => {
                   <th>School</th>
                   <th>Location</th>
                   <th>Date</th>
+                  <th>Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -199,6 +201,7 @@ const EvaluationApp = ({ history }) => {
                         day: "numeric",
                       })}
                     </td>
+                    <td>{student.evalStatus}</td>
                   </tr>
                 ))}
               </tbody>
