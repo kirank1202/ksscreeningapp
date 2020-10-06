@@ -242,8 +242,8 @@ const EvaluationApp = ({ history }) => {
 
                 <div
                   style={{
-                    marginBottom: "20px",
-                    marginTop: "20px",
+                    marginBottom: "15px",
+                    marginTop: "15px",
                   }}
                   className="teeth-image-container"
                 >
