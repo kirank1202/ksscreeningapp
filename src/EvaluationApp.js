@@ -74,11 +74,11 @@ const EvaluationApp = ({ history }) => {
           student.bottomimage = image;
         }
         if (student.nonsmilingface) {
-          const image = await Storage.get(student.bottomimage);
+          const image = await Storage.get(student.nonsmilingface);
           student.nonsmilingface = image;
         }
         if (student.frontTeeth) {
-          const image = await Storage.get(student.bottomimage);
+          const image = await Storage.get(student.frontTeeth);
           student.frontTeeth = image;
         }
         return student;
@@ -104,6 +104,9 @@ const EvaluationApp = ({ history }) => {
     await Storage.remove(student.rightimage);
     await Storage.remove(student.topimage);
     await Storage.remove(student.bottomimage);
+    await Storage.remove(student.nonsmilingface);
+    await Storage.remove(student.frontTeeth);
+    
   }
 
   async function handleSubmit(e) {
@@ -281,12 +284,12 @@ const EvaluationApp = ({ history }) => {
                       })}
                     </td>
                     <td className="images-data">
-                      <img src={student.topimage} alt="..." height="20" />
-                      <img src={student.bottomimage} alt="..." height="20" />
+                      <img src={student.nonsmilingface} alt="..." height="20" />
+                      <img src={student.frontTeeth} alt="..." height="20" />
                       <img src={student.leftimage} alt="..." height="20" />
                       <img src={student.rightimage} alt="..." height="20" />
-                      <img src={student.frontTeeth} alt="..." height="20" />
-                      <img src={student.nonsmilingface} alt="..." height="20" />
+                      <img src={student.topimage} alt="..." height="20" />
+                      <img src={student.bottomimage} alt="..." height="20" />
                     </td>
                   </tr>
                 ))}
@@ -336,6 +339,20 @@ const EvaluationApp = ({ history }) => {
                   }}
                   className="teeth-image-container"
                 >
+                   <img
+                    src={students[imageData].nonsmilingface}
+                    onClick={() =>
+                      handleImageLink(students[imageData].nonsmilingface)
+                    }
+                    alt="..."
+                  />
+                  <img
+                    src={students[imageData].frontTeeth}
+                    onClick={() =>
+                      handleImageLink(students[imageData].frontTeeth)
+                    }
+                    alt="..."
+                  />
                   <img
                     src={students[imageData].leftimage}
                     onClick={() =>
@@ -364,20 +381,7 @@ const EvaluationApp = ({ history }) => {
                     }
                     alt="..."
                   />
-                  <img
-                    src={students[imageData].nonsmilingface}
-                    onClick={() =>
-                      handleImageLink(students[imageData].nonsmilingface)
-                    }
-                    alt="..."
-                  />
-                  <img
-                    src={students[imageData].frontTeeth}
-                    onClick={() =>
-                      handleImageLink(students[imageData].frontTeeth)
-                    }
-                    alt="..."
-                  />
+
                 </div>
 
                 <div className="inputs-container">
