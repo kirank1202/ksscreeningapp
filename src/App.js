@@ -91,7 +91,7 @@ function App() {
   return (
     <div className="App">
       {fetchCurrentUserGroup}
-      {userType !== "DataCollection" ? <CollectionApp /> : <EvaluationApp />}
+      {userType === "DataCollection" ? <CollectionApp /> : <EvaluationApp />}
       <AmplifySignOut />
     </div>
   );
