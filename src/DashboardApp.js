@@ -16,7 +16,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import logo from "./TeledentalSolutionLogo13.png";
 
-const EvaluationApp = ({ history }) => {
+const DashboardApp = ({ history }) => {
   const [students, setStudents] = useState([]);
   const [imageData, setImageData] = useState();
 
@@ -121,12 +121,11 @@ const EvaluationApp = ({ history }) => {
             treatedDecay: states.treatedDecay.toString(),
             treatmentRecommendationCode: states.treatmentRecommendationCode.toString(),
             sealantsPresent: states.sealantsPresent.toString(),
-            evalStatus:"Completed",
           },
         },
       });
       setState(initialState);
-      alert("Screening Eval Updated Successfully");
+      alert("success");
     } catch (error) {
       console.error(error);
     }
@@ -208,7 +207,7 @@ const EvaluationApp = ({ history }) => {
     <div className="App">
       {/* {students.length === 0 && (
         <>
-          <h2>Screening Evaluation App</h2>
+          <h2>Screening Dashboard App</h2>
 
           <h4>
             <button onClick={fetchAllStudents}>Fetch All Students</button>
@@ -221,7 +220,6 @@ const EvaluationApp = ({ history }) => {
             <AppBar position="static" color="#fff">
               <Toolbar className={classes.flexToolbar}>
                 <img src={logo} alt="..." />
-                <h3 className="BasicDetails">School Dental Screening</h3>
               </Toolbar>
             </AppBar>
           </div>
@@ -242,7 +240,6 @@ const EvaluationApp = ({ history }) => {
                   <th>Location</th>
                   <th>District</th>
                   <th>Code</th>
-                  <th>Status</th>
                   <th>Grade</th>
                   <th>Gender</th>
                   <th>Dental Insurance</th>
@@ -269,7 +266,6 @@ const EvaluationApp = ({ history }) => {
                     <td>{student.location}</td>
                     <td>{student.district}</td>
                     <td>{student.code}</td>
-                    <td>{student.evalStatus}</td>
                     <td>{student.grade}</td>
                     <td>{student.gender}</td>
                     <td>{student.haveDentalInsurance}</td>
@@ -643,4 +639,4 @@ const EvaluationApp = ({ history }) => {
     </div>
   );
 };
-export default EvaluationApp;
+export default DashboardApp;

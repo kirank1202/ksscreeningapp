@@ -35,6 +35,7 @@ const initialFormState = {
     rightimage: "",
     location: "Home",
     haveDentalInsurance: "Yes",
+    evalStatus: "New",
 };
 
 const resetStudentState = {
