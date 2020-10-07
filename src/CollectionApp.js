@@ -4,13 +4,12 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 import logo from "./TeledentalSolutionLogo13.png";
 
+import LeftImg from "./Susan101-mandibular.PNG";
+import RightImg from "./Susan101-maxillary.PNG";
+import TopImg from "./Susan101-left.PNG";
+import BottomImg from "./Susan101-right.PNG";
 import nonsmilingface from "./nonsmiling.JPG";
 import frontTeeth from "./frontteeth.jpeg";
-import LeftImg from "./Susan101-left.PNG";
-import RightImg from "./Susan101-right.PNG";
-import BottomImg from "./Susan101-mandibular.PNG";
-import TopImg from "./Susan101-maxillary.PNG";
-
 
 import Dropdown from "react-bootstrap/Dropdown";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -36,7 +35,6 @@ const initialFormState = {
     rightimage: "",
     location: "Home",
     haveDentalInsurance: "Yes",
-    evalStatus: "New",
 };
 
 const resetStudentState = {
@@ -69,12 +67,17 @@ const CollectionApp = () => {
     };
 
     const handleThankYouModel = () => {
-        setFormData(initialFormState);
         setThankYouModel(!thankYouModel);
     };
 
     const handleThankModelClose = () => {
         setFormData(initialFormState);
+        const labels = document.getElementsByClassName("image-input-label");
+        for (let i = 0; i < labels.length; i++) {
+            const element = labels[i];
+            element.style.background = "none";
+            element.innerHTML = "+";
+        }
         setThankYouModel(!thankYouModel);
     };
 
@@ -188,7 +191,7 @@ const CollectionApp = () => {
             topimage: generateImageFileName(file.name),
         });
         await Storage.put(generateImageFileName(file.name), file);
-       // alert("top image changes");
+        alert("top image changes");
     }
 
     async function onChangebottomimage(e) {
@@ -214,7 +217,7 @@ const CollectionApp = () => {
         });
         await Storage.put(generateImageFileName(file.name), file);
         // alert("left image changes");
-       // alert("bottom image changes");
+        alert("bottom image changes");
     }
 
     async function onChangeNonSmilingimage(e) {
@@ -239,7 +242,7 @@ const CollectionApp = () => {
             nonsmilingface: generateImageFileName(file.name),
         });
         await Storage.put(generateImageFileName(file.name), file);
-        // alert("nonsmiling-face image changes");
+        alert("nonsmiling-face image changes");
     }
 
     async function onChangeFrontTeethimage(e) {
@@ -264,7 +267,7 @@ const CollectionApp = () => {
             frontTeeth: generateImageFileName(file.name),
         });
         await Storage.put(generateImageFileName(file.name), file);
-      //  alert("Front-Teeth image changes");
+        alert("Front-Teeth image changes");
     }
 
     async function createStudent(e) {
@@ -578,49 +581,50 @@ const CollectionApp = () => {
                     <h1 className="BasicDetails">Photos</h1>
                     <h5 align="left">
                         Please have your student in good lighting and take the
-                        pictures as shown. You can refer to this {" "} 
-                        <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y" target="_blank" >
-                            video
-                        </a>{" "} on how to take the best photos for screening.
+                        pictures as shown. You can refer to this video on how to
+                        take the best photos for screening{" "}
+                        <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y">
+                            Visit Youtube Channel
+                        </a>
                     </h5>
 
                     <div className="uploadPictures">
-                        <div> Non-smiling Photo
+                        <div>
                             <img
                                 className="image-placeholder"
                                 src={nonsmilingface}
                                 alt="..."
                             />
                         </div>
-                        <div>Front Teeth Photo
+                        <div>
                             <img
                                 className="image-placeholder"
                                 src={frontTeeth}
                                 alt="..."
                             />
                         </div>
-                        <div>Left Bite Photo
+                        <div>
                             <img
                                 className="image-placeholder"
                                 src={LeftImg}
                                 alt="..."
                             />
                         </div>
-                        <div>Right Bite Photo
+                        <div>
                             <img
                                 className="image-placeholder"
                                 src={RightImg}
                                 alt="..."
                             />
                         </div>
-                        <div>Top Teeth Photo
+                        <div>
                             <img
                                 className="image-placeholder"
                                 src={TopImg}
                                 alt="..."
                             />
                         </div>
-                        <div>Bottom Teeth Photo
+                        <div>
                             <img
                                 className="image-placeholder"
                                 src={BottomImg}
@@ -650,7 +654,7 @@ const CollectionApp = () => {
                             <input
                                 id="home-file-input-frontTeeth"
                                 type="file"
-                                class="input-file"
+                                className="input-file"
                                 onChange={onChangeFrontTeethimage}
                             />
                             <label
@@ -801,7 +805,7 @@ const CollectionApp = () => {
                 <div style={modalStyle} className={classes.paper}>
                     <p>Thank you for your response.</p>
                     {formData.haveDentalInsurance === "Yes" && (
-                        <a href="https://www.kdheks.gov/hcf/Medicaid/eligibility_guidelines.html" alt="..." target="_blank" >
+                        <a href="www.google.com" alt="...">
                             Link to Kansas Medicaid
                         </a>
                     )}
