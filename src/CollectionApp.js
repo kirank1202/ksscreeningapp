@@ -609,11 +609,12 @@ const CollectionApp = () => {
                                 className="image-input-label"
                                 htmlFor="home-file-input-nonSmiling"
                             >
-                                + Nonsmile
+                                + Non-smile
                             </label>
                         </div> <br></br>
 
                     </div>
+
                     <div className="uploadPictures">
                         <div>Front Teeth
                             <img
@@ -621,53 +622,6 @@ const CollectionApp = () => {
                                 src={frontTeeth}
                                 alt="..."
                             />
-                        </div>
-                        <div>Left Bite Photo 
-                            <img
-                                className="image-placeholder"
-                                src={LeftImg}
-                                alt="..."
-                            />
-                        </div>
-                        <div>Right Bite {"   "}
-                            <img
-                                className="image-placeholder"
-                                src={RightImg}
-                                alt="..."
-                            />
-                        </div>
-                        <div>Maxillary {"   "}
-                            <img
-                                className="image-placeholder"
-                                src={TopImg}
-                                alt="..."
-                            />
-                        </div>
-                        <div>Mandibular
-                            <img
-                                className="image-placeholder"
-                                src={BottomImg}
-                                alt="..."
-                            />
-                        </div>
-                    </div>
-
-                    <div className="uploadPictures">
-                        {/* New - KK moved to front*/}
-                        <div>
-                            <input
-                                id="home-file-input-nonSmiling"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangeNonSmilingimage}
-                            />
-                            <label
-                                id="non-smiling"
-                                className="image-input-label"
-                                htmlFor="home-file-input-nonSmiling"
-                            >
-                                +
-                            </label>
                         </div>
                         <div>
                             <input
@@ -681,8 +635,17 @@ const CollectionApp = () => {
                                 className="image-input-label"
                                 htmlFor="home-file-input-frontTeeth"
                             >
-                                +
+                                + Front
                             </label>
+                        </div>
+                    </div>
+                    <div className="uploadPictures">
+                        <div>Left Bite Photo 
+                            <img
+                                className="image-placeholder"
+                                src={LeftImg}
+                                alt="..."
+                            />
                         </div>
                         <div>
                             <input
@@ -696,8 +659,18 @@ const CollectionApp = () => {
                                 className="image-input-label"
                                 htmlFor="home-file-input-left"
                             >
-                                +
+                                + Left
                             </label>
+                        </div>
+                    </div> 
+
+                    <div className="uploadPictures">
+                        <div>Right Bite {"   "}
+                            <img
+                                className="image-placeholder"
+                                src={RightImg}
+                                alt="..."
+                            />
                         </div>
                         <div>
                             <input
@@ -711,8 +684,18 @@ const CollectionApp = () => {
                                 className="image-input-label"
                                 htmlFor="home-file-input-right"
                             >
-                                +
+                                + Right
                             </label>
+                        </div>
+                    </div>
+
+                     <div className="uploadPictures">
+                        <div>Maxillary {"   "}
+                            <img
+                                className="image-placeholder"
+                                src={TopImg}
+                                alt="..."
+                            />
                         </div>
                         <div>
                             <input
@@ -726,8 +709,17 @@ const CollectionApp = () => {
                                 className="image-input-label"
                                 htmlFor="home-file-input-top"
                             >
-                                +
+                                + Top
                             </label>
+                        </div>
+                    </div>
+                     <div className="uploadPictures">
+                        <div>Mandibular{"  "}
+                            <img
+                                className="image-placeholder"
+                                src={BottomImg}
+                                alt="..."
+                            />
                         </div>
                         <div>
                             <input
@@ -741,9 +733,15 @@ const CollectionApp = () => {
                                 className="image-input-label"
                                 htmlFor="home-file-input-bottom"
                             >
-                                +
+                                + Bottom
                             </label>
                         </div>
+                    </div>
+
+                    <div className="uploadPictures">
+                        {/* New - KK moved to front*/}
+                        {/*non smiling code*/}
+                        
                     </div>
                     <h4>
                         <button
