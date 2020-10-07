@@ -69,6 +69,7 @@ const CollectionApp = () => {
     };
 
     const handleThankYouModel = () => {
+        setFormData(initialFormState);
         setThankYouModel(!thankYouModel);
     };
 
