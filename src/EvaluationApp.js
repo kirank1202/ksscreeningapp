@@ -240,14 +240,12 @@ const EvaluationApp = ({ history }) => {
             <table>
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>School</th>
-                  <th>Location</th>
                   <th>District</th>
-                  <th>Code</th>
-                  <th>Status</th>
+                  <th>School</th>
                   <th>Grade</th>
+                  <th>Student Id</th>
                   <th>Gender</th>
+                  <th>Status</th>
                   <th>Dental Insurance</th>
                   <th>Date</th>
                   <th>Photos</th>
@@ -267,14 +265,12 @@ const EvaluationApp = ({ history }) => {
                         : "table-row-page"
                     }
                   >
-                    <td>{student.name}</td>
-                    <td>{student.school}</td>
-                    <td>{student.location}</td>
                     <td>{student.district}</td>
-                    <td>{student.code}</td>
-                    <td>{student.evalStatus}</td>
+                    <td>{student.school}</td>
                     <td>{student.grade}</td>
+                    <td>{student.code}</td>
                     <td>{student.gender}</td>
+                    <td>{student.evalStatus}</td>
                     <td>{student.haveDentalInsurance}</td>
                     <td>
                       {new Date(student.createdAt).toLocaleString(undefined, {
@@ -306,9 +302,9 @@ const EvaluationApp = ({ history }) => {
                         fontSize: "18px",
                       }}
                     >
-                      Name:
-                    </b>
-                    {students[imageData].name}
+                      Student Id:
+                    </b> {" "}
+                    {students[imageData].code}
                   </p>
                   <p>
                     <b
@@ -326,9 +322,9 @@ const EvaluationApp = ({ history }) => {
                         fontSize: "18px",
                       }}
                     >
-                      Location:
-                    </b>
-                    {students[imageData].location}
+                      Grade:
+                    </b> {" "}
+                    {students[imageData].grade}
                   </p>
                 </div>
 

@@ -186,7 +186,7 @@ const CollectionApp = () => {
             topimage: generateImageFileName(file.name),
         });
         await Storage.put(generateImageFileName(file.name), file);
-        alert("top image changes");
+       // alert("top image changes");
     }
 
     async function onChangebottomimage(e) {
@@ -212,7 +212,7 @@ const CollectionApp = () => {
         });
         await Storage.put(generateImageFileName(file.name), file);
         // alert("left image changes");
-        alert("bottom image changes");
+       // alert("bottom image changes");
     }
 
     async function onChangeNonSmilingimage(e) {
@@ -237,7 +237,7 @@ const CollectionApp = () => {
             nonsmilingface: generateImageFileName(file.name),
         });
         await Storage.put(generateImageFileName(file.name), file);
-        alert("nonsmiling-face image changes");
+        // alert("nonsmiling-face image changes");
     }
 
     async function onChangeFrontTeethimage(e) {
@@ -262,7 +262,7 @@ const CollectionApp = () => {
             frontTeeth: generateImageFileName(file.name),
         });
         await Storage.put(generateImageFileName(file.name), file);
-        alert("Front-Teeth image changes");
+      //  alert("Front-Teeth image changes");
     }
 
     async function createStudent(e) {
