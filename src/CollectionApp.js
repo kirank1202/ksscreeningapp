@@ -4,12 +4,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 
 import logo from "./TeledentalSolutionLogo13.png";
 
-import BottomImg from "./mandibular.PNG";
-import TopImg from "./maxillary.PNG";
-import LeftImg from "./left.PNG";
-import RightImg from "./Susan101-right.PNG";
-import nonsmilingface from "./nonsmiling.JPG";
-import frontTeeth from "./frontteeth.jpeg";
+
 
 import Dropdown from "react-bootstrap/Dropdown";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -23,6 +18,13 @@ import { API, Storage, Auth } from "aws-amplify";
 
 import { createStudent as createStudentMutation } from "./graphql/mutations";
 import { Button } from "@material-ui/core";
+
+const BottomImg = "../public/mandibular.PNG";
+const TopImg = "../public/maxillary.PNG";
+const LeftImg = "../public/left.PNG";
+const RightImg = "../public/right.PNG";
+const nonsmilingface = "../public/nonsmiling.JPG";
+const frontTeeth = "../public/frontteeth.jpeg";
 
 const initialFormState = {
     code: "",
@@ -588,13 +590,31 @@ const CollectionApp = () => {
                     </h5>
 
                     <div className="uploadPictures">
-                        <div>Non Smiling
+                        <div>Non Smiling 
                             <img
                                 className="image-placeholder"
                                 src={nonsmilingface}
                                 alt="..."
                             />
                         </div>
+                        <div>
+                            <input
+                                id="home-file-input-nonSmiling"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangeNonSmilingimage}
+                            />
+                            <label
+                                id="non-smiling"
+                                className="image-input-label"
+                                htmlFor="home-file-input-nonSmiling"
+                            >
+                                + Nonsmile
+                            </label>
+                        </div> <br></br>
+
+                    </div>
+                    <div className="uploadPictures">
                         <div>Front Teeth
                             <img
                                 className="image-placeholder"
