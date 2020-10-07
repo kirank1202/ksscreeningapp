@@ -16,7 +16,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import logo from "./TeledentalSolutionLogo13.png";
 
-const EvaluationApp = ({ history }) => {
+const DashboardApp = ({ history }) => {
   const [students, setStudents] = useState([]);
   const [imageData, setImageData] = useState();
 
@@ -207,7 +207,7 @@ const EvaluationApp = ({ history }) => {
     <div className="App">
       {/* {students.length === 0 && (
         <>
-          <h2>Screening Evaluation App</h2>
+          <h2>Screening Dashboard App</h2>
 
           <h4>
             <button onClick={fetchAllStudents}>Fetch All Students</button>
@@ -639,4 +639,4 @@ const EvaluationApp = ({ history }) => {
     </div>
   );
 };
-export default EvaluationApp;
+export default DashboardApp;
