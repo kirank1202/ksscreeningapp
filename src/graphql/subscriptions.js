@@ -26,6 +26,7 @@ export const onCreateStudent = /* GraphQL */ `
       sealantsPresent
       treatmentRecommendationCode
       evalcomments
+      evalStatus
       virtualScreeningExperience
       createdAt
       updatedAt
@@ -57,6 +58,7 @@ export const onUpdateStudent = /* GraphQL */ `
       sealantsPresent
       treatmentRecommendationCode
       evalcomments
+      evalStatus
       virtualScreeningExperience
       createdAt
       updatedAt
@@ -88,6 +90,7 @@ export const onDeleteStudent = /* GraphQL */ `
       sealantsPresent
       treatmentRecommendationCode
       evalcomments
+      evalStatus
       virtualScreeningExperience
       createdAt
       updatedAt

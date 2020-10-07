@@ -26,6 +26,7 @@ export const getStudent = /* GraphQL */ `
       sealantsPresent
       treatmentRecommendationCode
       evalcomments
+      evalStatus
       virtualScreeningExperience
       createdAt
       updatedAt
@@ -62,6 +63,7 @@ export const listStudents = /* GraphQL */ `
         sealantsPresent
         treatmentRecommendationCode
         evalcomments
+        evalStatus
         virtualScreeningExperience
         createdAt
         updatedAt

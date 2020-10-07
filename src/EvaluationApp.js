@@ -25,6 +25,7 @@ const EvaluationApp = ({ history }) => {
         treatedDecay: false,
         sealantsPresent: false,
         treatmentRecommendationCode: "No obvious problem",
+
     };
 
     const [states, setState] = useState(initialState);
@@ -75,11 +76,11 @@ const EvaluationApp = ({ history }) => {
                     student.bottomimage = image;
                 }
                 if (student.nonsmilingface) {
-                    const image = await Storage.get(student.bottomimage);
+                    const image = await Storage.get(student.nonsmilingface);
                     student.nonsmilingface = image;
                 }
                 if (student.frontTeeth) {
-                    const image = await Storage.get(student.bottomimage);
+                    const image = await Storage.get(student.frontTeeth);
                     student.frontTeeth = image;
                 }
                 return student;
@@ -123,11 +124,12 @@ const EvaluationApp = ({ history }) => {
                         treatedDecay: states.treatedDecay.toString(),
                         treatmentRecommendationCode: states.treatmentRecommendationCode.toString(),
                         sealantsPresent: states.sealantsPresent.toString(),
+                        evalStauts: "Completed",
                     },
                 },
             });
             setState(initialState);
-            alert("success");
+            alert("Evaluation Recorded Successfully");
         } catch (error) {
             console.error(error);
         }
@@ -237,16 +239,14 @@ const EvaluationApp = ({ history }) => {
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Name</th>
-                                    <th>School</th>
-                                    <th>Location</th>
                                     <th>District</th>
-                                    <th>Code</th>
+                                    <th>School</th>
                                     <th>Grade</th>
+                                    <th>Code</th>
                                     <th>Gender</th>
                                     <th>Dental Insurance</th>
                                     <th>Date</th>
-                                    <th>Photos</th>
+                                    <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -263,12 +263,11 @@ const EvaluationApp = ({ history }) => {
                                                 : "table-row-page"
                                         }
                                     >
-                                        <td>{student.name}</td>
-                                        <td>{student.school}</td>
-                                        <td>{student.location}</td>
+                                        
                                         <td>{student.district}</td>
-                                        <td>{student.code}</td>
+                                        <td>{student.school}</td>
                                         <td>{student.grade}</td>
+                                        <td>{student.code}</td>
                                         <td>{student.gender}</td>
                                         <td>{student.haveDentalInsurance}</td>
                                         <td>
@@ -280,38 +279,8 @@ const EvaluationApp = ({ history }) => {
                                                 day: "numeric",
                                             })}
                                         </td>
-                                        <td className="images-data">
-                                            <img
-                                                src={student.topimage}
-                                                alt="..."
-                                                height="20"
-                                            />
-                                            <img
-                                                src={student.bottomimage}
-                                                alt="..."
-                                                height="20"
-                                            />
-                                            <img
-                                                src={student.leftimage}
-                                                alt="..."
-                                                height="20"
-                                            />
-                                            <img
-                                                src={student.rightimage}
-                                                alt="..."
-                                                height="20"
-                                            />
-                                            <img
-                                                src={student.frontTeeth}
-                                                alt="..."
-                                                height="20"
-                                            />
-                                            <img
-                                                src={student.nonsmilingface}
-                                                alt="..."
-                                                height="20"
-                                            />
-                                        </td>
+
+                                        <td>{student.evalStauts}</td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -327,9 +296,9 @@ const EvaluationApp = ({ history }) => {
                                                 fontSize: "18px",
                                             }}
                                         >
-                                            Name:
+                                            ID:{" "}
                                         </b>
-                                        {students[imageData].name}
+                                        {students[imageData].code}
                                     </p>
                                     <p>
                                         <b
@@ -337,7 +306,7 @@ const EvaluationApp = ({ history }) => {
                                                 fontSize: "18px",
                                             }}
                                         >
-                                            School:
+                                            School:{" "}
                                         </b>{" "}
                                         {students[imageData].school}
                                     </p>
@@ -347,9 +316,9 @@ const EvaluationApp = ({ history }) => {
                                                 fontSize: "18px",
                                             }}
                                         >
-                                            Location:
+                                            Grade: {" "}
                                         </b>
-                                        {students[imageData].location}
+                                        {students[imageData].grade}
                                     </p>
                                 </div>
 
@@ -359,37 +328,38 @@ const EvaluationApp = ({ history }) => {
                                         marginTop: "20px",
                                     }}
                                     className="teeth-image-container"
-                                >
+                                >Nonsmiling 
+                                    <img
+                                        src={students[imageData].nonsmilingface}
+                                        onClick={() => handleImageLink(students[imageData].nonsmilingface)}
+                                        alt="..."
+                                    />Front
+                                    <img
+                                        src={students[imageData].frontTeeth}
+                                        onClick={() => handleImageLink(students[imageData].frontTeeth)}
+                                        alt="..."
+                                    />Left
                                     <img
                                         src={students[imageData].leftimage}
                                         onClick={() => handleImageLink(students[imageData].leftimage)}
                                         alt="..."
-                                    />
+                                    />Right
                                     <img
                                         src={students[imageData].rightimage}
                                         onClick={() => handleImageLink(students[imageData].rightimage)}
                                         alt="..."
-                                    />
+                                    />Top
                                     <img
                                         src={students[imageData].topimage}
                                         onClick={() => handleImageLink(students[imageData].topimage)}
                                         alt="..."
-                                    />
+                                    />Bottom
                                     <img
                                         src={students[imageData].bottomimage}
                                         onClick={() => handleImageLink(students[imageData].bottomimage)}
                                         alt="..."
                                     />
-                                    <img
-                                        src={students[imageData].nonsmilingface}
-                                        onClick={() => handleImageLink(students[imageData].nonsmilingface)}
-                                        alt="..."
-                                    />
-                                    <img
-                                        src={students[imageData].frontTeeth}
-                                        onClick={() => handleImageLink(students[imageData].frontTeeth)}
-                                        alt="..."
-                                    />
+
                                 </div>
 
                                 <div className="inputs-container">
@@ -545,7 +515,7 @@ const EvaluationApp = ({ history }) => {
                                 </div>
                                 <div>
                                     <label>
-                                        4. Treatment Recomendation codes:x
+                                        4. Treatment Recomendation codes:
                                     </label>
 
                                     <div
