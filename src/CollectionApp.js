@@ -268,7 +268,7 @@ const CollectionApp = () => {
             frontTeeth: generateImageFileName(file.name),
         });
         await Storage.put(generateImageFileName(file.name), file);
-        alert("Front-Teeth image changes");
+        //alert("Front-Teeth image changes");
     }
 
     async function createStudent(e) {
@@ -389,7 +389,7 @@ const CollectionApp = () => {
                                     <p>Data Collector</p>
                                     <InputGroup>
                                         <FormCntrl
-                                            placeholder="Data collector Email"
+                                            placeholder="Email"
                                             aria-label="Username"
                                             aria-describedby="basic-addon1"
                                             type="email"
