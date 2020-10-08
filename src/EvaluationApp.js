@@ -280,7 +280,7 @@ const EvaluationApp = ({ history }) => {
                                             })}
                                         </td>
 
-                                        <td>{student.evalStauts}</td>
+                                        <td>{student.evalStatus}</td>
                                     </tr>
                                 ))}
                             </tbody>
