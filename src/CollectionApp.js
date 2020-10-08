@@ -292,22 +292,15 @@ const CollectionApp = () => {
                 <AppBar position="static" color="#fff">
                     <Toolbar className={classes.flexToolbar}>
                         <img src={logo} alt="..." />
+                        <h5 className="BasicDetails">School Dental Screening</h5>
                     </Toolbar>
                 </AppBar>
             </div>
             <form onSubmit={createStudent}>
                 <div className="mainContainer">
-                    <h1 className="BasicDetails">School Dental Screening</h1>
+
                     <h5 align="Left">
-                        If you would like to know the results from your
-                        student’s school screening, please enter the guardian’s
-                        e-mail address. If you do not choose to have information
-                        emailed to you, please enter your student’s school ID
-                        number ONLY so we know their screening has been
-                        completed. Student or Guardian information is not
-                        provided to individuals outside the school, including
-                        dental professionals.
-                    </h5>
+                        Welcome to Fall 2020 Student Screening Program.  </h5>
                     <div className="form">
                         <div className="formContainer">
                             <div className="leftArea">
@@ -588,11 +581,11 @@ const CollectionApp = () => {
                         </a>{" "} on how to take the best photos for screening.
                     </h5>
 
-                <table className="imageUploadTable">
+                <table className="imageUploadTable" width="30%">
                     <tr>
                         <td> 
                             <div className="uploadPictures">
-                                <div>Non Smiling Demo Image
+                                <div>Non Smiling Demo Image {" "}
                                 <img
                                     className="image-placeholder"
                                     src={DemoNonsmilingImg}
@@ -602,7 +595,7 @@ const CollectionApp = () => {
                             </div>
                         </td>
 
-                        <td> 
+                        <td align="left">   
                           <div>
                                 <input
                                     id="home-file-input-nonSmiling"
@@ -621,9 +614,9 @@ const CollectionApp = () => {
                         </td>
                     </tr>
                     <tr> 
-                        <td>
+                        <td> 
                             <div className="uploadPictures">
-                            <div>Front Teeth Demo Image
+                            <div>Front Teeth Demo Image{" "}
                                 <img
                                     className="image-placeholder"
                                     src={DemoFrontTeethImg}
@@ -632,7 +625,7 @@ const CollectionApp = () => {
                             </div> </div>
                             
                         </td>
-                        <td>
+                        <td align="left">
                             <div>
                                 <input
                                     id="home-file-input-frontTeeth"
@@ -653,7 +646,7 @@ const CollectionApp = () => {
                     <tr>
                         <td> 
                             <div className="uploadPictures">
-                                <div>Left Bite Demo Image
+                                <div>Left Bite Demo Image{" "}
                                     <img
                                         className="image-placeholder"
                                         src={DemoLeftImg}
@@ -662,7 +655,7 @@ const CollectionApp = () => {
                                 </div> 
                             </div>
                         </td>
-                        <td> 
+                        <td align="left"> 
                             <div>
                                 <input
                                     id="home-file-input-left"
@@ -683,7 +676,7 @@ const CollectionApp = () => {
                     <tr>
                         <td>
                             <div className="uploadPictures">
-                                <div>Right Bite Demo Image
+                                <div>Right Bite Demo Image{" "}
                                     <img
                                         className="image-placeholder"
                                         src={DemoRightImg}
@@ -692,7 +685,7 @@ const CollectionApp = () => {
                                 </div>
                              </div>   
                         </td>
-                        <td>
+                        <td align="left">
                             <div>
                                 <input
                                     id="home-file-input-right"
@@ -713,7 +706,7 @@ const CollectionApp = () => {
                     <tr>
                         <td>
                             <div className="uploadPictures">
-                                <div>Top Teeth Demo Image
+                                <div>Top Teeth Demo Image{" "}
                                     <img
                                         className="image-placeholder"
                                         src={DemoTopImg}
@@ -722,7 +715,7 @@ const CollectionApp = () => {
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td align="left">
                             <div>
                                 <input
                                     id="home-file-input-top"
@@ -752,7 +745,7 @@ const CollectionApp = () => {
                                 </div>
                             </div>
                         </td>
-                        <td>
+                        <td align="left">
                             <div>
                                 <input
                                     id="home-file-input-bottom"
