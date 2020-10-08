@@ -271,8 +271,8 @@ tr {
 }
 
 .image-placeholder {
-  width: 40%;
-  height: 150px;
+  width: auto;
+  height: 103px;
   position: relative
 }
 

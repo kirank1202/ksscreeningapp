@@ -192,7 +192,7 @@ const CollectionApp = () => {
             topimage: generateImageFileName(file.name),
         });
         await Storage.put(generateImageFileName(file.name), file);
-        alert("top image changes");
+        // alert("top image changes");
     }
 
     async function onChangebottomimage(e) {
@@ -218,7 +218,7 @@ const CollectionApp = () => {
         });
         await Storage.put(generateImageFileName(file.name), file);
         // alert("left image changes");
-        alert("bottom image changes");
+        // alert("bottom image changes");
     }
 
     async function onChangeNonSmilingimage(e) {
@@ -243,7 +243,7 @@ const CollectionApp = () => {
             nonsmilingface: generateImageFileName(file.name),
         });
         await Storage.put(generateImageFileName(file.name), file);
-        alert("nonsmiling-face image changes");
+       //  alert("nonsmiling-face image changes");
     }
 
     async function onChangeFrontTeethimage(e) {
@@ -292,13 +292,13 @@ const CollectionApp = () => {
                 <AppBar position="static" color="#fff">
                     <Toolbar className={classes.flexToolbar}>
                         <img src={logo} alt="..." />
-                        <h5 className="BasicDetails">School Dental Screening</h5>
+                       
                     </Toolbar>
                 </AppBar>
             </div>
             <form onSubmit={createStudent}>
                 <div className="mainContainer">
-
+                <h5 className="BasicDetails" color="#fff">School Dental Screening</h5>
                     <h5 align="Left">
                         Welcome to Fall 2020 Student Screening Program.  </h5>
                     <div className="form">
@@ -571,7 +571,7 @@ const CollectionApp = () => {
                     </div>
                 </div>
 
-                <div style={{ padding: "20px 150px" }}>
+                <div style={{ padding: "20px 100px"}}>
                     <h1 className="BasicDetails">Photos</h1>
                     <h5 align="left">
                         Please have your student in good lighting and take the
@@ -580,42 +580,36 @@ const CollectionApp = () => {
                             Video
                         </a>{" "} on how to take the best photos for screening.
                     </h5>
-
-                <table className="imageUploadTable" width="30%">
-                    <tr>
-                        <td> 
-                            <div className="uploadPictures">
+                    <div className="uploadPictures">
                                 <div>Non Smiling Demo Image {" "}
                                 <img
+                                    width="60 px"
+                                    height="60 px"
                                     className="image-placeholder"
                                     src={DemoNonsmilingImg}
                                     alt="..."
                                 />
                                 </div> 
-                            </div>
-                        </td>
+                    </div>
+                    <div>
+                        <input
+                            id="home-file-input-nonSmiling"
+                            type="file"
+                            class="input-file"
+                            onChange={onChangeNonSmilingimage}
+                        />
+                        <label
+                            id="non-smiling"
+                            className="image-input-label"
+                            htmlFor="home-file-input-nonSmiling"
+                        >
+                            + Non-smile
+                        </label>
+                    </div> 
 
-                        <td align="left">   
-                          <div>
-                                <input
-                                    id="home-file-input-nonSmiling"
-                                    type="file"
-                                    class="input-file"
-                                    onChange={onChangeNonSmilingimage}
-                                />
-                                <label
-                                    id="non-smiling"
-                                    className="image-input-label"
-                                    htmlFor="home-file-input-nonSmiling"
-                                >
-                                    + Non-smile
-                                </label>
-                            </div> 
-                        </td>
-                    </tr>
-                    <tr> 
-                        <td> 
-                            <div className="uploadPictures">
+             
+
+                     <div className="uploadPictures">
                             <div>Front Teeth Demo Image{" "}
                                 <img
                                     className="image-placeholder"
@@ -624,8 +618,7 @@ const CollectionApp = () => {
                                 />
                             </div> </div>
                             
-                        </td>
-                        <td align="left">
+                      
                             <div>
                                 <input
                                     id="home-file-input-frontTeeth"
@@ -641,11 +634,8 @@ const CollectionApp = () => {
                                     + Front
                                 </label>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> 
-                            <div className="uploadPictures">
+                        
+                    <div className="uploadPictures">
                                 <div>Left Bite Demo Image{" "}
                                     <img
                                         className="image-placeholder"
@@ -653,9 +643,8 @@ const CollectionApp = () => {
                                         alt="..."
                                     />
                                 </div> 
-                            </div>
-                        </td>
-                        <td align="left"> 
+                    </div>
+                       
                             <div>
                                 <input
                                     id="home-file-input-left"
@@ -671,11 +660,8 @@ const CollectionApp = () => {
                                     + Left
                                 </label>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div className="uploadPictures">
+                
+                    <div className="uploadPictures">
                                 <div>Right Bite Demo Image{" "}
                                     <img
                                         className="image-placeholder"
@@ -683,9 +669,8 @@ const CollectionApp = () => {
                                         alt="..."
                                     />
                                 </div>
-                             </div>   
-                        </td>
-                        <td align="left">
+                    </div>   
+                       
                             <div>
                                 <input
                                     id="home-file-input-right"
@@ -701,11 +686,8 @@ const CollectionApp = () => {
                                     + Right
                                 </label>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div className="uploadPictures">
+                        
+                    <div className="uploadPictures">
                                 <div>Top Teeth Demo Image{" "}
                                     <img
                                         className="image-placeholder"
@@ -714,8 +696,7 @@ const CollectionApp = () => {
                                     />
                                 </div>
                             </div>
-                        </td>
-                        <td align="left">
+                       
                             <div>
                                 <input
                                     id="home-file-input-top"
@@ -731,11 +712,8 @@ const CollectionApp = () => {
                                     + Top
                                 </label>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div className="uploadPictures">
+                       
+                    <div className="uploadPictures">
                                 <div>Bottom Teeth Demo Image {"  "}
                                     <img
                                         className="image-placeholder"
@@ -744,8 +722,7 @@ const CollectionApp = () => {
                                     />
                                 </div>
                             </div>
-                        </td>
-                        <td align="left">
+                       
                             <div>
                                 <input
                                     id="home-file-input-bottom"
@@ -761,10 +738,6 @@ const CollectionApp = () => {
                                     + Bottom
                                 </label>
                             </div>
-                        </td>
-                    </tr>
-                    
-                    </table>
                 
                     <div className="uploadPictures">
                         {/* New - KK moved to front*/}
