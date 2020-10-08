@@ -140,9 +140,9 @@ const CollectionApp = () => {
         reader.readAsDataURL(file);
         setFormData({
             ...formData,
-            leftimage: generateImageFileName(file.name),
+            leftimage: generateImageFileName("left"),
         });
-        await Storage.put(generateImageFileName(file.name), file);
+        await Storage.put(generateImageFileName("left"), file);
     }
     async function onChangerightimage(e) {
         if (!e.target.files[0]) return;
@@ -164,9 +164,9 @@ const CollectionApp = () => {
 
         setFormData({
             ...formData,
-            rightimage: generateImageFileName(file.name),
+            rightimage: generateImageFileName("right"),
         });
-        await Storage.put(generateImageFileName(file.name), file);
+        await Storage.put(generateImageFileName("right"), file);
     }
 
     async function onChangetopimage(e) {
@@ -189,9 +189,9 @@ const CollectionApp = () => {
 
         setFormData({
             ...formData,
-            topimage: generateImageFileName(file.name),
+            topimage: generateImageFileName("top"),
         });
-        await Storage.put(generateImageFileName(file.name), file);
+        await Storage.put(generateImageFileName("top"), file);
         // alert("top image changes");
     }
 
@@ -214,9 +214,9 @@ const CollectionApp = () => {
         reader.readAsDataURL(file);
         setFormData({
             ...formData,
-            bottomimage: generateImageFileName(file.name),
+            bottomimage: generateImageFileName("bottom"),
         });
-        await Storage.put(generateImageFileName(file.name), file);
+        await Storage.put(generateImageFileName("bottom"), file);
         // alert("left image changes");
         // alert("bottom image changes");
     }
@@ -240,9 +240,9 @@ const CollectionApp = () => {
         reader.readAsDataURL(file);
         setFormData({
             ...formData,
-            nonsmilingface: generateImageFileName(file.name),
+            nonsmilingface: generateImageFileName("nonsmiling"),
         });
-        await Storage.put(generateImageFileName(file.name), file);
+        await Storage.put(generateImageFileName("nonsmiling"), file);
        //  alert("nonsmiling-face image changes");
     }
 
@@ -265,9 +265,9 @@ const CollectionApp = () => {
         reader.readAsDataURL(file);
         setFormData({
             ...formData,
-            frontTeeth: generateImageFileName(file.name),
+            frontTeeth: generateImageFileName("front"),
         });
-        await Storage.put(generateImageFileName(file.name), file);
+        await Storage.put(generateImageFileName("front"), file);
         //alert("Front-Teeth image changes");
     }
 
