@@ -5,7 +5,6 @@ import Toolbar from "@material-ui/core/Toolbar";
 import logo from "./TeledentalSolutionLogo13.png";
 
 
-
 import Dropdown from "react-bootstrap/Dropdown";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormCntrl from "react-bootstrap/FormControl";
@@ -19,12 +18,12 @@ import { API, Storage, Auth } from "aws-amplify";
 import { createStudent as createStudentMutation } from "./graphql/mutations";
 import { Button } from "@material-ui/core";
 
-const BottomImg = "../public/mandibular.PNG";
-const TopImg = "../public/maxillary.PNG";
-const LeftImg = "../public/left.PNG";
-const RightImg = "../public/right.PNG";
-const nonsmilingface = "../public/nonsmiling.JPG";
-const frontTeeth = "../public/frontteeth.jpeg";
+const DemoBottomImg = "https://screeningdemoimages.s3.amazonaws.com/mandibular.PNG";
+const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/maxillary.PNG";
+const DemoLeftImg = "https://screeningdemoimages.s3.amazonaws.com/left.PNG";
+const DemoRightImg = "https://screeningdemoimages.s3.amazonaws.com/right.PNG";
+const DemoNonsmilingImg = "https://screeningdemoimages.s3.amazonaws.com/nonsmiling.JPG";
+const DemoFrontTeethImg = "https://screeningdemoimages.s3.amazonaws.com/frontteeth.jpeg";
 
 const initialFormState = {
     code: "",
@@ -589,155 +588,191 @@ const CollectionApp = () => {
                         </a>{" "} on how to take the best photos for screening.
                     </h5>
 
-                    <div className="uploadPictures">
-                        <div>Non Smiling 
-                            <img
-                                className="image-placeholder"
-                                src={nonsmilingface}
-                                alt="..."
-                            />
-                        </div>
-                        <div>
-                            <input
-                                id="home-file-input-nonSmiling"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangeNonSmilingimage}
-                            />
-                            <label
-                                id="non-smiling"
-                                className="image-input-label"
-                                htmlFor="home-file-input-nonSmiling"
-                            >
-                                + Non-smile
-                            </label>
-                        </div> <br></br>
+                <table className="imageUploadTable">
+                    <tr>
+                        <td> 
+                            <div className="uploadPictures">
+                                <div>Non Smiling Demo Image
+                                <img
+                                    className="image-placeholder"
+                                    src={DemoNonsmilingImg}
+                                    alt="..."
+                                />
+                                </div> 
+                            </div>
+                        </td>
 
-                    </div>
-
-                    <div className="uploadPictures">
-                        <div>Front Teeth
-                            <img
-                                className="image-placeholder"
-                                src={frontTeeth}
-                                alt="..."
-                            />
-                        </div>
-                        <div>
-                            <input
-                                id="home-file-input-frontTeeth"
-                                type="file"
-                                className="input-file"
-                                onChange={onChangeFrontTeethimage}
-                            />
-                            <label
-                                id="front-teeth"
-                                className="image-input-label"
-                                htmlFor="home-file-input-frontTeeth"
-                            >
-                                + Front
-                            </label>
-                        </div>
-                    </div>
-                    <div className="uploadPictures">
-                        <div>Left Bite Photo 
-                            <img
-                                className="image-placeholder"
-                                src={LeftImg}
-                                alt="..."
-                            />
-                        </div>
-                        <div>
-                            <input
-                                id="home-file-input-left"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangeleftimage}
-                            />
-                            <label
-                                id="left"
-                                className="image-input-label"
-                                htmlFor="home-file-input-left"
-                            >
-                                + Left
-                            </label>
-                        </div>
-                    </div> 
-
-                    <div className="uploadPictures">
-                        <div>Right Bite {"   "}
-                            <img
-                                className="image-placeholder"
-                                src={RightImg}
-                                alt="..."
-                            />
-                        </div>
-                        <div>
-                            <input
-                                id="home-file-input-right"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangerightimage}
-                            />
-                            <label
-                                id="right"
-                                className="image-input-label"
-                                htmlFor="home-file-input-right"
-                            >
-                                + Right
-                            </label>
-                        </div>
-                    </div>
-
-                     <div className="uploadPictures">
-                        <div>Maxillary {"   "}
-                            <img
-                                className="image-placeholder"
-                                src={TopImg}
-                                alt="..."
-                            />
-                        </div>
-                        <div>
-                            <input
-                                id="home-file-input-top"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangetopimage}
-                            />
-                            <label
-                                id="top"
-                                className="image-input-label"
-                                htmlFor="home-file-input-top"
-                            >
-                                + Top
-                            </label>
-                        </div>
-                    </div>
-                     <div className="uploadPictures">
-                        <div>Mandibular{"  "}
-                            <img
-                                className="image-placeholder"
-                                src={BottomImg}
-                                alt="..."
-                            />
-                        </div>
-                        <div>
-                            <input
-                                id="home-file-input-bottom"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangebottomimage}
-                            />
-                            <label
-                                id="bottom"
-                                className="image-input-label"
-                                htmlFor="home-file-input-bottom"
-                            >
-                                + Bottom
-                            </label>
-                        </div>
-                    </div>
-
+                        <td> 
+                          <div>
+                                <input
+                                    id="home-file-input-nonSmiling"
+                                    type="file"
+                                    class="input-file"
+                                    onChange={onChangeNonSmilingimage}
+                                />
+                                <label
+                                    id="non-smiling"
+                                    className="image-input-label"
+                                    htmlFor="home-file-input-nonSmiling"
+                                >
+                                    + Non-smile
+                                </label>
+                            </div> 
+                        </td>
+                    </tr>
+                    <tr> 
+                        <td>
+                            <div className="uploadPictures">
+                            <div>Front Teeth Demo Image
+                                <img
+                                    className="image-placeholder"
+                                    src={DemoFrontTeethImg}
+                                    alt="..."
+                                />
+                            </div> </div>
+                            
+                        </td>
+                        <td>
+                            <div>
+                                <input
+                                    id="home-file-input-frontTeeth"
+                                    type="file"
+                                    className="input-file"
+                                    onChange={onChangeFrontTeethimage}
+                                />
+                                <label
+                                    id="front-teeth"
+                                    className="image-input-label"
+                                    htmlFor="home-file-input-frontTeeth"
+                                >
+                                    + Front
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td> 
+                            <div className="uploadPictures">
+                                <div>Left Bite Demo Image
+                                    <img
+                                        className="image-placeholder"
+                                        src={DemoLeftImg}
+                                        alt="..."
+                                    />
+                                </div> 
+                            </div>
+                        </td>
+                        <td> 
+                            <div>
+                                <input
+                                    id="home-file-input-left"
+                                    type="file"
+                                    class="input-file"
+                                    onChange={onChangeleftimage}
+                                />
+                                <label
+                                    id="left"
+                                    className="image-input-label"
+                                    htmlFor="home-file-input-left"
+                                >
+                                    + Left
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div className="uploadPictures">
+                                <div>Right Bite Demo Image
+                                    <img
+                                        className="image-placeholder"
+                                        src={DemoRightImg}
+                                        alt="..."
+                                    />
+                                </div>
+                             </div>   
+                        </td>
+                        <td>
+                            <div>
+                                <input
+                                    id="home-file-input-right"
+                                    type="file"
+                                    class="input-file"
+                                    onChange={onChangerightimage}
+                                />
+                                <label
+                                    id="right"
+                                    className="image-input-label"
+                                    htmlFor="home-file-input-right"
+                                >
+                                    + Right
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div className="uploadPictures">
+                                <div>Top Teeth Demo Image
+                                    <img
+                                        className="image-placeholder"
+                                        src={DemoTopImg}
+                                        alt="..."
+                                    />
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <input
+                                    id="home-file-input-top"
+                                    type="file"
+                                    class="input-file"
+                                    onChange={onChangetopimage}
+                                />
+                                <label
+                                    id="top"
+                                    className="image-input-label"
+                                    htmlFor="home-file-input-top"
+                                >
+                                    + Top
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div className="uploadPictures">
+                                <div>Bottom Teeth Demo Image {"  "}
+                                    <img
+                                        className="image-placeholder"
+                                        src={DemoBottomImg}
+                                        alt="..."
+                                    />
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <input
+                                    id="home-file-input-bottom"
+                                    type="file"
+                                    class="input-file"
+                                    onChange={onChangebottomimage}
+                                />
+                                <label
+                                    id="bottom"
+                                    className="image-input-label"
+                                    htmlFor="home-file-input-bottom"
+                                >
+                                    + Bottom
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    
+                    </table>
+                
                     <div className="uploadPictures">
                         {/* New - KK moved to front*/}
                         {/*non smiling code*/}
