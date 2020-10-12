@@ -292,20 +292,20 @@ const CollectionApp = () => {
                 <AppBar position="static" color="#fff">
                     <Toolbar className={classes.flexToolbar}>
                         <img src={logo} alt="..." />
-                       
+                        <h5 className="logo-header" color="#fff">School Dental Screening</h5>
                     </Toolbar>
                 </AppBar>
             </div>
             <form onSubmit={createStudent}>
                 <div className="mainContainer">
-                <h5 className="BasicDetails" color="#fff">School Dental Screening</h5>
-                    <h5 align="Left">
-                        Welcome to Fall 2020 Student Screening Program.  </h5>
+                    <div className="welcome-msg">
+                        <h4>Welcome to 2020 Student Screening Program </h4>  
+                    </div>
                     <div className="form">
                         <div className="formContainer">
                             <div className="leftArea">
-                                <div>
-                                    <p>Data Collection Location</p>
+                                <div className="mb-3">
+                                    <p>Screening Location</p>
                                     <Dropdown
                                         aria-label="location"
                                         name="location"
@@ -351,6 +351,41 @@ const CollectionApp = () => {
                                         />
                                     </InputGroup>
                                 </div>
+                                
+                                <div>
+                                    <p>School Name/ID</p>
+                                    <InputGroup className="mb-3">
+                                        <FormCntrl
+                                            value={formData.school}
+                                            aria-label="code"
+                                            aria-describedby="basic-addon1"
+                                            onChange={(e) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    school: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </InputGroup>
+                                </div>
+                                <div>
+                                    <p>Parent/Guardian Email (Required only if you consent to receive screening results via email)</p>
+                                    <InputGroup className="mb-3">
+                                        <FormCntrl
+                                            placeholder="Email"
+                                            aria-label="Username"
+                                            aria-describedby="basic-addon1"
+                                            type="email"
+                                            value={formData.name}
+                                            onChange={(e) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    name: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </InputGroup>
+                                </div>
                                 <div>
                                     <p>Student ID</p>
                                     <InputGroup className="mb-3">
@@ -368,49 +403,22 @@ const CollectionApp = () => {
                                     </InputGroup>
                                 </div>
                                 <div>
-                                    <p>School Name/ID</p>
+                                    <p>First 3 Letters of Student's first Name</p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
-                                            value={formData.school}
-                                            aria-label="code"
+                                            value={formData.firstname3letters}
+                                            aria-label="firstname3letters"
                                             aria-describedby="basic-addon1"
                                             onChange={(e) =>
                                                 setFormData({
                                                     ...formData,
-                                                    school: e.target.value,
+                                                    code: e.target.value,
                                                 })
                                             }
                                         />
                                     </InputGroup>
                                 </div>
-                            </div>
-                            <div className="rightArea">
-                                <div>
-                                    <p>Data Collector</p>
-                                    <InputGroup>
-                                        <FormCntrl
-                                            placeholder="Email"
-                                            aria-label="Username"
-                                            aria-describedby="basic-addon1"
-                                            type="email"
-                                            value={formData.name}
-                                            onChange={(e) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    name: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    </InputGroup>
-                                    <p>
-                                        {" "}
-                                        <h8>
-                                            *Required only if you like to
-                                            receive student screening results
-                                        </h8>
-                                    </p>
-                                </div>
-                                <div>
+                                <div className="mb-3">
                                     <p>Grade</p>
                                     <Dropdown
                                         value={formData.grade}
@@ -427,81 +435,92 @@ const CollectionApp = () => {
 
                                         <Dropdown.Menu>
                                             <Dropdown.Item
+                                                eventKey={"EK"}
+                                                href="#/action-1"
+                                            >
+                                                EK
+                                            </Dropdown.Item>                                            
+                                            <Dropdown.Item
+                                                eventKey={"KG"}
+                                                href="#/action-1"
+                                            >
+                                                KG
+                                            </Dropdown.Item>                                            <Dropdown.Item
                                                 eventKey={1}
                                                 href="#/action-1"
                                             >
-                                                One
+                                                1
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey={2}
                                                 href="#/action-1"
                                             >
-                                                Two
+                                                2
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey={3}
                                                 href="#/action-1"
                                             >
-                                                Three
+                                                3
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey={4}
                                                 href="#/action-1"
                                             >
-                                                Four
+                                                4
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey={5}
                                                 href="#/action-1"
                                             >
-                                                Five
+                                                5
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey={6}
                                                 href="#/action-1"
                                             >
-                                                Six
+                                                6
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey={7}
                                                 href="#/action-1"
                                             >
-                                                Seven
+                                                7
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey={8}
                                                 href="#/action-1"
                                             >
-                                                Eight
+                                                8
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey={9}
                                                 href="#/action-1"
                                             >
-                                                Nine
+                                                9
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey={10}
                                                 href="#/action-2"
                                             >
-                                                Ten
+                                                10
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey={11}
                                                 href="#/action-3"
                                             >
-                                                Eleven
+                                                11
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey={12}
                                                 href="#/action-1"
                                             >
-                                                Twelve
+                                                12
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
-                                <div>
+                                <div className="mb-3">
                                     <p>Gender</p>
                                     <Dropdown
                                         value={formData.gender}
@@ -532,7 +551,7 @@ const CollectionApp = () => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
-                                <div>
+                                <div className="mb-3">
                                     <p>Does student have dental insurance?</p>
                                     <Dropdown
                                         value={formData.haveDentalInsurance}
@@ -567,6 +586,8 @@ const CollectionApp = () => {
                                     </Dropdown>
                                 </div>
                             </div>
+                            
+                            <div className="rightArea"></div>
                         </div>
                     </div>
                 </div>

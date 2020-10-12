@@ -1,6 +1,7 @@
 type Student @model {
   id: ID!
   code: String!
+  firstname3letters: String
   parentEmail: String
   location: String
   name: String

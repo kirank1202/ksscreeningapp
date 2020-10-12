@@ -6,6 +6,7 @@ export const onCreateStudent = /* GraphQL */ `
     onCreateStudent {
       id
       code
+      firstname3letters
       parentEmail
       location
       name
@@ -38,6 +39,7 @@ export const onUpdateStudent = /* GraphQL */ `
     onUpdateStudent {
       id
       code
+      firstname3letters
       parentEmail
       location
       name
@@ -70,6 +72,7 @@ export const onDeleteStudent = /* GraphQL */ `
     onDeleteStudent {
       id
       code
+      firstname3letters
       parentEmail
       location
       name

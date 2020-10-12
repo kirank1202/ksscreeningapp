@@ -6,6 +6,7 @@ export const getStudent = /* GraphQL */ `
     getStudent(id: $id) {
       id
       code
+      firstname3letters
       parentEmail
       location
       name
@@ -43,6 +44,7 @@ export const listStudents = /* GraphQL */ `
       items {
         id
         code
+        firstname3letters
         parentEmail
         location
         name

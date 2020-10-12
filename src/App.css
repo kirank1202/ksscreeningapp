@@ -6,6 +6,18 @@
   height: 40vmin;
   pointer-events: none;
 }
+.logo-header {
+  text-align: left;
+  color: #2a8bf2;
+  margin: 0;
+  padding: rem 1rem 1.5rem 0;
+}
+.welcome-msg {
+  text-align: left;
+  color: #2a8bf2;
+  margin: 0;
+  padding: 0px 0px;
+}
 
 body {
   background-color: #f0f3f8;
@@ -55,6 +67,7 @@ body {
 
 .mainContainer {
   padding: 20px 150px;
+  width: 80%
 }
 
 @media (max-width: 768px) {
@@ -76,17 +89,19 @@ body {
 }
 
 .form {
-  padding: 3rem 0;
+  padding: 5rem 0;
 }
 
 .formContainer {
   display: flex;
   justify-content: space-between;
-  height: 45vh;
+  padding:00px;
+  height: 60vh;
 }
 
 .leftArea {
-  width: 40%;
+  width: 80%;
+  padding: 0px 10px;
 }
 
 .leftArea,
@@ -105,7 +120,7 @@ body {
 }
 
 .rightArea {
-  width: 40%;
+  width: 10%;
 }
 
 #dropdown-basic {
