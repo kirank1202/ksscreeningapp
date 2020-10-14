@@ -3,20 +3,19 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  height: 50vmin;
   pointer-events: none;
 }
 .logo-header {
-  text-align: left;
+  text-align: right;
   color: #2a8bf2;
   margin: 0;
-  padding: rem 1rem 1.5rem 0;
+  padding: rem 1rem 1.rem 0;
 }
 .welcome-msg {
   text-align: left;
   color: #2a8bf2;
   margin: 0;
-  padding: 0px 0px;
 }
 
 body {
@@ -24,7 +23,7 @@ body {
 }
 .App-header {
   background-color: #0b46bb;
-  min-height: 100vh;
+  min-height: 90vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -39,7 +38,7 @@ body {
 
 .column {
   float: left;
-  width: 33.33%;
+  width: 100%;
 }
 
 /* Clear floats after the columns */
@@ -66,8 +65,8 @@ body {
 }
 
 .mainContainer {
-  padding: 20px 150px;
-  width: 80%
+  padding: 0px 0px;
+  width: 100%
 }
 
 @media (max-width: 768px) {
@@ -96,12 +95,12 @@ body {
   display: flex;
   justify-content: space-between;
   padding:00px;
-  height: 60vh;
+  height: 90vh;
 }
 
 .leftArea {
-  width: 80%;
-  padding: 0px 10px;
+  width: 100%;
+  padding: 0px 0px;
 }
 
 .leftArea,
@@ -120,7 +119,7 @@ body {
 }
 
 .rightArea {
-  width: 10%;
+  width: 1%;
 }
 
 #dropdown-basic {
@@ -288,7 +287,7 @@ tr {
 .image-placeholder {
   width: auto;
   height: 103px;
-  position: relative
+  position: relative;
 }
 
 .image-info-container {

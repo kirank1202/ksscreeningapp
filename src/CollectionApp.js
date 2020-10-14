@@ -100,7 +100,7 @@ const CollectionApp = () => {
             // flexGrow: 1,
         },
         flexToolbar: {
-            padding: "0 100px",
+            padding: "0 20px",
             display: "flex",
             justifyContent: "space-between",
         },
@@ -351,23 +351,33 @@ const CollectionApp = () => {
                                         />
                                     </InputGroup>
                                 </div>
-                                
-                                <div>
-                                    <p>School Name/ID</p>
-                                    <InputGroup className="mb-3">
-                                        <FormCntrl
-                                            value={formData.school}
-                                            aria-label="code"
-                                            aria-describedby="basic-addon1"
-                                            onChange={(e) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    school: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    </InputGroup>
+                            
+                                <div className="mb-3">
+                                    <p>School Name</p>
+                                    <Dropdown
+                                        value={formData.school}
+                                        onSelect={(e) =>
+                                            setFormData({
+                                                ...formData,
+                                                school: e,
+                                            })
+                                        }
+                                    >
+                                        <Dropdown.Toggle id="dropdown-basic">
+                                            {formData.school}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                <Dropdown.Item eventKey="BlueValley-High" href="#/action-1">Blue Valley High </Dropdown.Item>
+                <Dropdown.Item eventKey="BlueValley-North" href="#/action-2">Blue Valley North </Dropdown.Item>
+                <Dropdown.Item eventKey="BlueValley-West" href="#/action-1">Blue Valley West </Dropdown.Item>
+                <Dropdown.Item eventKey="BlueValley-NorthWest" href="#/action-2">Blue Valley NorthWest </Dropdown.Item>
+                <Dropdown.Item eventKey="BlueValley-South" href="#/action-1">Blue Valley South </Dropdown.Item>
+                <Dropdown.Item eventKey="BlueValley-SouthWest" href="#/action-2">Blue Valley Southwest </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </div>
+
                                 <div>
                                     <p>Parent/Guardian Email (Required only if you consent to receive screening results via email)</p>
                                     <InputGroup className="mb-3">
@@ -592,15 +602,15 @@ const CollectionApp = () => {
                     </div>
                 </div>
 
-                <div style={{ padding: "20px 100px"}}>
-                    <h1 className="BasicDetails">Photos</h1>
-                    <h5 align="left">
+                <div style={{ padding: "20px 30px"}}>
+                    <h3 className="BasicDetails">Photos</h3>
+                    <h6 align="left" className="PhotosHeading">
                         Please have your student in good lighting and take the
                         pictures as shown. You can refer to this {" "}
                         <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y" target= "_blank">
                             Video
                         </a>{" "} on how to take the best photos for screening.
-                    </h5>
+                    </h6> <p></p>
                     <div className="uploadPictures">
                                 <div>Non Smiling Demo Image {" "}
                                 <img
@@ -624,7 +634,7 @@ const CollectionApp = () => {
                             className="image-input-label"
                             htmlFor="home-file-input-nonSmiling"
                         >
-                            + Non-smile
+                            + No-Smile
                         </label>
                     </div> 
 
@@ -638,8 +648,6 @@ const CollectionApp = () => {
                                     alt="..."
                                 />
                             </div> </div>
-                            
-                      
                             <div>
                                 <input
                                     id="home-file-input-frontTeeth"
@@ -657,7 +665,7 @@ const CollectionApp = () => {
                             </div>
                         
                     <div className="uploadPictures">
-                                <div>Left Bite Demo Image{" "}
+                                <div>Left Bite Demo Image{"    "}
                                     <img
                                         className="image-placeholder"
                                         src={DemoLeftImg}
@@ -708,8 +716,8 @@ const CollectionApp = () => {
                                 </label>
                             </div>
                         
-                    <div className="uploadPictures">
-                                <div>Top Teeth Demo Image{" "}
+                            <div className="uploadPictures">
+                                <div> <h6> Top Teeth Demo Image{" "} </h6>
                                     <img
                                         className="image-placeholder"
                                         src={DemoTopImg}
@@ -718,7 +726,7 @@ const CollectionApp = () => {
                                 </div>
                             </div>
                        
-                            <div>
+                            <div className="uploadPictures">
                                 <input
                                     id="home-file-input-top"
                                     type="file"
