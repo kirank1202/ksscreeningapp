@@ -124,11 +124,14 @@ const EvaluationApp = ({ history }) => {
                         treatedDecay: states.treatedDecay.toString(),
                         treatmentRecommendationCode: states.treatmentRecommendationCode.toString(),
                         sealantsPresent: states.sealantsPresent.toString(),
-                        evalStauts: "Completed",
+                        evalStatus: "Completed",
                     },
                 },
             });
-            setState(initialState);
+            // setState(initialState);
+
+            console.log("students after submit:", students);
+            console.log("states after submit:", states);
             alert("Evaluation Recorded Successfully");
         } catch (error) {
             console.error(error);
@@ -168,10 +171,12 @@ const EvaluationApp = ({ history }) => {
     }));
 
     const handleFormState = () => {
+
+        console.log("students in handleformState:", students);
+
         if (students[imageData] && students[imageData].untreatedDecay) {
             setState({
-                ...states,
-                untreatedDecay: students[imageData].untreatedDecay,
+                ...states, untreatedDecay:students[imageData].untreatedDecay,
             });
         }
         if (students[imageData] && students[imageData].treatedDecay) {
@@ -193,6 +198,7 @@ const EvaluationApp = ({ history }) => {
                     students[imageData].treatmentRecommendationCode,
             });
         }
+        console.log("students end of handleformState:", students);
     };
 
     const handleImageLink = (link) => {
@@ -201,7 +207,10 @@ const EvaluationApp = ({ history }) => {
         // console.log(imageLink)
     }
 
+
     const classes = useStyles();
+    
+    
     return (
         /*   if  user.group = "datacollector"
     {
@@ -255,6 +264,7 @@ const EvaluationApp = ({ history }) => {
                                         key={key}
                                         onClick={() => {
                                             setImageData(key);
+                                      //      setEvalData(key);
                                             handleFormState();
                                         }}
                                         className={
@@ -299,6 +309,7 @@ const EvaluationApp = ({ history }) => {
                                             ID:{" "}
                                         </b>
                                         {students[imageData].code}
+
                                     </p>
                                     <p>
                                         <b
@@ -363,6 +374,8 @@ const EvaluationApp = ({ history }) => {
                                 </div>
 
                                 <div className="inputs-container">
+                                        {students[imageData].untreatedDecay}
+                                        {students[imageData].treatedDecay}
                                     <label>1. Untreated Decay:</label>
                                     <div
                                         style={{
@@ -371,46 +384,55 @@ const EvaluationApp = ({ history }) => {
                                         }}
                                     >
                                         <div style={{ marginRight: "10px" }}>
-                                            <input
-                                                defaultChecked={
-                                                    students[imageData]
-                                                        .untreatedDecay ===
-                                                    "true"
-                                                }
-                                                onChange={() => {
-                                                    setState({
-                                                        ...states,
-                                                        untreatedDecay: true,
-                                                    });
-                                                }}
-                                                name="untreated-decay"
-                                                type="radio"
-                                                style={{marginRight: "10px"}}
-                                            />
-                                            Yes
+                                            {students[imageData].untreatedDecay}
+                                             {students[imageData].treatedDecay}
+                                                {students[imageData].untreatedDecay == "true" ? (
+                                                    <input
+                                                        checked = {true}
+                                                        onChange={() => {
+                                                            setState({...states,untreatedDecay: true, }
+                                                                );
+                                                            students[imageData].untreatedDecay="true";
+                                                            } }
+                                                        
+                                                        name="untreated-decay"
+                                                        type="radio"
+                                                        style={{marginRight: "10px"}}
+                                                    />) : (
+                                                    <input
+                                                        onChange={() => {setState({...states,untreatedDecay: true,});}}
+                                                        name="untreated-decay"
+                                                        type="radio"
+                                                        style={{marginRight: "10px"}}
+                                                    />
+                                                )}
+                                                Yes
                                         </div>
                                         <div style={{ marginRight: "10px" }}>
-                                            <input
-                                                defaultChecked={
-                                                    students[imageData]
-                                                        .untreatedDecay ===
-                                                        "false" ||
-                                                    students[imageData]
-                                                        .untreatedDecay === null
-                                                }
-                                                onChange={() => {
-                                                    setState({
-                                                        ...states,
-                                                        untreatedDecay: false,
-                                                    });
-                                                }}
-                                                name="untreated-decay"
-                                                type="radio"
-                                                style={{marginRight: "10px"}}
-                                            />
-                                            No
+                                            {students[imageData].untreatedDecay}
+                                             {students[imageData].treatedDecay}
+                                                {students[imageData].untreatedDecay == "false" ? (
+                                                    <input
+                                                        checked = {true}
+                                                        onChange={() => {setState({...states,untreatedDecay: false, }); 
+                                                        students[imageData].untreatedDecay="true"; 
+                                                        }}
+
+                                                        name="untreated-decay"
+                                                        type="radio"
+                                                        style={{marginRight: "10px"}}
+                                                    />) : (
+                                                    <input
+                                                        onChange={() => {setState({...states,untreatedDecay: false,});}}
+                                                        name="untreated-decay"
+                                                        type="radio"
+                                                        style={{marginRight: "10px"}}
+                                                    />
+                                                )}
+                                                No
                                         </div>
-                                    </div>
+
+                                     </div>
                                 </div>
                                 <div className="inputs-container">
                                     <label>2. Treated Decay:</label>
@@ -421,11 +443,9 @@ const EvaluationApp = ({ history }) => {
                                         }}
                                     >
                                         <div style={{ marginRight: "10px" }}>
+                
                                             <input
-                                                defaultChecked={
-                                                    students[imageData]
-                                                        .treatedDecay === "true"
-                                                }
+                                                // defaultChecked={students[imageData].treatedDecay}
                                                 onChange={() =>
                                                     setState({
                                                         ...states,
@@ -434,19 +454,13 @@ const EvaluationApp = ({ history }) => {
                                                 }
                                                 name="treated-decay"
                                                 type="radio"
+                                                checked={students[imageData].treatedDecay == "true"}
                                                 style={{marginRight: "10px"}}
                                             />
                                             Yes
                                         </div>
                                         <div style={{ marginRight: "10px" }}>
                                             <input
-                                                defaultChecked={
-                                                    students[imageData]
-                                                        .treatedDecay ===
-                                                        "false" ||
-                                                    students[imageData]
-                                                        .treatedDecay === null
-                                                }
                                                 onChange={() =>
                                                     setState({
                                                         ...states,
@@ -455,6 +469,7 @@ const EvaluationApp = ({ history }) => {
                                                 }
                                                 name="treated-decay"
                                                 type="radio"
+                                                checked={students[imageData].treatedDecay == "false" || students[imageData].treatedDecay === null}
                                                 style={{marginRight: "10px"}}
                                             />
                                             No
@@ -472,11 +487,6 @@ const EvaluationApp = ({ history }) => {
                                     >
                                         <div style={{ marginRight: "10px" }}>
                                             <input
-                                                defaultChecked={
-                                                    students[imageData]
-                                                        .sealantsPresent ===
-                                                    "true"
-                                                }
                                                 onChange={() =>
                                                     setState({
                                                         ...states,
@@ -485,20 +495,13 @@ const EvaluationApp = ({ history }) => {
                                                 }
                                                 name="sealants"
                                                 type="radio"
+                                                checked={students[imageData].sealantsPresent == "true"}
                                                 style={{marginRight: "10px"}}
                                             />
                                             Yes
                                         </div>
                                         <div style={{ marginRight: "10px" }}>
                                             <input
-                                                defaultChecked={
-                                                    students[imageData]
-                                                        .sealantsPresent ===
-                                                        "false" ||
-                                                    students[imageData]
-                                                        .sealantsPresent ===
-                                                        null
-                                                }
                                                 onChange={() =>
                                                     setState({
                                                         ...states,
@@ -507,6 +510,7 @@ const EvaluationApp = ({ history }) => {
                                                 }
                                                 name="sealants"
                                                 type="radio"
+                                                checked={students[imageData].sealantsPresent == "false" || students[imageData].sealantsPresent === null}
                                                 style={{marginRight: "10px"}}
                                             />
                                             No
@@ -529,15 +533,9 @@ const EvaluationApp = ({ history }) => {
                                             <input
                                                 name="treatment"
                                                 type="radio"
+                                                checked ={students[imageData].treatmentRecommendationCode == "No obvious problem" ||
+                                                    students[imageData].treatmentRecommendationCode ===null}
                                                 style={{ marginRight: "10px" }}
-                                                defaultChecked={
-                                                    students[imageData]
-                                                        .treatmentRecommendationCode ===
-                                                        "No obvious problem" ||
-                                                    students[imageData]
-                                                        .treatmentRecommendationCode ===
-                                                        null
-                                                }
                                                 onChange={() =>
                                                     setState({
                                                         ...states,
@@ -552,10 +550,8 @@ const EvaluationApp = ({ history }) => {
                                             <input
                                                 name="treatment"
                                                 type="radio"
-                                                defaultChecked={
-                                                    students[imageData]
-                                                        .treatmentRecommendationCode ===
-                                                    "Evaluate for preventive sealants"
+                                                checked={
+                                                    students[imageData].treatmentRecommendationCode == "Evaluate for preventive sealants"
                                                 }
                                                 onChange={() =>
                                                     setState({
@@ -574,9 +570,9 @@ const EvaluationApp = ({ history }) => {
                                                 name="treatment"
                                                 type="radio"
                                                 style={{ marginRight: "10px" }}
-                                                defaultChecked={
+                                                checked={
                                                     students[imageData]
-                                                        .treatmentRecommendationCode ===
+                                                        .treatmentRecommendationCode ==
                                                     "Evaluate for Restorative care"
                                                 }
                                                 onChange={() =>
@@ -595,9 +591,9 @@ const EvaluationApp = ({ history }) => {
                                                 name="treatment"
                                                 type="radio"
                                                 style={{ marginRight: "10px" }}
-                                                defaultChecked={
+                                                checked={
                                                     students[imageData]
-                                                        .treatmentRecommendationCode ===
+                                                        .treatmentRecommendationCode ==
                                                     "Urgent care needed"
                                                 }
                                                 onChange={() =>
