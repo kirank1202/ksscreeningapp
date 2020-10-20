@@ -195,6 +195,8 @@ const EvaluationApp = ({ history }) => {
             <AppBar position="static" color="#fff">
               <Toolbar className={classes.flexToolbar}>
                 <img src={logo} alt="..." />
+                <h5 className="logo-header" color="#fff">School Dental Screening - Evaluation</h5>
+
               </Toolbar>
             </AppBar>
           </div>
@@ -361,7 +363,7 @@ const EvaluationApp = ({ history }) => {
                         <td>
                             <div className="inputs-container">
                             <label>1. Untreated Decay:</label>
-                            {students[imageData].untreatedDecay}
+                         
                             <div>
                                 <select
                                 name="untreated-decay" // onChange={handleDropdownChange()}
@@ -385,7 +387,7 @@ const EvaluationApp = ({ history }) => {
                                 <option
                                     value="Yes"
                                 >
-                                    yes
+                                    Yes
                                 </option>
 
                                 <option
@@ -401,7 +403,7 @@ const EvaluationApp = ({ history }) => {
                         <td>
                             <div className="inputs-container">
                             <label>2. Treated Decay:</label>
-                            {students[imageData].treatedDecay}
+                         
                             <select
                                 name="treated-decay" // onChange={handleDropdownChange()}
                                 onChange={(event) => {
@@ -424,7 +426,7 @@ const EvaluationApp = ({ history }) => {
                                 <option
                                     value="Yes"
                                 >
-                                    yes
+                                    Yes
                                 </option>
 
                                 <option
@@ -440,7 +442,7 @@ const EvaluationApp = ({ history }) => {
                         <td>
                             <div className="inputs-container">
                             <label>3. Sealants Present:</label>
-                            {students[imageData].sealantsPresent}
+                         
                             <select
                                 name="sealants-present" // onChange={handleDropdownChange()}
                                 onChange={(event) => {
@@ -463,7 +465,7 @@ const EvaluationApp = ({ history }) => {
                                 <option
                                     value="Yes"
                                 >
-                                    yes
+                                    Yes
                                 </option>
 
                                 <option
@@ -479,7 +481,7 @@ const EvaluationApp = ({ history }) => {
                         <td>
                             <div>
                             <label>4. Treatment Recomendation codes:</label>
-                            {students[imageData].treatmentRecommendationCode}
+                         
                             <select
                                 name="treatment-recommendation-code" // onChange={handleDropdownChange()}
                                 onChange={(event) => {
