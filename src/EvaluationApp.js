@@ -17,6 +17,7 @@ import logo from "./TeledentalSolutionLogo13.png";
 const EvaluationApp = ({ history }) => {
   const [students, setStudents] = useState([]);
   const [imageData, setImageData] = useState();
+  const [dummyState, setDummyState] = useState();
   const initialState = {
     untreatedDecay: "No",
     treatedDecay: "No",
@@ -91,6 +92,20 @@ const EvaluationApp = ({ history }) => {
       if (imageData < students.length) {
         setImageData(imageData + 1);
       }
+      students[imageData].untreatedDecay = states.untreatedDecay;
+      students[imageData].treatedDecay = states.treatedDecay;
+      students[imageData].treatmentRecommendationCode = states.treatmentRecommendationCode;
+      students[imageData].sealantsPresent = states.sealantsPresent;
+      students[imageData].evalStatus = states.evalStatus;
+      //console.log("1", imageData);
+      states.untreatedDecay = students[imageData+1].untreatedDecay;
+      states.treatedDecay = students[imageData+1].treatedDecay ;
+      states.treatmentRecommendationCode = students[imageData+1].treatmentRecommendationCode;
+      states.sealantsPresent = students[imageData+1].sealantsPresent;
+      states.evalStatus = students[imageData+1].evalStatus;
+      setState(states);
+      setStudents(students);
+      //console.log("1", imageData);
       await API.graphql({
         query: updateStudentMutation,
         variables: {
@@ -104,26 +119,19 @@ const EvaluationApp = ({ history }) => {
           },
         },
       }); // setState(initialState);
-      students[imageData].untreatedDecay = states.untreatedDecay;
-      students[imageData].treatedDecay = states.treatedDecay;
-      students[imageData].treatmentRecommendationCode = states.treatmentRecommendationCode;
-      students[imageData].sealantsPresent = states.sealantsPresent;
-      students[imageData].evalStatus = states.evalStatus;
-      setStudents(students);
-      console.log("students after submit:", students);
-      console.log("states after submit:", states);
-      alert("Evaluation Recorded Successfully for student ",students[imageData].code.toString, states.code);
+      // console.log("states after submit:", states);
+      // //setImageData(imageData);
+      // setDummyState("re-render-component");
+      alert("Evaluation Recorded Successfully for student ", students[imageData].code.toString, states.code);
     } catch (error) {
       console.error(error);
     }
   }
   
   function selectDDValue(imgIndex, stateProperty) {
-    let stateAfterChanging;
-    let stateBeforeChanging = states[stateProperty];
-    console.log("Student on DD Change", imgIndex, stateProperty, students[imgIndex][stateProperty]);
-    console.log("State on DD Change", states[stateProperty]);
-    return states[stateProperty];
+      console.log("Student on DD Change", imgIndex, stateProperty, students[imgIndex][stateProperty]);
+      console.log("State on DD Change", states[stateProperty]);
+      return states[stateProperty];
   }
   const useStyles = makeStyles((theme) => ({
     formControl: {
