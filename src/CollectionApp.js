@@ -3,7 +3,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 
 import logo from "./TeledentalSolutionLogo13.png";
-
+import EvaluationApp from "./EvaluationApp";
 
 import Dropdown from "react-bootstrap/Dropdown";
 import InputGroup from "react-bootstrap/InputGroup";
@@ -168,7 +168,10 @@ const CollectionApp = () => {
         });
         await Storage.put(generateImageFileName("right"), file);
     }
-
+async function openreport()
+{
+   return <EvaluationApp/>
+}
     async function onChangetopimage(e) {
         if (!e.target.files[0]) return;
         const file = e.target.files[0];
@@ -289,7 +292,7 @@ const CollectionApp = () => {
     return (
         <div className="CollectionApp">
             <div className={classes.root}>
-                <AppBar position="static" color="#fff">
+                <AppBar position="fixed" color="#fff">
                     <Toolbar className={classes.flexToolbar}>
                         <img src={logo} alt="..." />
                         <h5 className="logo-header" color="#fff">School Dental Screening</h5>
@@ -575,6 +578,8 @@ const CollectionApp = () => {
                                             }
                                         }}
                                     >
+
+                                    Ok to Recieve {formData.okToReceiveMedicaidInfo}
                                         <Dropdown.Toggle id="dropdown-basic">
                                             {formData.haveDentalInsurance}
                                         </Dropdown.Toggle>
@@ -796,6 +801,7 @@ const CollectionApp = () => {
                         >
                             Submit Student
                         </button>
+                        <button type = "submit" label ="report" onclick={openreport}>REPORT</button> 
                     </h4>
                 </div>
             </form>
