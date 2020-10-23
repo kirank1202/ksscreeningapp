@@ -289,7 +289,7 @@ const CollectionApp = () => {
     return (
         <div className="CollectionApp">
             <div className={classes.root}>
-                <AppBar position="static" color="#fff">
+                <AppBar position="fixed" color="#fff">
                     <Toolbar className={classes.flexToolbar}>
                         <img src={logo} alt="..." />
                         <h5 className="logo-header" color="#fff">School Dental Screening</h5>

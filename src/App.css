@@ -65,14 +65,17 @@ body {
 }
 
 .mainContainer {
-  padding: 0px 0px;
-  width: 100%
+  padding: 0;
+  width: 100%;
+  padding-top: 70px;  
 }
 
-@media (max-width: 768px) {
-  .mainContainer {
-    padding: 50px;
-  }
+.mainContainer .form {
+  padding: 0;
+}
+
+.mainContainer .formContainer {
+  height: auto;
 }
 
 .line {
@@ -128,6 +131,7 @@ body {
   color: #000;
   width: 100%;
   text-align: left;
+  height: calc(1.5em + .75rem + 2px);
 }
 
 #dropdown-basic::after {
@@ -237,7 +241,7 @@ tr {
 .content-container {
   width: 100%;
   margin: 0 auto;
-  padding: 30px;
+  padding: 70px 30px 30px;
 }
 
 .details-details-container {
