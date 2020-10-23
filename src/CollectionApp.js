@@ -36,6 +36,7 @@ const initialFormState = {
     rightimage: "",
     location: "Home",
     haveDentalInsurance: "Yes",
+    okToReceiveMedicaidInfo: "No",
 };
 
 const resetStudentState = {
@@ -286,6 +287,7 @@ const CollectionApp = () => {
         alert(`Student ${formData.code} Uploaded Successfully`);
     }
 
+    
     return (
         <div className="CollectionApp">
             <div className={classes.root}>
@@ -553,7 +555,8 @@ const CollectionApp = () => {
                                                 haveDentalInsurance: e,
                                             });
                                             if (e === "No") {
-                                                handleOpen();
+                                                // handleOpen();
+                                                
                                             }
                                         }}
                                     >
@@ -577,8 +580,9 @@ const CollectionApp = () => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
+                            {(formData.haveDentalInsurance == "No") ? (
                                 <div className="mb-3">
-                                    <p> Would you like to receive additional information on Kansas Medicaid: 
+                                    <p> Would you like to receive information on Kansas Medicaid: {"  "}
                                     <input
                                         onClick={() => {
                                             setFormData({
@@ -591,8 +595,14 @@ const CollectionApp = () => {
                                         name="question"
                                         id=""
                                         style={{ marginRight: "5px" }}
+
+                                        disabled={
+                                            !(
+                                                formData.haveDentalInsurance == "No"
+                                            )
+                                        }
                                     />
-                                    Yes
+                                    Yes {"   "}
                                     <input
                                         onClick={() => {
                                             setFormData({
@@ -604,10 +614,17 @@ const CollectionApp = () => {
                                         type="radio"
                                         name="question"
                                         style={{ marginRight: "5px" }}
+                                        
+                                        disabled={
+                                            !(
+                                                formData.haveDentalInsurance == "No"
+                                            )
+                                        }    
                                     />
                                     No
                                     </p>
-                                </div>
+                                </div>  
+                            ): "" }
                                 <div>
                                     <p>Parent/Guardian Email* </p>
                                     <InputGroup className="mb-3">
@@ -626,9 +643,11 @@ const CollectionApp = () => {
                                         />
                                     </InputGroup>
                                 </div>
-                                <h8 align="left">
-                                    * By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material
-                                </h8>
+                                <div className="econsentmsg"> 
+                                    <h8 align="left">
+                                        * By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material
+                                    </h8>
+                                </div>
                             </div>
                             
                             <div className="rightArea"></div>
@@ -845,7 +864,7 @@ const CollectionApp = () => {
                 <div style={modalStyle} className={classes.paper}>
                     <p>
                         Would you like to receive additional information on
-                        Kansas Medicaid:
+                        Kansas Medicaid: {"  "}
                     </p>
                     <div>
                         <input
@@ -861,7 +880,7 @@ const CollectionApp = () => {
                             id=""
                             style={{ marginRight: "5px" }}
                         />
-                        Yes
+                        Yes  {"   "}
                     </div>
                     <div>
                         <input
