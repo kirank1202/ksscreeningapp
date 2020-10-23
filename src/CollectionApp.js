@@ -379,24 +379,6 @@ const CollectionApp = () => {
                                 </div>
 
                                 <div>
-                                    <p>Parent/Guardian Email (Required only if you consent to receive screening results via email)</p>
-                                    <InputGroup className="mb-3">
-                                        <FormCntrl
-                                            placeholder="Email"
-                                            aria-label="Username"
-                                            aria-describedby="basic-addon1"
-                                            type="email"
-                                            value={formData.name}
-                                            onChange={(e) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    name: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    </InputGroup>
-                                </div>
-                                <div>
                                     <p>Student ID</p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
@@ -595,6 +577,58 @@ const CollectionApp = () => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
+                                <div className="mb-3">
+                                    <p> Would you like to receive additional information on Kansas Medicaid: 
+                                    <input
+                                        onClick={() => {
+                                            setFormData({
+                                                ...formData,
+                                                okToReceiveMedicaidInfo: "Yes",
+                                            });
+                                          //  handleOpen();
+                                        }}
+                                        type="Radio"
+                                        name="question"
+                                        id=""
+                                        style={{ marginRight: "5px" }}
+                                    />
+                                    Yes
+                                    <input
+                                        onClick={() => {
+                                            setFormData({
+                                                ...formData,
+                                                okToReceiveMedicaidInfo: "No",
+                                            });
+                                           // handleOpen();
+                                        }}
+                                        type="radio"
+                                        name="question"
+                                        style={{ marginRight: "5px" }}
+                                    />
+                                    No
+                                    </p>
+                                </div>
+                                <div>
+                                    <p>Parent/Guardian Email* </p>
+                                    <InputGroup className="mb-3">
+                                        <FormCntrl
+                                            placeholder="Email"
+                                            aria-label="Username"
+                                            aria-describedby="basic-addon1"
+                                            type="email"
+                                            value={formData.name}
+                                            onChange={(e) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    name: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </InputGroup>
+                                </div>
+                                <h8 align="left">
+                                    * By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material
+                                </h8>
                             </div>
                             
                             <div className="rightArea"></div>
@@ -794,9 +828,12 @@ const CollectionApp = () => {
                                 )
                             }
                         >
-                            Submit Student
+                            Submit Student*
                         </button>
                     </h4>
+                    <h8 align="left">
+                        * By submiting, you authorize dental professionals to review the submitted data for screening purposes.
+                    </h8>
                 </div>
             </form>
             <Modal
