@@ -92,12 +92,20 @@ const EvaluationApp = ({ history }) => {
       if (imageData < students.length) {
         setImageData(imageData + 1);
       }
+      // to be submitted info.
+      const toSubmitStudentId = students[imageData].id;
+      const toSubmitStateUD = states.untreatedDecay.toString();
+      const toSubmitStateTD = states.treatedDecay.toString();
+      const toSubmitStateTRC = states.treatmentRecommendationCode.toString();
+      const toSubmitStateSP= states.sealantsPresent.toString();
+      // Next Student data setting.
       students[imageData].untreatedDecay = states.untreatedDecay;
       students[imageData].treatedDecay = states.treatedDecay;
       students[imageData].treatmentRecommendationCode = states.treatmentRecommendationCode;
       students[imageData].sealantsPresent = states.sealantsPresent;
       students[imageData].evalStatus = states.evalStatus;
       //console.log("1", imageData);
+      // Next state data setting.
       states.untreatedDecay = students[imageData+1].untreatedDecay;
       states.treatedDecay = students[imageData+1].treatedDecay ;
       states.treatmentRecommendationCode = students[imageData+1].treatmentRecommendationCode;
@@ -105,21 +113,21 @@ const EvaluationApp = ({ history }) => {
       states.evalStatus = students[imageData+1].evalStatus;
       setState(states);
       setStudents(students);
+
       //console.log("1", imageData);
       await API.graphql({
         query: updateStudentMutation,
         variables: {
           input: {
-            id: students[imageData].id,
-            untreatedDecay: states.untreatedDecay.toString(),
-            treatedDecay: states.treatedDecay.toString(),
-            treatmentRecommendationCode: states.treatmentRecommendationCode.toString(),
-            sealantsPresent: states.sealantsPresent.toString(),
+            id: toSubmitStudentId,
+            untreatedDecay: toSubmitStateUD,
+            treatedDecay: toSubmitStateTD,
+            treatmentRecommendationCode: toSubmitStateTRC,
+            sealantsPresent: toSubmitStateSP,
             evalStatus: "Completed",
           },
         },
       }); // setState(initialState);
-      // console.log("states after submit:", states);
       // //setImageData(imageData);
       // setDummyState("re-render-component");
       alert("Evaluation Recorded Successfully for student ", students[imageData].code.toString, states.code);
