@@ -578,8 +578,6 @@ async function openreport()
                                             }
                                         }}
                                     >
-
-                                    Ok to Recieve {formData.okToReceiveMedicaidInfo}
                                         <Dropdown.Toggle id="dropdown-basic">
                                             {formData.haveDentalInsurance}
                                         </Dropdown.Toggle>
@@ -801,7 +799,7 @@ async function openreport()
                         >
                             Submit Student
                         </button>
-                        <button type = "submit" label ="report" onclick={openreport}>REPORT</button> 
+                       
                     </h4>
                 </div>
             </form>
