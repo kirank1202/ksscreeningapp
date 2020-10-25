@@ -11,6 +11,8 @@ import FormCntrl from "react-bootstrap/FormControl";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete'
 
 import "./App.css";
 import { API, Storage, Auth } from "aws-amplify";
@@ -38,7 +40,23 @@ const initialFormState = {
     haveDentalInsurance: "Yes",
     okToReceiveMedicaidInfo: "No",
 };
+const gradelist = [
+    { title: 'EK'},
+    { title: 'KG'},
+    { title: '1'},
+    { title: '2'},
+    { title: '3'},
+    { title: '4'},
+    { title: '5'},
+    { title: '6'},
+    { title: '7'},
+    { title: '8'},
+    { title: '9'},
+    { title: '10'},
+    { title: '11'},
+    { title: '12'},
 
+  ];
 const resetStudentState = {
     code: "",
     gender: "Male",
@@ -416,6 +434,46 @@ async function openreport()
                                     </InputGroup>
                                 </div>
                                 <div className="mb-3">
+                                    <p>New Grade </p>
+                                    
+                                    {/* <Autocomplete
+                                       value={formData.grade}
+                                        onChange={(event, newValue) => {
+                                            setFormData({
+                                                ...formData,
+                                                grade: newValue,
+                                            });
+                                            console.log(newValue);
+                                        setValue(newValue);
+                                        }}
+                                        inputValue={formData.grade}
+                                        onInputChange={(event, newInputValue) => {
+                                            setFormData({
+                                                ...formData,
+                                                grade: newInputValue,
+                                            });
+                                        }}
+                                        id="controllable-states-demo"
+                                        options={gradelist}
+                                        style={{ width: 300 }}
+                                        renderInput={(params) => <TextField {...params} label="Controllable" variant="outlined" />}
+                                    /> */}
+                                    
+                                    <Autocomplete
+                                        id="combo-box-demo"
+                                        options={gradelist}
+                                        getOptionLabel={(option) => option.title}
+                                        style={{ width: 300 }}
+                                    //    value={formData.grade}
+                                    //    onInputChange={(e,v,r) => {
+                                    //         setFormData({
+                                    //             ...formData,
+                                    //             grade: v,
+                                    //         });}} 
+                                        renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                                    />
+                                </div>
+                                <div className="mb-3">
                                     <p>Grade</p>
                                     <Dropdown
                                         value={formData.grade}
@@ -563,8 +621,6 @@ async function openreport()
                                             }
                                         }}
                                     >
-
-                                    Ok to Recieve {formData.okToReceiveMedicaidInfo}
                                         <Dropdown.Toggle id="dropdown-basic">
                                             {formData.haveDentalInsurance}
                                         </Dropdown.Toggle>
@@ -854,7 +910,7 @@ async function openreport()
                         >
                             Submit Student*
                         </button>
-                        <button type = "submit" label ="report" onclick={openreport}>REPORT</button> 
+                       
                     </h4>
                     <h8 align="left">
                         * By submiting, you authorize dental professionals to review the submitted data for screening purposes.

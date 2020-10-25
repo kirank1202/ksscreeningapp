@@ -130,7 +130,7 @@ const EvaluationApp = ({ history }) => {
       }); // setState(initialState);
       // //setImageData(imageData);
       // setDummyState("re-render-component");
-      alert("Evaluation Recorded Successfully for student ", students[imageData].code.toString, states.code);
+      alert("Evaluation Recorded Successfully for student " + students[imageData].code);
     } catch (error) {
       console.error(error);
     }
