@@ -1,6 +1,13 @@
 .App {
   text-align: center;
 }
+.CollectionApp{
+  margin: 5;
+}
+.econsentmsg{
+  text-align: left;
+  color: #9A9A9A;
+}
 
 .App-logo {
   height: 50vmin;
@@ -104,6 +111,7 @@ body {
 .leftArea {
   width: 100%;
   padding: 0px 0px;
+  margin:10px;
 }
 
 .leftArea,
