@@ -563,8 +563,6 @@ async function openreport()
                                             }
                                         }}
                                     >
-
-                                    Ok to Recieve {formData.okToReceiveMedicaidInfo}
                                         <Dropdown.Toggle id="dropdown-basic">
                                             {formData.haveDentalInsurance}
                                         </Dropdown.Toggle>
@@ -854,7 +852,7 @@ async function openreport()
                         >
                             Submit Student*
                         </button>
-                        <button type = "submit" label ="report" onclick={openreport}>REPORT</button> 
+                       
                     </h4>
                     <h8 align="left">
                         * By submiting, you authorize dental professionals to review the submitted data for screening purposes.
