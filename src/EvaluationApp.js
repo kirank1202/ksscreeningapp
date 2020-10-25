@@ -17,14 +17,16 @@ import logo from "./TeledentalSolutionLogo13.png";
 const EvaluationApp = ({ history }) => {
   const [students, setStudents] = useState([]);
   const [imageData, setImageData] = useState();
+  const [dummyState, setDummyState] = useState();
   const initialState = {
     untreatedDecay: "No",
     treatedDecay: "No",
-    sealantsPresent: "No",
+    sealantsPresent: "Sealants Not Present",
     treatmentRecommendationCode: "No obvious problem",
   };
   const [states, setState] = React.useState(initialState); // const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
+  window.$stateChanged = false;
   const [imageLink, setImageLink] = React.useState("");
   const handleOpen = () => {
     setOpen(!open);
@@ -90,32 +92,54 @@ const EvaluationApp = ({ history }) => {
       if (imageData < students.length) {
         setImageData(imageData + 1);
       }
+      // to be submitted info.
+      const toSubmitStudentId = students[imageData].id;
+      const toSubmitStateUD = states.untreatedDecay.toString();
+      const toSubmitStateTD = states.treatedDecay.toString();
+      const toSubmitStateTRC = states.treatmentRecommendationCode.toString();
+      const toSubmitStateSP= states.sealantsPresent.toString();
+      // Next Student data setting.
+      students[imageData].untreatedDecay = states.untreatedDecay;
+      students[imageData].treatedDecay = states.treatedDecay;
+      students[imageData].treatmentRecommendationCode = states.treatmentRecommendationCode;
+      students[imageData].sealantsPresent = states.sealantsPresent;
+      students[imageData].evalStatus = states.evalStatus;
+      //console.log("1", imageData);
+      // Next state data setting.
+      states.untreatedDecay = students[imageData+1].untreatedDecay;
+      states.treatedDecay = students[imageData+1].treatedDecay ;
+      states.treatmentRecommendationCode = students[imageData+1].treatmentRecommendationCode;
+      states.sealantsPresent = students[imageData+1].sealantsPresent;
+      states.evalStatus = students[imageData+1].evalStatus;
+      setState(states);
+      setStudents(students);
+
+      //console.log("1", imageData);
       await API.graphql({
         query: updateStudentMutation,
         variables: {
           input: {
-            id: students[imageData].id,
-            untreatedDecay: states.untreatedDecay.toString(),
-            treatedDecay: states.treatedDecay.toString(),
-            treatmentRecommendationCode: states.treatmentRecommendationCode.toString(),
-            sealantsPresent: states.sealantsPresent.toString(),
+            id: toSubmitStudentId,
+            untreatedDecay: toSubmitStateUD,
+            treatedDecay: toSubmitStateTD,
+            treatmentRecommendationCode: toSubmitStateTRC,
+            sealantsPresent: toSubmitStateSP,
             evalStatus: "Completed",
           },
         },
       }); // setState(initialState);
-      students[imageData].untreatedDecay = states.untreatedDecay;
-      students[imageData].treatedDecay = states.treatedDecay;
-      students[imageData].treatmentRecommendationCode =
-        states.treatmentRecommendationCode;
-      students[imageData].sealantsPresent = states.sealantsPresent;
-      students[imageData].evalStatus = states.evalStatus;
-      setStudents(students);
-      console.log("students after submit:", students);
-      console.log("states after submit:", states);
-      alert("Evaluation Recorded Successfully for student ",students[imageData].code.toString, states.code);
+      // //setImageData(imageData);
+      // setDummyState("re-render-component");
+      alert("Evaluation Recorded Successfully for student ", students[imageData].code.toString, states.code);
     } catch (error) {
       console.error(error);
     }
+  }
+  
+  function selectDDValue(imgIndex, stateProperty) {
+      console.log("Student on DD Change", imgIndex, stateProperty, students[imgIndex][stateProperty]);
+      console.log("State on DD Change", states[stateProperty]);
+      return states[stateProperty];
   }
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -150,29 +174,54 @@ const EvaluationApp = ({ history }) => {
   }));
   const handleFormState = (key) => {
     console.log("students in handleformState:", students[key]);
+    // if (students[key] && students[key].untreatedDecay) {
+    //   setState({
+    //     ...states,
+    //     untreatedDecay: students[key].untreatedDecay,
+    //    });
+    //   // console.log("untreated decay", students[key].untreatedDecay); // useEffect(() => {console.log('1', states.untreatedDecay); }, [states]);
+    //   // console.log("1", states.untreatedDecay);
+    // } 
+    console.log("*******: ",students[key].untreatedDecay);
     if (students[key] && students[key].untreatedDecay) {
-      setState({ ...states, untreatedDecay: students[key].untreatedDecay });
-      console.log("untreated decay", students[key].untreatedDecay); // useEffect(() => {console.log('1', states.untreatedDecay); }, [states]);
-      console.log("1", states.untreatedDecay);
-    } 
+      states.untreatedDecay = students[key].untreatedDecay;
+      setState(states);
+      console.log("Immediate states 2:", states); 
+      // setState({
+      //   ...states,
+      //   untreatedDecay: students[key].untreatedDecay,
+      // });
+    }
     if (students[key] && students[key].treatedDecay) {
-      setState({ ...states, treatedDecay: students[key].treatedDecay });
+      states.treatedDecay = students[key].treatedDecay;
+      setState(states);
+      //setState({ ...states, treatedDecay: students[key].treatedDecay });
     }
     if (students[key] && students[key].sealantsPresent) {
-      setState({ ...states, sealantsPresent: students[key].sealantsPresent });
+      states.sealantsPresent = students[key].sealantsPresent;
+      setState(states);
+      // setState({
+      //   ...states,
+      //   sealantsPresent: students[key].sealantsPresent,
+      // });
+      //console.log("Students sealantsPresent inside form state", students[key].sealantsPresent); // useEffect(() => {console.log('1', states.untreatedDecay); }, [states]);
+     // console.log("States sealantsPresent inside form state", states.sealantsPresent);
     }
     if (students[key] && students[key].treatmentRecommendationCode) {
-      setState({
-        ...states,
-        treatmentRecommendationCode: students[key].treatmentRecommendationCode,
-      });
+      states.treatmentRecommendationCode = students[key].treatmentRecommendationCode;
+      setState(states);
+      // setState({
+      //   ...states,
+      //   treatmentRecommendationCode: students[key].treatmentRecommendationCode,
+      // });
     }
-    console.log("states end of handleformState:", states);
+    console.log("states end of handleformState:", states, key); 
   };
   const handleImageLink = (link) => {
     setImageLink(link);
     setOpen(!open); // console.log(imageLink)
   };
+
 
   const classes = useStyles();
   return (
@@ -192,7 +241,7 @@ const EvaluationApp = ({ history }) => {
       {students.length > 1 && (
         <>
           <div className={classes.root}>
-            <AppBar position="static" color="#fff">
+            <AppBar position="fixed" color="#fff">
               <Toolbar className={classes.flexToolbar}>
                 <img src={logo} alt="..." />
                 <h5 className="logo-header" color="#fff">School Dental Screening - Evaluation</h5>
@@ -373,16 +422,18 @@ const EvaluationApp = ({ history }) => {
                                     ...states,
                                     untreatedDecay: event.target.value,
                                     });
-                                    console.log("selected event", event.target.value);
-                                    students[imageData].untreatedDecay = event.target.value;
-                                    setStudents(students);
-                                    console.log("selected state", states.untreatedDecay);
-                                    console.log(
-                                    "selected student",
-                                    students[imageData].untreatedDecay
-                                    );
+                                    // console.log("selected event", event.target.value);
+                                    // students[imageData].untreatedDecay = event.target.value;
+                                    // setStudents(students);
+                                    // console.log("Immediate selected state", states.untreatedDecay);
+                                    // console.log(
+                                    // "selected student",
+                                    // students[imageData].untreatedDecay
+                                    // );
                                 }}
-                                value={students[imageData].untreatedDecay}
+                                //value={students[imageData].untreatedDecay}
+                                value={selectDDValue(imageData, "untreatedDecay")}
+                                
                                 >
                                 <option
                                     value="Yes"
@@ -412,16 +463,16 @@ const EvaluationApp = ({ history }) => {
                                     ...states,
                                     treatedDecay: event.target.value,
                                     });
-                                    console.log("selected event", event.target.value);
-                                    students[imageData].treatedDecay = event.target.value;
-                                    setStudents(students);
-                                    console.log("selected state", states.treatedDecay);
-                                    console.log(
-                                    "selected student",
-                                    students[imageData].treatedDecay
-                                    );
+                                    // console.log("selected event", event.target.value);
+                                    // students[imageData].treatedDecay = event.target.value;
+                                    // setStudents(students);
+                                    // console.log("selected state", states.treatedDecay);
+                                    // console.log(
+                                    // "selected student",
+                                    // students[imageData].treatedDecay
+                                    // );
                                 }}
-                                value={students[imageData].treatedDecay}
+                                value={selectDDValue(imageData, "treatedDecay")}
                                 >
                                 <option
                                     value="Yes"
@@ -442,7 +493,7 @@ const EvaluationApp = ({ history }) => {
                         <td>
                             <div className="inputs-container">
                             <label>3. Sealants Present:</label>
-                         
+                        
                             <select
                                 name="sealants-present" // onChange={handleDropdownChange()}
                                 onChange={(event) => {
@@ -451,16 +502,17 @@ const EvaluationApp = ({ history }) => {
                                     ...states,
                                     sealantsPresent: event.target.value,
                                     });
-                                    console.log("selected event", event.target.value);
-                                    students[imageData].sealantsPresent = event.target.value;
-                                    setStudents(students);
-                                    console.log("selected state", states.sealantsPresent);
-                                    console.log(
-                                    "selected student",
-                                    students[imageData].sealantsPresent
-                                    );
+                                   // console.log("selected event", event.target.value);
+                                    //students[imageData].sealantsPresent = event.target.value;
+                                    //setStudents(students);
+                                    // console.log("selected state", states.sealantsPresent);
+                                    // console.log(
+                                    // "selected student",
+                                    // students[imageData].sealantsPresent
+                                    // );
                                 }}
-                                value={students[imageData].sealantsPresent}
+                                //value={students[imageData].sealantsPresent}
+                                value={selectDDValue(imageData, "sealantsPresent")}
                                 >
                                 <option
                                     value="Yes"
@@ -477,11 +529,9 @@ const EvaluationApp = ({ history }) => {
                             </div>
 
                         </td>
-
                         <td>
                             <div>
                             <label>4. Treatment Recomendation codes:</label>
-                         
                             <select
                                 name="treatment-recommendation-code" // onChange={handleDropdownChange()}
                                 onChange={(event) => {
@@ -490,16 +540,15 @@ const EvaluationApp = ({ history }) => {
                                     ...states,
                                     treatmentRecommendationCode: event.target.value,
                                     });
-                                    console.log("selected event", event.target.value);
-                                    students[imageData].treatmentRecommendationCode = event.target.value;
-                                    setStudents(students);
-                                    console.log("selected state", states.treatmentRecommendationCode);
-                                    console.log(
-                                    "selected student",
-                                    students[imageData].treatmentRecommendationCode
-                                    );
+                                    //window.$stateChanged = true;
+                                    //console.log("selected event", event.target.value);
+                                    //students[imageData].treatmentRecommendationCode = event.target.value;
+                                    //setStudents(students);
+                                   // console.log("selected state", states.treatmentRecommendationCode);
+                                    //console.log("selected student",students[imageData].treatmentRecommendationCode);
                                 }}
-                                value={students[imageData].treatmentRecommendationCode}
+                                value={selectDDValue(imageData, "treatmentRecommendationCode")}
+                                //value={students[imageData].treatmentRecommendationCode}
                                 >
                                 <option
                                     value="No obvious problem"
