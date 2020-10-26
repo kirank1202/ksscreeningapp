@@ -154,6 +154,17 @@ body {
   padding: 10px 0;
   display: flex;
   justify-content: space-around;
+  flex-direction: column;
+}
+
+.uploadPictures .up-title {
+  padding: 0 0 15px;
+}
+.uploadPictures .up-image {
+  
+}
+.uploadPictures .up-info {
+  
 }
 
 .input-file::-webkit-file-upload-button {
@@ -191,6 +202,7 @@ body {
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
+  width: 227px;
 }
 
 imageUploadTable {
@@ -307,9 +319,10 @@ tr {
 }
 
 .image-placeholder {
-  width: auto;
-  height: 103px;
+  width: 227px;
+  height: auto;
   position: relative;
+  padding: 0 0 15px;
 }
 
 .image-info-container {
