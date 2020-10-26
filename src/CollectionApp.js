@@ -54,8 +54,7 @@ const gradelist = [
     { title: '9'},
     { title: '10'},
     { title: '11'},
-    { title: '12'},
-
+    { title: '12'}
   ];
 const resetStudentState = {
     code: "",
@@ -435,41 +434,17 @@ async function openreport()
                                 </div>
                                 <div className="mb-3">
                                     <p>New Grade </p>
-                                    
-                                    {/* <Autocomplete
-                                       value={formData.grade}
-                                        onChange={(event, newValue) => {
-                                            setFormData({
-                                                ...formData,
-                                                grade: newValue,
-                                            });
-                                            console.log(newValue);
-                                        setValue(newValue);
-                                        }}
-                                        inputValue={formData.grade}
-                                        onInputChange={(event, newInputValue) => {
-                                            setFormData({
-                                                ...formData,
-                                                grade: newInputValue,
-                                            });
-                                        }}
-                                        id="controllable-states-demo"
-                                        options={gradelist}
-                                        style={{ width: 300 }}
-                                        renderInput={(params) => <TextField {...params} label="Controllable" variant="outlined" />}
-                                    /> */}
-                                    
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={gradelist}
                                         getOptionLabel={(option) => option.title}
                                         style={{ width: 300 }}
-                                    //    value={formData.grade}
-                                    //    onInputChange={(e,v,r) => {
-                                    //         setFormData({
-                                    //             ...formData,
-                                    //             grade: v,
-                                    //         });}} 
+                                        onChange={(event, newValue) => {
+                                            setFormData({
+                                                ...formData,
+                                                grade: newValue.title,
+                                            });
+                                        }}
                                         renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
                                     />
                                 </div>
@@ -579,11 +554,13 @@ async function openreport()
                                     <p>Gender</p>
                                     <Dropdown
                                         value={formData.gender}
-                                        onSelect={(e) =>
-                                            setFormData({
-                                                ...formData,
-                                                gender: e,
-                                            })
+                                        onSelect={(e) => {
+                                                setFormData({
+                                                    ...formData,
+                                                    gender: e,
+                                                })
+                                                console.log("FormData: ",formData);
+                                            }
                                         }
                                     >
                                         <Dropdown.Toggle id="dropdown-basic">
