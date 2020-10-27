@@ -18,7 +18,7 @@ import "./App.css";
 import { API, Storage, Auth } from "aws-amplify";
 
 import { createStudent as createStudentMutation } from "./graphql/mutations";
-import { Button } from "@material-ui/core";
+import { listSchools } from "./graphql/queries";
 
 const DemoBottomImg = "https://screeningdemoimages.s3.amazonaws.com/mandibular.PNG";
 const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/maxillary.PNG";
@@ -39,7 +39,27 @@ const initialFormState = {
     location: "Home",
     haveDentalInsurance: "Yes",
     okToReceiveMedicaidInfo: "No",
+    evalStatus: "New",
 };
+const schoolList = [
+    {title: 'Olathe - North'},
+    {title: 'Olathe - East' },
+    {title: 'Olathe - West'},
+    {title: 'Olathe - South' },
+    {title: 'Blue Valley - North'},
+    {title: 'Blue Valley - East' },
+    {title: 'Blue Valley - West'},
+    {title: 'Blue Valley - South' },    
+    {title: 'Blue Valley - Northwest'},
+    {title: 'Blue Valley - Southwest' },
+]; 
+
+const locationList = [
+    {title: 'Home'},
+    {title: 'School' },
+    {title: 'Other'},
+];
+
 const gradelist = [
     { title: 'EK'},
     { title: 'KG'},
@@ -56,12 +76,29 @@ const gradelist = [
     { title: '11'},
     { title: '12'}
   ];
+
 const resetStudentState = {
     code: "",
     gender: "Male",
     leftimageselection: "",
     rightimageselection: "",
 };
+
+async function fetchAllSchools() {
+    const apiData = await API.graphql({ query: listSchools });
+    const schoolsFromAPI = apiData.data.listSchools.items;
+    schoolList = schoolsFromAPI; 
+    
+    //school end
+  
+    //   let sortedArr = apiData.data.listSchools.items.sort(
+    //     (a, b) =>
+    //       new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+    //   ); // setStudents(apiData.data.listStudents.items);
+    //   setSchools(sortedArr);
+    }
+
+// fetchAllSchools(); 
 
 function getModalStyle() {
     const top = 50;
@@ -162,6 +199,7 @@ const CollectionApp = () => {
         });
         await Storage.put(generateImageFileName("left"), file);
     }
+
     async function onChangerightimage(e) {
         if (!e.target.files[0]) return;
         var reader = new FileReader();
@@ -186,10 +224,7 @@ const CollectionApp = () => {
         });
         await Storage.put(generateImageFileName("right"), file);
     }
-async function openreport()
-{
-   return <EvaluationApp/>
-}
+
     async function onChangetopimage(e) {
         if (!e.target.files[0]) return;
         const file = e.target.files[0];
@@ -328,35 +363,21 @@ async function openreport()
                             <div className="leftArea">
                                 <div className="mb-3">
                                     <p>Screening Location</p>
-                                    <Dropdown
-                                        aria-label="location"
-                                        name="location"
-                                        value={formData.location}
-                                        onSelect={(e) => {
+                                    <Autocomplete
+                                        id="combo-box-demo"
+                                        options={locationList}
+                                        getOptionLabel={(option) => option.title}
+                                        //style={{ height: 5 }}
+                                        onChange={(event, newValue) => {
                                             setFormData({
                                                 ...formData,
-                                                location: e,
+                                                location: newValue.title,
                                             });
                                         }}
-                                    >
-                                        <Dropdown.Toggle id="dropdown-basic">
-                                            {formData.location}
-                                        </Dropdown.Toggle>
-
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item eventKey="Home">
-                                                Home
-                                            </Dropdown.Item>
-                                            <Dropdown.Item eventKey="School">
-                                                School
-                                            </Dropdown.Item>
-                                            <Dropdown.Item eventKey="other">
-                                                Other
-                                            </Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                                        renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                                    />
                                 </div>
-
+                                
                                 <div>
                                     <p>School District</p>
                                     <InputGroup className="mb-3">
@@ -374,32 +395,23 @@ async function openreport()
                                     </InputGroup>
                                 </div>
                             
+                                
                                 <div className="mb-3">
-                                    <p>School Name</p>
-                                    <Dropdown
-                                        value={formData.school}
-                                        onSelect={(e) =>
+                                    <p>School  Name</p>
+                                    <Autocomplete
+                                        id="combo-box-demo"
+                                        options={schoolList}
+                                        getOptionLabel={(option) => option.title}
+                                        //style={{ height: 5 }}
+                                        onChange={(event, newValue) => {
                                             setFormData({
                                                 ...formData,
-                                                school: e,
-                                            })
-                                        }
-                                    >
-                                        <Dropdown.Toggle id="dropdown-basic">
-                                            {formData.school}
-                                        </Dropdown.Toggle>
-
-                                        <Dropdown.Menu>
-                <Dropdown.Item eventKey="BlueValley-High" href="#/action-1">Blue Valley High </Dropdown.Item>
-                <Dropdown.Item eventKey="BlueValley-North" href="#/action-2">Blue Valley North </Dropdown.Item>
-                <Dropdown.Item eventKey="BlueValley-West" href="#/action-1">Blue Valley West </Dropdown.Item>
-                <Dropdown.Item eventKey="BlueValley-NorthWest" href="#/action-2">Blue Valley NorthWest </Dropdown.Item>
-                <Dropdown.Item eventKey="BlueValley-South" href="#/action-1">Blue Valley South </Dropdown.Item>
-                <Dropdown.Item eventKey="BlueValley-SouthWest" href="#/action-2">Blue Valley Southwest </Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                                                school: newValue.title,
+                                            });
+                                        }}
+                                        renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                                    />
                                 </div>
-
                                 <div>
                                     <p>Student ID</p>
                                     <InputGroup className="mb-3">
@@ -426,19 +438,19 @@ async function openreport()
                                             onChange={(e) =>
                                                 setFormData({
                                                     ...formData,
-                                                    code: e.target.value,
+                                                    firstname3letters: e.target.value,
                                                 })
                                             }
                                         />
                                     </InputGroup>
                                 </div>
                                 <div className="mb-3">
-                                    <p>New Grade </p>
+                                    <p>Grade </p>
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={gradelist}
                                         getOptionLabel={(option) => option.title}
-                                        style={{ width: 300 }}
+                                        //style={{ height: 5 }}
                                         onChange={(event, newValue) => {
                                             setFormData({
                                                 ...formData,
@@ -447,109 +459,6 @@ async function openreport()
                                         }}
                                         renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
                                     />
-                                </div>
-                                <div className="mb-3">
-                                    <p>Grade</p>
-                                    <Dropdown
-                                        value={formData.grade}
-                                        onSelect={(e) => {
-                                            setFormData({
-                                                ...formData,
-                                                grade: e,
-                                            });
-                                        }}
-                                    >
-                                        <Dropdown.Toggle id="dropdown-basic">
-                                            {formData.grade}
-                                        </Dropdown.Toggle>
-
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item
-                                                eventKey={"EK"}
-                                                href="#/action-1"
-                                            >
-                                                EK
-                                            </Dropdown.Item>                                            
-                                            <Dropdown.Item
-                                                eventKey={"KG"}
-                                                href="#/action-1"
-                                            >
-                                                KG
-                                            </Dropdown.Item>                                            
-                                            <Dropdown.Item
-                                                eventKey={1}
-                                                href="#/action-1"
-                                            >
-                                                1
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={2}
-                                                href="#/action-1"
-                                            >
-                                                2
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={3}
-                                                href="#/action-1"
-                                            >
-                                                3
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={4}
-                                                href="#/action-1"
-                                            >
-                                                4
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={5}
-                                                href="#/action-1"
-                                            >
-                                                5
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={6}
-                                                href="#/action-1"
-                                            >
-                                                6
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={7}
-                                                href="#/action-1"
-                                            >
-                                                7
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={8}
-                                                href="#/action-1"
-                                            >
-                                                8
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={9}
-                                                href="#/action-1"
-                                            >
-                                                9
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={10}
-                                                href="#/action-2"
-                                            >
-                                                10
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={11}
-                                                href="#/action-3"
-                                            >
-                                                11
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={12}
-                                                href="#/action-1"
-                                            >
-                                                12
-                                            </Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
                                 </div>
                                 <div className="mb-3">
                                     <p>Gender</p>
@@ -951,12 +860,13 @@ async function openreport()
                         </a>
                     )}
                     <br />
-                    <Button
+                    
+                    {/* <Button
                         onClick={handleThankModelClose}
                         style={{ display: "block", margin: "10px auto" }}
                     >
                         OK
-                    </Button>
+                    </Button> */}
                 </div>
             </Modal>
         </div>

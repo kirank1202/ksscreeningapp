@@ -25,3 +25,8 @@ type Student @model {
   evalStatus: String
   virtualScreeningExperience: String
 }
+
+type School @model {
+  id: ID!
+  name: String
+}
