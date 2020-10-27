@@ -197,12 +197,13 @@ body {
 }
 
 .image-input-label {
+  display: inline-flex !important;
   border: 1px solid #48a5ea;
   padding: 40px 60px;
   font-size: 20px;
   font-weight: 500;
   cursor: pointer;
-  width: 227px;
+  width: 227px !important;
 }
 
 imageUploadTable {
