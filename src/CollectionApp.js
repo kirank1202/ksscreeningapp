@@ -433,12 +433,11 @@ async function openreport()
                                     </InputGroup>
                                 </div>
                                 <div className="mb-3">
-                                    <p>New Grade </p>
+                                    <p>Grade </p>
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={gradelist}
                                         getOptionLabel={(option) => option.title}
-                                        style={{ width: 300 }}
                                         onChange={(event, newValue) => {
                                             setFormData({
                                                 ...formData,
@@ -447,109 +446,6 @@ async function openreport()
                                         }}
                                         renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
                                     />
-                                </div>
-                                <div className="mb-3">
-                                    <p>Grade</p>
-                                    <Dropdown
-                                        value={formData.grade}
-                                        onSelect={(e) => {
-                                            setFormData({
-                                                ...formData,
-                                                grade: e,
-                                            });
-                                        }}
-                                    >
-                                        <Dropdown.Toggle id="dropdown-basic">
-                                            {formData.grade}
-                                        </Dropdown.Toggle>
-
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item
-                                                eventKey={"EK"}
-                                                href="#/action-1"
-                                            >
-                                                EK
-                                            </Dropdown.Item>                                            
-                                            <Dropdown.Item
-                                                eventKey={"KG"}
-                                                href="#/action-1"
-                                            >
-                                                KG
-                                            </Dropdown.Item>                                            
-                                            <Dropdown.Item
-                                                eventKey={1}
-                                                href="#/action-1"
-                                            >
-                                                1
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={2}
-                                                href="#/action-1"
-                                            >
-                                                2
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={3}
-                                                href="#/action-1"
-                                            >
-                                                3
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={4}
-                                                href="#/action-1"
-                                            >
-                                                4
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={5}
-                                                href="#/action-1"
-                                            >
-                                                5
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={6}
-                                                href="#/action-1"
-                                            >
-                                                6
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={7}
-                                                href="#/action-1"
-                                            >
-                                                7
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={8}
-                                                href="#/action-1"
-                                            >
-                                                8
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={9}
-                                                href="#/action-1"
-                                            >
-                                                9
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={10}
-                                                href="#/action-2"
-                                            >
-                                                10
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={11}
-                                                href="#/action-3"
-                                            >
-                                                11
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey={12}
-                                                href="#/action-1"
-                                            >
-                                                12
-                                            </Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
                                 </div>
                                 <div className="mb-3">
                                     <p>Gender</p>
