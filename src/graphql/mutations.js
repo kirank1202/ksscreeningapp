@@ -109,3 +109,42 @@ export const deleteStudent = /* GraphQL */ `
     }
   }
 `;
+export const createSchool = /* GraphQL */ `
+  mutation CreateSchool(
+    $input: CreateSchoolInput!
+    $condition: ModelSchoolConditionInput
+  ) {
+    createSchool(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateSchool = /* GraphQL */ `
+  mutation UpdateSchool(
+    $input: UpdateSchoolInput!
+    $condition: ModelSchoolConditionInput
+  ) {
+    updateSchool(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteSchool = /* GraphQL */ `
+  mutation DeleteSchool(
+    $input: DeleteSchoolInput!
+    $condition: ModelSchoolConditionInput
+  ) {
+    deleteSchool(input: $input, condition: $condition) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;

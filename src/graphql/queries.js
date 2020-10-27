@@ -74,3 +74,30 @@ export const listStudents = /* GraphQL */ `
     }
   }
 `;
+export const getSchool = /* GraphQL */ `
+  query GetSchool($id: ID!) {
+    getSchool(id: $id) {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listSchools = /* GraphQL */ `
+  query ListSchools(
+    $filter: ModelSchoolFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listSchools(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        name
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;

@@ -9,6 +9,11 @@
   color: #9A9A9A;
 }
 
+.combobox{
+  height: 2px;
+  padding: rem 1rem 1. rem0;
+}
+
 .App-logo {
   height: 50vmin;
   pointer-events: none;

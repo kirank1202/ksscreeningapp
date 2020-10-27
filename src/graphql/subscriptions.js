@@ -100,3 +100,33 @@ export const onDeleteStudent = /* GraphQL */ `
     }
   }
 `;
+export const onCreateSchool = /* GraphQL */ `
+  subscription OnCreateSchool {
+    onCreateSchool {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateSchool = /* GraphQL */ `
+  subscription OnUpdateSchool {
+    onUpdateSchool {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteSchool = /* GraphQL */ `
+  subscription OnDeleteSchool {
+    onDeleteSchool {
+      id
+      name
+      createdAt
+      updatedAt
+    }
+  }
+`;
