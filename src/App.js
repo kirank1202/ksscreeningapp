@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import {BrowserRouter as Router, Route, Switch, Redirect} from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 import { Auth } from "aws-amplify";
@@ -9,6 +10,7 @@ import {
 } from "@aws-amplify/ui-react";
 import EvaluationApp from "./EvaluationApp";
 import CollectionApp from "./CollectionApp";
+import ReportsApp from './ReportsApp';
 
 /*
 import { DataGrid } from '@material-ui/data-grid';
@@ -90,11 +92,22 @@ function App() {
 
   return (
     <div className="App">
-      {fetchCurrentUserGroup}
-      {userType === "DataCollection" ? <CollectionApp /> : <EvaluationApp />}
-      <AmplifySignOut />
+      <Router>
+          <Route path="/collection" component={CollectionApp} />
+          <Route path="/evaluation" component={EvaluationApp} />
+          <Route path="/reports" component={ReportsApp} />
+          {fetchCurrentUserGroup}
+          {
+            userType === "DataCollection" ? (
+              <Redirect to="/collection" />
+            ) : (
+              <Redirect to="/evaluation" />
+            )
+          }
+          <AmplifySignOut />
+      </Router>
     </div>
   );
 }
-
 export default withAuthenticator(App);
+//export default App;
