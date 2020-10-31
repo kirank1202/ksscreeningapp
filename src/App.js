@@ -100,8 +100,10 @@ function App() {
           {
             userType === "DataCollection" ? (
               <Redirect to="/collection" />
-            ) : (
-              <Redirect to="/evaluation" />
+            ) : ( 
+              userType === "DataEvaluator" ? (
+                <Redirect to="/evaluation" />
+              ): ( <Redirect to="/reports" /> )
             )
           }
           <AmplifySignOut />

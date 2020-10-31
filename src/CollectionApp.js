@@ -803,14 +803,14 @@ const CollectionApp = () => {
                         * By submiting, you authorize dental professionals to review the submitted data for screening purposes.
                     </h8>
                     <br/>
-                    <button
+                    {/* <button
                         className="SubmitButton"
                         onClick={() => {
                           history.push('/reports');
                         }}
                     > 
                         Go To Reports
-                    </button>
+                    </button> */}
                 </div>
             </form>
             <Modal
