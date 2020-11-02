@@ -351,7 +351,7 @@ tr {
   padding-right: 10px;
 }
 
-.SubmitButton:disabled{
+.SubmitButton:disabled {
   cursor: not-allowed;
 }
 
@@ -359,30 +359,32 @@ tr {
   margin: 5px;
 }
 
+/* Hamburger menu styles */
 #menuToggle
 {
   display: block;
   position: relative;
-  top: 50px;
-  left: 50px;
-  
   z-index: 1;
-  
   -webkit-user-select: none;
   user-select: none;
+  background: #2a8bf2;
+  height: 40px;
+  width: 44px;
+  padding: 8px 0 0 5px;
+  left: 10px;
 }
 
 #menuToggle a
 {
   text-decoration: none;
   color: #232323;
-  
+  cursor: pointer;
   transition: color 0.3s ease;
 }
 
 #menuToggle a:hover
 {
-  color: tomato;
+  color: #2a8bf2;
 }
 
 
@@ -414,7 +416,7 @@ tr {
   margin-bottom: 5px;
   position: relative;
   
-  background: #cdcdcd;
+  background: #fff;
   border-radius: 3px;
   
   z-index: 1;
@@ -443,8 +445,9 @@ tr {
 #menuToggle input:checked ~ span
 {
   opacity: 1;
-  transform: rotate(45deg) translate(-2px, -1px);
-  background: #232323;
+  /* transform: rotate(45deg) translate(-2px, -1px); */
+  transform: rotate(45deg) translate(6px, -4px);
+  background: #fff;
 }
 
 /*
@@ -461,7 +464,7 @@ tr {
  */
 #menuToggle input:checked ~ span:nth-last-child(2)
 {
-  transform: rotate(-45deg) translate(0, -1px);
+  transform: rotate(-45deg) translate(3px, 7px);
 }
 
 /*
@@ -471,26 +474,26 @@ tr {
 #menu
 {
   position: absolute;
-  width: 300px;
-  margin: -100px 0 0 -50px;
-  padding: 50px;
-  padding-top: 125px;
-  
+  width: 220px;
+  margin: 5px 0 0 19px;
+  padding: 0 20px;
   background: #ededed;
   list-style-type: none;
   -webkit-font-smoothing: antialiased;
-  /* to stop flickering of text in safari */
-  
   transform-origin: 0% 0%;
-  transform: translate(-100%, 0);
-  
+  transform: translate(100%, 0);
   transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+  background: #FFF;
+  box-shadow: 1px 2px 4px #000;
+  visibility: none;
+  display: inline-block;
 }
 
 #menu li
 {
   padding: 10px 0;
   font-size: 22px;
+  border-bottom: solid 1px #2a8bf2;
 }
 
 /*
@@ -498,5 +501,5 @@ tr {
  */
 #menuToggle input:checked ~ ul
 {
-  transform: none;
+  transform: translate(-100%, 0);
 }
