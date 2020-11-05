@@ -79,6 +79,7 @@ export const getSchool = /* GraphQL */ `
     getSchool(id: $id) {
       id
       name
+      district
       createdAt
       updatedAt
     }
@@ -94,6 +95,7 @@ export const listSchools = /* GraphQL */ `
       items {
         id
         name
+        district
         createdAt
         updatedAt
       }
