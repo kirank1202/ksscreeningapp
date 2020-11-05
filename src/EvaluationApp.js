@@ -99,6 +99,8 @@ const EvaluationApp = () => {
       if (imageData < students.length) {
         setImageData(imageData + 1);
       }
+      
+      states.evalStatus = "Completed";
       // to be submitted info.
       const toSubmitStudentId = students[imageData].id;
       const toSubmitStateUD = states.untreatedDecay.toString();
@@ -137,6 +139,7 @@ const EvaluationApp = () => {
       }); // setState(initialState);
       // //setImageData(imageData);
       // setDummyState("re-render-component");
+
       alert("Evaluation Recorded Successfully for student " + students[imageData].code);
     } catch (error) {
       console.error(error);
