@@ -255,10 +255,10 @@ const EvaluationApp = () => {
               <Toolbar className={classes.flexToolbar}>
                 <img src={logo} alt="..." />
                 <h5 className="logo-header" color="#fff">School Dental Screening - Evaluation</h5>
-
+          {/*}
                 <nav role="navigation">
                   <div id="menuToggle">
-                    <input type="checkbox" />
+                    <input type="menu" />
                     <span></span>
                     <span></span>
                     <span></span>
@@ -271,6 +271,7 @@ const EvaluationApp = () => {
                     </ul>
                   </div>
                 </nav>
+      */}
 
               </Toolbar>
             </AppBar>
