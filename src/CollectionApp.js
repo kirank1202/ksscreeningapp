@@ -19,6 +19,7 @@ import { API, Storage, Auth } from "aws-amplify";
 
 import { createStudent as createStudentMutation } from "./graphql/mutations";
 import { listSchools } from "./graphql/queries";
+import { useHistory } from "react-router-dom";
 
 const DemoBottomImg = "https://screeningdemoimages.s3.amazonaws.com/mandibular.PNG";
 const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/maxillary.PNG";
@@ -117,6 +118,7 @@ const CollectionApp = () => {
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
     const [thankYouModel, setThankYouModel] = React.useState(false);
+    let history = useHistory();
 
     const handleOpen = () => {
         setOpen(!open);
@@ -800,6 +802,15 @@ const CollectionApp = () => {
                     <h8 align="left">
                         * By submiting, you authorize dental professionals to review the submitted data for screening purposes.
                     </h8>
+                    <br/>
+                    {/* <button
+                        className="SubmitButton"
+                        onClick={() => {
+                          history.push('/reports');
+                        }}
+                    > 
+                        Go To Reports
+                    </button> */}
                 </div>
             </form>
             <Modal
@@ -869,7 +880,9 @@ const CollectionApp = () => {
                     </Button> */}
                 </div>
             </Modal>
+            
         </div>
+
     );
 };
 export default CollectionApp;

@@ -117,6 +117,7 @@ export const createSchool = /* GraphQL */ `
     createSchool(input: $input, condition: $condition) {
       id
       name
+      district
       createdAt
       updatedAt
     }
@@ -130,6 +131,7 @@ export const updateSchool = /* GraphQL */ `
     updateSchool(input: $input, condition: $condition) {
       id
       name
+      district
       createdAt
       updatedAt
     }
@@ -143,6 +145,7 @@ export const deleteSchool = /* GraphQL */ `
     deleteSchool(input: $input, condition: $condition) {
       id
       name
+      district
       createdAt
       updatedAt
     }

@@ -105,6 +105,7 @@ export const onCreateSchool = /* GraphQL */ `
     onCreateSchool {
       id
       name
+      district
       createdAt
       updatedAt
     }
@@ -115,6 +116,7 @@ export const onUpdateSchool = /* GraphQL */ `
     onUpdateSchool {
       id
       name
+      district
       createdAt
       updatedAt
     }
@@ -125,6 +127,7 @@ export const onDeleteSchool = /* GraphQL */ `
     onDeleteSchool {
       id
       name
+      district
       createdAt
       updatedAt
     }

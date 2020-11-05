@@ -14,7 +14,11 @@ import Modal from "@material-ui/core/Modal";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import logo from "./TeledentalSolutionLogo13.png";
-const EvaluationApp = ({ history }) => {
+
+import { useHistory } from "react-router-dom";
+
+
+const EvaluationApp = () => {
   const [students, setStudents] = useState([]);
   const [imageData, setImageData] = useState();
   const [dummyState, setDummyState] = useState();
@@ -28,13 +32,16 @@ const EvaluationApp = ({ history }) => {
   const [open, setOpen] = React.useState(false);
   window.$stateChanged = false;
   const [imageLink, setImageLink] = React.useState("");
+  let history = useHistory();
+
   const handleOpen = () => {
-    setOpen(!open);
-  };
-  console.log("ABC", states); // function getModalStyle() { // const top = 15; // const left = 15; // return { // top: `${top}%`, // left: `${left}%`, // transform: `translate(-${top}%, -${left}%)`, // }; // }
-  useEffect(() => {
-    fetchAllStudents();
-  }, []); /* retrieve all students from DynamoDB using graphql API interace */
+            setOpen(!open);
+          };
+          console.log("ABC", states); // function getModalStyle() { // const top = 15; // const left = 15; // return { // top: `${top}%`, // left: `${left}%`, // transform: `translate(-${top}%, -${left}%)`, // }; // }
+          useEffect(() => {
+            fetchAllStudents();
+          }, []); /* retrieve all students from DynamoDB using graphql API interace */
+
   async function fetchAllStudents() {
     const apiData = await API.graphql({ query: listStudents });
     const studentsFromAPI = apiData.data.listStudents.items;
@@ -92,6 +99,8 @@ const EvaluationApp = ({ history }) => {
       if (imageData < students.length) {
         setImageData(imageData + 1);
       }
+      
+      states.evalStatus = "Completed";
       // to be submitted info.
       const toSubmitStudentId = students[imageData].id;
       const toSubmitStateUD = states.untreatedDecay.toString();
@@ -130,6 +139,7 @@ const EvaluationApp = ({ history }) => {
       }); // setState(initialState);
       // //setImageData(imageData);
       // setDummyState("re-render-component");
+
       alert("Evaluation Recorded Successfully for student " + students[imageData].code);
     } catch (error) {
       console.error(error);
@@ -245,6 +255,22 @@ const EvaluationApp = ({ history }) => {
               <Toolbar className={classes.flexToolbar}>
                 <img src={logo} alt="..." />
                 <h5 className="logo-header" color="#fff">School Dental Screening - Evaluation</h5>
+
+                <nav role="navigation">
+                  <div id="menuToggle">
+                    <input type="checkbox" />
+                    <span></span>
+                    <span></span>
+                    <span></span>
+              
+                    <ul id="menu">
+                      <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
+                      <li> <a onClick={() => history.push('reports') }>Reports</a> </li>
+                      <li> <a onClick={() => history.push('reports') }>Communication</a> </li>          
+                     <li> <a href="https://www.teledentalsolutions.com/" target="_blank">Other</a></li>
+                    </ul>
+                  </div>
+                </nav>
 
               </Toolbar>
             </AppBar>
