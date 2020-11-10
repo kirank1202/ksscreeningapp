@@ -257,10 +257,10 @@ const EvaluationApp = () => {
                 <h5 className="logo-header" color="#fff">School Dental Screening - Evaluation</h5>
                 <nav role="navigation" class="desktop">
                   <ul id="d-menu">
-                      <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
                       <li> <a onClick={() => history.push('reports') }>Reports</a> </li>
+                      {/* <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
                       <li> <a onClick={() => history.push('reports') }>Communication</a> </li>          
-                      <li> <a href="https://www.teledentalsolutions.com/" target="_blank">Other</a></li>
+                      <li> <a href="https://www.teledentalsolutions.com/" target="_blank">Other</a></li> */}
                   </ul>
                 </nav>
                 <nav role="navigation" class="mobile">
@@ -270,10 +270,7 @@ const EvaluationApp = () => {
                       <span></span>
                       <span></span>
                       <ul id="menu">
-                        <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
                         <li> <a onClick={() => history.push('reports') }>Reports</a> </li>
-                        <li> <a onClick={() => history.push('reports') }>Communication</a> </li>          
-                        <li> <a href="https://www.teledentalsolutions.com/" target="_blank">Other</a></li>
                       </ul>
                   </div>
                 </nav>
