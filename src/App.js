@@ -11,6 +11,8 @@ import {
 import EvaluationApp from "./EvaluationApp";
 import CollectionApp from "./CollectionApp";
 import ReportsApp from './ReportsApp';
+import HelpVideoApp from './HelpVideoApp';
+
 
 /*
 import { DataGrid } from '@material-ui/data-grid';
@@ -96,6 +98,7 @@ function App() {
           <Route path="/collection" component={CollectionApp} />
           <Route path="/evaluation" component={EvaluationApp} />
           <Route path="/reports" component={ReportsApp} />
+          <Route path="/help-video" component={HelpVideoApp} />
           {fetchCurrentUserGroup}
           {
             userType === "DataCollection" ? (

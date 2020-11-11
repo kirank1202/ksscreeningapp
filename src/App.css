@@ -78,7 +78,7 @@ body {
 
 .mainContainer {
   padding: 0;
-  width: 100%;
+  width: 98%;
   padding-top: 70px;  
 }
 
@@ -471,6 +471,24 @@ tr {
  * Make this absolute positioned
  * at the top left of the screen
  */
+#d-menu {
+  margin: 5px 0 0 19px;
+  padding: 0 20px;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  display: inline-flex;
+  cursor: pointer;
+  width: 500px;
+  justify-content: space-evenly;
+}
+#d-menu li a {
+  color: #000 !important;
+}
+#d-menu li a:hover {
+  color: #007bff !important;
+  text-decoration: none !important;
+}
 #menu
 {
   position: absolute;
@@ -502,4 +520,20 @@ tr {
 #menuToggle input:checked ~ ul
 {
   transform: translate(-100%, 0);
+}
+
+.desktop {
+  display: flex;
+}
+.mobile {
+  display: none;
+}
+
+@media screen and (max-width: 767px) {
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    display: flex;
+  }
 }

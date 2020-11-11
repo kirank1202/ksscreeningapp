@@ -169,7 +169,7 @@ const EvaluationApp = () => {
       // flexGrow: 1,
     },
     flexToolbar: {
-      padding: "0 100px",
+      padding: "0 20px",
       display: "flex",
       justifyContent: "space-between",
     },
@@ -255,24 +255,25 @@ const EvaluationApp = () => {
               <Toolbar className={classes.flexToolbar}>
                 <img src={logo} alt="..." />
                 <h5 className="logo-header" color="#fff">School Dental Screening - Evaluation</h5>
-          {/*}
-                <nav role="navigation">
-                  <div id="menuToggle">
-                    <input type="menu" />
-                    <span></span>
-                    <span></span>
-                    <span></span>
-              
-                    <ul id="menu">
-                      <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
-                      <li> <a onClick={() => history.push('reports') }>Reports</a> </li>
+                <nav role="navigation" class="desktop">
+                  <ul id="d-menu">
+                      <li> <a onClick={() => history.push('reports') }><h5> Reports</h5> </a> </li>
+                      {/* <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
                       <li> <a onClick={() => history.push('reports') }>Communication</a> </li>          
-                     <li> <a href="https://www.teledentalsolutions.com/" target="_blank">Other</a></li>
-                    </ul>
+                      <li> <a href="https://www.teledentalsolutions.com/" target="_blank">Other</a></li> */}
+                  </ul>
+                </nav>
+                <nav role="navigation" class="mobile">
+                  <div id="menuToggle">
+                      <input type="checkbox" />
+                      <span></span>
+                      <span></span>
+                      <span></span>
+                      <ul id="menu">
+                        <li> <a onClick={() => history.push('reports') }>Reports</a> </li>
+                      </ul>
                   </div>
                 </nav>
-      */}
-
               </Toolbar>
             </AppBar>
           </div>
