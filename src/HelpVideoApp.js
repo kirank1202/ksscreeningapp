@@ -1,30 +1,92 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import logo from "./TeledentalSolutionLogo13.png";
+import { makeStyles } from "@material-ui/core/styles";
 
 const ReportsApp = () => {
     let history = useHistory();
 
+    const useStyles = makeStyles((theme) => ({
+      formControl: {
+          margin: theme.spacing(1),
+          minWidth: 120,
+      },
+      selectEmpty: {
+          marginTop: theme.spacing(2),
+      },
+      root: {
+          flexGrow: 1,
+      },
+      menuButton: {
+          marginRight: theme.spacing(2),
+      },
+      title: {
+          // flexGrow: 1,
+      },
+      flexToolbar: {
+          padding: "0 20px",
+          display: "flex",
+          justifyContent: "space-between",
+      },
+      paper: {
+          position: "absolute",
+          width: 400,
+          backgroundColor: theme.palette.background.paper,
+          border: "2px solid #000",
+          boxShadow: theme.shadows[5],
+          padding: theme.spacing(2, 4, 3),
+      },
+  }));
+  const classes = useStyles();
+
     return (
       <div className="HelpVideoApp">
-        This is Reports App!!
+        Welcome to Screening Help Videos 
         <br/>
-        <button
-          className="SubmitButton"
-          onClick={() => {
-            history.push("/collection");
-          }}
-        >
-          Go To Collection App
-        </button>
+        <AppBar position="fixed" color="#fff">
+                    <Toolbar className={classes.flexToolbar}>
+                        <img src={logo} alt="..." />
+                        <h5 className="logo-header" color="#fff">School Dental Screening Help </h5>
+                            <nav role="navigation" class="desktop">
+                            <ul id="d-menu">
+                                <li><a onClick={() => history.push('collection')}> Collection App </a> </li>
+                            </ul>
+                            </nav>
+                            <nav role="navigation" class="mobile">
+                            <div id="menuToggle">
+                                <input type="checkbox" />
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                                <ul id="menu">
+                                    <li><a onClick={() => history.push('collection') }>Collection App</a> </li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </Toolbar>
+                </AppBar>
+                <br></br> <p></p>
+                <br></br> <p></p>
+        <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y" target= "_blank">
+                    1. How to prepare for taking screening pictures
+        </a>
+        <br></br> <p></p>
+        <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y" target= "_blank">
+                    2. Demo of Completing student information and uploading dental images
+        </a>
+        <br></br> <p></p>
+       
         <br/>
-        <button
+        {/* <button
           className="SubmitButton"
           onClick={() => {
             history.push("/evaluation");
           }}
         >
           Go To Evaluation App
-        </button>
+        </button> */}
       </div>
     );
 }
