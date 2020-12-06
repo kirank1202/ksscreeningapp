@@ -350,7 +350,7 @@ const CollectionApp = () => {
             <div className={classes.root}>
                 <AppBar position="fixed" color="#fff">
                     <Toolbar className={classes.flexToolbar}>
-                        <img src={logo} alt="..." />
+                        <img class="logo_style" src={logo} alt="..." />
                         <h5 className="logo-header" color="#fff">School Dental Screening</h5>
                             <nav role="navigation" class="desktop">
                             <ul id="d-menu">
@@ -623,9 +623,7 @@ const CollectionApp = () => {
                             <div className="rightArea"></div>
                         </div>
                     </div>
-                </div>
-
-                <div style={{ padding: "20px 30px"}}>
+                    <div className="photos-section">
                     <h3 className="BasicDetails">Photos</h3>
                     <h6 align="left" className="PhotosHeading">
                         Please have your student in good lighting and take the
@@ -798,12 +796,6 @@ const CollectionApp = () => {
                         <button
                             className="SubmitButton"
                             type="submit"
-                            style={{
-                                padding: "20px",
-                                color: "#2a8bf2",
-                                background: "none",
-                                border: "1px solide grey",
-                            }}
                             disabled={
                                 !(
                                     formData.nonsmilingface &&
@@ -831,6 +823,7 @@ const CollectionApp = () => {
                     > 
                         Go To Reports
                     </button> */}
+                </div>
                 </div>
             </form>
             <Modal

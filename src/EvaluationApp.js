@@ -253,7 +253,7 @@ const EvaluationApp = () => {
           <div className={classes.root}>
             <AppBar position="fixed" color="#fff">
               <Toolbar className={classes.flexToolbar}>
-                <img src={logo} alt="..." />
+                <img class="logo_style" src={logo} alt="..." />
                 <h5 className="logo-header" color="#fff">School Dental Screening - Evaluation</h5>
                 <nav role="navigation" class="desktop">
                   <ul id="d-menu">
