@@ -20,6 +20,10 @@ import { API, Storage, Auth } from "aws-amplify";
 import { createStudent as createStudentMutation } from "./graphql/mutations";
 import { listSchools } from "./graphql/queries";
 import { useHistory } from "react-router-dom";
+// Language translation imports.
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+
 
 const DemoBottomImg = "https://screeningdemoimages.s3.amazonaws.com/mandibular.PNG";
 const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/maxillary.PNG";
@@ -114,11 +118,18 @@ function getModalStyle() {
 
 const CollectionApp = () => {
     const [formData, setFormData] = useState(initialFormState);
+    const [lang, setLang] = React.useState('en');
     const [students, setStudents] = useState([]);
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
     const [thankYouModel, setThankYouModel] = React.useState(false);
+    const { t } = useTranslation();
     let history = useHistory();
+
+    const handleClick = (lang) => {
+        i18next.changeLanguage(lang);
+        setLang(lang);
+    }
 
     const handleOpen = () => {
         setOpen(!open);
@@ -346,15 +357,17 @@ const CollectionApp = () => {
 
     
     return (
-        <div className="CollectionApp">
+        <div className="CollectionApp" className={lang}>
             <div className={classes.root}>
                 <AppBar position="fixed" color="#fff">
                     <Toolbar className={classes.flexToolbar}>
                         <img class="logo_style" src={logo} alt="..." />
-                        <h5 className="logo-header" color="#fff">School Dental Screening</h5>
+                        <h5 className="logo-header" color="#fff">{t('School Dental Screening')}</h5>
                             <nav role="navigation" class="desktop">
                             <ul id="d-menu">
                                 <li><a onClick={() => history.push('help-video') }>Help Video</a> </li>
+                                <li className="es"><a onClick={() => handleClick("es")}>{t('Spanish')}</a> </li>
+                                <li className="en"><a onClick={() => handleClick("en")}>{t('English')}</a> </li>
                                 {/* <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
                                 <li> <a onClick={() => history.push('reports') }>Reports</a> </li>
                                 <li> <a onClick={() => history.push('reports') }>Communication</a> </li>          
@@ -369,6 +382,8 @@ const CollectionApp = () => {
                                 <span></span>
                                 <ul id="menu">
                                     <li><a onClick={() => history.push('help-video') }>Help Video</a> </li>
+                                    <li className="es"><a onClick={() => handleClick("es")}>{t('Spanish')}</a> </li>
+                                    <li className="en"><a onClick={() => handleClick("en")}>{t('English')}</a> </li>
                                 </ul>
                             </div>
                         </nav>

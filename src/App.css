@@ -37,6 +37,16 @@
   padding: 5px 0;
 }
 
+.es .es,
+.en .en {
+  display: none;
+}
+
+.en .es,
+.es .en {
+  display: inline-block;
+}
+
 body {
   background-color: #f0f3f8;
 }
@@ -516,6 +526,7 @@ tr {
 }
 #d-menu li a {
   color: #000 !important;
+  padding: 0 0 0 10px;
 }
 #d-menu li a:hover {
   color: #007bff !important;
