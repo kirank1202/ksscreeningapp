@@ -365,7 +365,7 @@ const CollectionApp = () => {
                         <h5 className="logo-header" color="#fff">{t('School Dental Screening')}</h5>
                             <nav role="navigation" class="desktop">
                             <ul id="d-menu">
-                                <li><a onClick={() => history.push('help-video') }>Help Video</a> </li>
+                                <li><a onClick={() => history.push('help-video') }>{t('Help Video')}</a> </li>
                                 <li className="es"><a onClick={() => handleClick("es")}>{t('Spanish')}</a> </li>
                                 <li className="en"><a onClick={() => handleClick("en")}>{t('English')}</a> </li>
                                 {/* <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
@@ -381,7 +381,7 @@ const CollectionApp = () => {
                                 <span></span>
                                 <span></span>
                                 <ul id="menu">
-                                    <li><a onClick={() => history.push('help-video') }>Help Video</a> </li>
+                                    <li><a onClick={() => history.push('help-video') }>{t('Help Video')}</a> </li>
                                     <li className="es"><a onClick={() => handleClick("es")}>{t('Spanish')}</a> </li>
                                     <li className="en"><a onClick={() => handleClick("en")}>{t('English')}</a> </li>
                                 </ul>
@@ -393,7 +393,7 @@ const CollectionApp = () => {
             <form onSubmit={createStudent}>
                 <div className="mainContainer">
                     <div className="welcome-msg">
-                        <h4>Welcome to 2020 Student Screening Program </h4>  
+                        <h4>{t("Welcome to 2020 Student Screening Program")} </h4>  
                     </div>
                     <div className="form">
                         <div className="formContainer">
