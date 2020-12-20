@@ -20,6 +20,10 @@ import { API, Storage, Auth } from "aws-amplify";
 import { createStudent as createStudentMutation } from "./graphql/mutations";
 import { listSchools } from "./graphql/queries";
 import { useHistory } from "react-router-dom";
+// Language translation imports.
+import { useTranslation } from "react-i18next";
+import i18next from "i18next";
+
 
 const DemoBottomImg = "https://screeningdemoimages.s3.amazonaws.com/mandibular.PNG";
 const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/maxillary.PNG";
@@ -114,21 +118,28 @@ function getModalStyle() {
 
 const CollectionApp = () => {
     const [formData, setFormData] = useState(initialFormState);
+    const [lang, setLang] = React.useState('en');
     const [students, setStudents] = useState([]);
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
-    const [thankYouModel, setThankYouModel] = React.useState(false);
+    const [confirmSubmitModel, setConfirmSubmitModel] = React.useState(false);
+    const { t } = useTranslation();
     let history = useHistory();
+
+    const handleLanguage = (lang) => {
+        i18next.changeLanguage(lang);
+        setLang(lang);
+    }
 
     const handleOpen = () => {
         setOpen(!open);
     };
 
-    const handleThankYouModel = () => {
-        setThankYouModel(!thankYouModel);
+    const handleConfirmSubmitModel = () => {
+        setConfirmSubmitModel(!confirmSubmitModel);
     };
 
-    const handleThankModelClose = () => {
+    const handleConfirmSubmitModelClose = () => {
         setFormData(initialFormState);
         const labels = document.getElementsByClassName("image-input-label");
         for (let i = 0; i < labels.length; i++) {
@@ -136,7 +147,7 @@ const CollectionApp = () => {
             element.style.background = "none";
             element.innerHTML = "+";
         }
-        setThankYouModel(!thankYouModel);
+        setConfirmSubmitModel(!confirmSubmitModel);
     };
 
     const useStyles = makeStyles((theme) => ({
@@ -329,6 +340,14 @@ const CollectionApp = () => {
         //alert("Front-Teeth image changes");
     }
 
+    async function handleSubmit(e) {
+        /*
+        let confirmToSubmit =  window.confirm(`Please verify that all images are in focus before submitting`); 
+        if (confirmToSubmit) {  
+            createStudent(e);
+        } else {return;} */
+        createStudent(e);
+    }
     async function createStudent(e) {
         e.preventDefault();
         if (!formData.code || !formData.gender) return;
@@ -340,21 +359,30 @@ const CollectionApp = () => {
             const image = await Storage.get(formData.leftimage);
             formData.leftimage = image;
         }
-        handleThankYouModel();
-        alert(`Student ${formData.code} Uploaded Successfully`);
+        // handleConfirmSubmitModel();
+        alert(`Student ${formData.code} Uploaded Successfully.\n\nThank You for participating in Dental Screening 2020 Program.`);
+        if(formData.okToReceiveMedicaidInfo === "Yes" ) {
+            window.location.href = "https://www.kdheks.gov/hcf/Medicaid/eligibility_guidelines.html"; 
+        } else {
+            //setFormData(initialFormState);
+            window.location.reload(); 
+        }
+
     }
 
     
     return (
-        <div className="CollectionApp">
+        <div className="CollectionApp" className={lang}>
             <div className={classes.root}>
                 <AppBar position="fixed" color="#fff">
                     <Toolbar className={classes.flexToolbar}>
-                        <img src={logo} alt="..." />
-                        <h5 className="logo-header" color="#fff">School Dental Screening</h5>
+                        <img class="logo_style" src={logo} alt="..." />
+                        <h5 className="logo-header" color="#fff">{t('School Dental Screening')}</h5>
                             <nav role="navigation" class="desktop">
                             <ul id="d-menu">
-                                <li><a onClick={() => history.push('help-video') }>Help Video</a> </li>
+                                <li><a onClick={() => history.push('help-video') }>{t('Help Video')}</a> </li>
+                                <li className="es"><a onClick={() => handleLanguage("es")}>{t('Spanish')}</a> </li>
+                                <li className="en"><a onClick={() => handleLanguage("en")}>{t('English')}</a> </li>
                                 {/* <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
                                 <li> <a onClick={() => history.push('reports') }>Reports</a> </li>
                                 <li> <a onClick={() => history.push('reports') }>Communication</a> </li>          
@@ -368,23 +396,25 @@ const CollectionApp = () => {
                                 <span></span>
                                 <span></span>
                                 <ul id="menu">
-                                    <li><a onClick={() => history.push('help-video') }>Help Video</a> </li>
+                                    <li><a onClick={() => history.push('help-video') }>{t('Help Video')}</a> </li>
+                                    <li className="es"><a onClick={() => handleLanguage("es")}>{t('Spanish')}</a> </li>
+                                    <li className="en"><a onClick={() => handleLanguage("en")}>{t('English')}</a> </li>
                                 </ul>
                             </div>
                         </nav>
                     </Toolbar>
                 </AppBar>
             </div>
-            <form onSubmit={createStudent}>
+            <form onSubmit={handleSubmit}>
                 <div className="mainContainer">
                     <div className="welcome-msg">
-                        <h4>Welcome to 2020 Student Screening Program </h4>  
+                        <h4>{t("Welcome to 2020 Student Screening Program")} </h4>  
                     </div>
                     <div className="form">
                         <div className="formContainer">
                             <div className="leftArea">
                                 <div className="mb-3">
-                                    <p>Screening Location</p>
+                                    <p>{t("Screening Location")}</p>
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={locationList}
@@ -451,7 +481,7 @@ const CollectionApp = () => {
                                     </InputGroup>
                                 </div>
                                 <div>
-                                    <p>First 3 Letters of Student's first Name</p>
+                                    <p>{t("First 3 Letters of Student's first Name")}</p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             value={formData.firstname3letters}
@@ -623,9 +653,7 @@ const CollectionApp = () => {
                             <div className="rightArea"></div>
                         </div>
                     </div>
-                </div>
-
-                <div style={{ padding: "20px 30px"}}>
+                    <div className="photos-section">
                     <h3 className="BasicDetails">Photos</h3>
                     <h6 align="left" className="PhotosHeading">
                         Please have your student in good lighting and take the
@@ -798,12 +826,6 @@ const CollectionApp = () => {
                         <button
                             className="SubmitButton"
                             type="submit"
-                            style={{
-                                padding: "20px",
-                                color: "#2a8bf2",
-                                background: "none",
-                                border: "1px solide grey",
-                            }}
                             disabled={
                                 !(
                                     formData.nonsmilingface &&
@@ -831,6 +853,7 @@ const CollectionApp = () => {
                     > 
                         Go To Reports
                     </button> */}
+                </div>
                 </div>
             </form>
             <Modal
@@ -878,8 +901,8 @@ const CollectionApp = () => {
                 </div>
             </Modal>
             <Modal
-                open={thankYouModel}
-                onClose={handleThankModelClose}
+                open={confirmSubmitModel}
+                onClose={handleConfirmSubmitModelClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
@@ -893,7 +916,7 @@ const CollectionApp = () => {
                     <br />
                     
                     {/* <Button
-                        onClick={handleThankModelClose}
+                        onClick={handleConfirmSubmitModelClose}
                         style={{ display: "block", margin: "10px auto" }}
                     >
                         OK

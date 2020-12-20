@@ -13,7 +13,6 @@ import CollectionApp from "./CollectionApp";
 import ReportsApp from './ReportsApp';
 import HelpVideoApp from './HelpVideoApp';
 
-
 /*
 import { DataGrid } from '@material-ui/data-grid';
 import { useDemoData } from '@material-ui/x-grid-data-generator';
