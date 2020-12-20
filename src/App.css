@@ -37,11 +37,13 @@
   padding: 5px 0;
 }
 
+/* if english page hide english */
 .es .es,
 .en .en {
   display: none;
 }
 
+/* if root is .en apply inline-block .es */ 
 .en .es,
 .es .en {
   display: inline-block;

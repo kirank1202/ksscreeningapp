@@ -122,11 +122,11 @@ const CollectionApp = () => {
     const [students, setStudents] = useState([]);
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
-    const [thankYouModel, setThankYouModel] = React.useState(false);
+    const [confirmSubmitModel, setConfirmSubmitModel] = React.useState(false);
     const { t } = useTranslation();
     let history = useHistory();
 
-    const handleClick = (lang) => {
+    const handleLanguage = (lang) => {
         i18next.changeLanguage(lang);
         setLang(lang);
     }
@@ -135,11 +135,11 @@ const CollectionApp = () => {
         setOpen(!open);
     };
 
-    const handleThankYouModel = () => {
-        setThankYouModel(!thankYouModel);
+    const handleConfirmSubmitModel = () => {
+        setConfirmSubmitModel(!confirmSubmitModel);
     };
 
-    const handleThankModelClose = () => {
+    const handleConfirmSubmitModelClose = () => {
         setFormData(initialFormState);
         const labels = document.getElementsByClassName("image-input-label");
         for (let i = 0; i < labels.length; i++) {
@@ -147,7 +147,7 @@ const CollectionApp = () => {
             element.style.background = "none";
             element.innerHTML = "+";
         }
-        setThankYouModel(!thankYouModel);
+        setConfirmSubmitModel(!confirmSubmitModel);
     };
 
     const useStyles = makeStyles((theme) => ({
@@ -340,6 +340,14 @@ const CollectionApp = () => {
         //alert("Front-Teeth image changes");
     }
 
+    async function handleSubmit(e) {
+        /*
+        let confirmToSubmit =  window.confirm(`Please verify that all images are in focus before submitting`); 
+        if (confirmToSubmit) {  
+            createStudent(e);
+        } else {return;} */
+        createStudent(e);
+    }
     async function createStudent(e) {
         e.preventDefault();
         if (!formData.code || !formData.gender) return;
@@ -351,8 +359,15 @@ const CollectionApp = () => {
             const image = await Storage.get(formData.leftimage);
             formData.leftimage = image;
         }
-        handleThankYouModel();
-        alert(`Student ${formData.code} Uploaded Successfully`);
+        // handleConfirmSubmitModel();
+        alert(`Student ${formData.code} Uploaded Successfully.\n\nThank You for participating in Dental Screening 2020 Program.`);
+        if(formData.okToReceiveMedicaidInfo === "Yes" ) {
+            window.location.href = "https://www.kdheks.gov/hcf/Medicaid/eligibility_guidelines.html"; 
+        } else {
+            //setFormData(initialFormState);
+            window.location.reload(); 
+        }
+
     }
 
     
@@ -366,8 +381,8 @@ const CollectionApp = () => {
                             <nav role="navigation" class="desktop">
                             <ul id="d-menu">
                                 <li><a onClick={() => history.push('help-video') }>{t('Help Video')}</a> </li>
-                                <li className="es"><a onClick={() => handleClick("es")}>{t('Spanish')}</a> </li>
-                                <li className="en"><a onClick={() => handleClick("en")}>{t('English')}</a> </li>
+                                <li className="es"><a onClick={() => handleLanguage("es")}>{t('Spanish')}</a> </li>
+                                <li className="en"><a onClick={() => handleLanguage("en")}>{t('English')}</a> </li>
                                 {/* <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
                                 <li> <a onClick={() => history.push('reports') }>Reports</a> </li>
                                 <li> <a onClick={() => history.push('reports') }>Communication</a> </li>          
@@ -382,15 +397,15 @@ const CollectionApp = () => {
                                 <span></span>
                                 <ul id="menu">
                                     <li><a onClick={() => history.push('help-video') }>{t('Help Video')}</a> </li>
-                                    <li className="es"><a onClick={() => handleClick("es")}>{t('Spanish')}</a> </li>
-                                    <li className="en"><a onClick={() => handleClick("en")}>{t('English')}</a> </li>
+                                    <li className="es"><a onClick={() => handleLanguage("es")}>{t('Spanish')}</a> </li>
+                                    <li className="en"><a onClick={() => handleLanguage("en")}>{t('English')}</a> </li>
                                 </ul>
                             </div>
                         </nav>
                     </Toolbar>
                 </AppBar>
             </div>
-            <form onSubmit={createStudent}>
+            <form onSubmit={handleSubmit}>
                 <div className="mainContainer">
                     <div className="welcome-msg">
                         <h4>{t("Welcome to 2020 Student Screening Program")} </h4>  
@@ -399,7 +414,7 @@ const CollectionApp = () => {
                         <div className="formContainer">
                             <div className="leftArea">
                                 <div className="mb-3">
-                                    <p>Screening Location</p>
+                                    <p>{t("Screening Location")}</p>
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={locationList}
@@ -466,7 +481,7 @@ const CollectionApp = () => {
                                     </InputGroup>
                                 </div>
                                 <div>
-                                    <p>First 3 Letters of Student's first Name</p>
+                                    <p>{t("First 3 Letters of Student's first Name")}</p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             value={formData.firstname3letters}
@@ -886,8 +901,8 @@ const CollectionApp = () => {
                 </div>
             </Modal>
             <Modal
-                open={thankYouModel}
-                onClose={handleThankModelClose}
+                open={confirmSubmitModel}
+                onClose={handleConfirmSubmitModelClose}
                 aria-labelledby="simple-modal-title"
                 aria-describedby="simple-modal-description"
             >
@@ -901,7 +916,7 @@ const CollectionApp = () => {
                     <br />
                     
                     {/* <Button
-                        onClick={handleThankModelClose}
+                        onClick={handleConfirmSubmitModelClose}
                         style={{ display: "block", margin: "10px auto" }}
                     >
                         OK
