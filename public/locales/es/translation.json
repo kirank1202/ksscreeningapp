@@ -2,6 +2,43 @@
     "School Dental Screening": "Examen dental escolar",
     "Help Video": "Video de ayuda",
     "Welcome to 2020 Student Screening Program": "Bienvenido al programa de evaluación de estudiantes 2020",
-    "First 3 Letters of Student's first Name" : "primeras tres letras del primer nombre del estudiante",
-    "Screening Location": "ubicación"
+    "Screening Location": "ubicación",
+    "School District": "Distrito escolar",
+    "School Name": "Nombre de escuela",
+    "Student ID": "Identificación del Estudiante",
+    "First 3 Letters of Student's first Name": "primeras tres letras del primer nombre del estudiante",
+    "Grade": "Grado",
+    "Gender": "Género",
+    "Male": "Masculino",
+    "Female": "Hembra",
+    "Does student have dental insurance?": "¿El estudiante tiene seguro dental?",
+    "Yes": "Si",
+    "No": "No",
+    "Would you like to receive information on Kansas Medicaid: ": "Le gustaría recibir información sobre Kansas Medicaid:",
+    "Parent/Guardian Email* ": "Padre / Tutor Correo electrónico* ",
+    "* By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material":
+               "* Al proporcionar la dirección de correo electrónico, usted acepta recibir correos electrónicos con información como resultados de exámenes, información de Kansas Medicaid y otro material educativo sobre el cuidado bucal.",
+    "Video": "Video",
+    "Photos": "Fotos",
+    "Please have your student in good lighting and take the pictures as shown. You can refer to this": "Por favor haga que su estudiante tenga buena iluminación y tome las fotografías como se muestra. Puedes referirte a esto",
+    "on how to take the best photos for screening.": "sobre cómo sacar las mejores fotos para la proyección",
+    "Non Smiling Demo Image": "Imagen de demostración sin sonrisa",
+    "+ No-Smile": "+ Sin sonrisa",
+    "Front Teeth Demo Image": "Imagen de demostración de los dientes delanteros",
+    "+ Front": "+ Frente",
+    "+ Left": "+ Izquierda",
+    "Right Bite Demo Image": "Imagen de demostración de Right Bite",
+    "+ Right": "+ Derecha",
+    "Top Teeth Demo Image": "Imagen de demostración de los dientes superiores",
+    "+ Top": "+ imagen superior",
+    "Bottom Teeth Demo Image": "Bottom Teeth Demo Image",
+    "+ Bottom": "+ imagen inferior",
+    "Submit Student*": "Enviar estudiante*",
+    "* By submiting, you authorize dental professionals to review the submitted data for screening purposes.": "* Al enviar, autoriza a los profesionales dentales a revisar los datos enviados con fines de detección. "
+
+
+
+
+
+
 }

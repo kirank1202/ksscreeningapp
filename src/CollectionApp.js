@@ -431,7 +431,7 @@ const CollectionApp = () => {
                                 </div>
                                 
                                 <div>
-                                    <p>School District</p>
+                                    <p>{t("School District")}</p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             value={formData.district}
@@ -449,7 +449,7 @@ const CollectionApp = () => {
                             
                                 
                                 <div className="mb-3">
-                                    <p>School  Name</p>
+                                    <p>{t("School Name")}</p>
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={schoolList}
@@ -465,7 +465,7 @@ const CollectionApp = () => {
                                     />
                                 </div>
                                 <div>
-                                    <p>Student ID</p>
+                                    <p>{t("Student ID")}</p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             value={formData.code}
@@ -497,7 +497,7 @@ const CollectionApp = () => {
                                     </InputGroup>
                                 </div>
                                 <div className="mb-3">
-                                    <p>Grade </p>
+                                    <p>{t("Grade")} </p>
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={gradelist}
@@ -513,7 +513,7 @@ const CollectionApp = () => {
                                     />
                                 </div>
                                 <div className="mb-3">
-                                    <p>Gender</p>
+                                    <p>{t("Gender")}</p>
                                     <Dropdown
                                         value={formData.gender}
                                         onSelect={(e) => {
@@ -534,19 +534,19 @@ const CollectionApp = () => {
                                                 eventKey="Male"
                                                 href="#/action-1"
                                             >
-                                                Male
+                                                {t("Male")}
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey="Female"
                                                 href="#/action-2"
                                             >
-                                                Female
+                                                {t("Female")}
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
                                 <div className="mb-3">
-                                    <p>Does student have dental insurance?</p>
+                                    <p>{t("Does student have dental insurance?")}</p>
                                     <Dropdown
                                         value={formData.haveDentalInsurance}
                                         onSelect={(e) => {
@@ -569,20 +569,20 @@ const CollectionApp = () => {
                                                 eventKey="Yes"
                                                 href="#/action-1"
                                             >
-                                                Yes
+                                                {t("Yes")}
                                             </Dropdown.Item>
                                             <Dropdown.Item
                                                 eventKey="No"
                                                 href="#/action-2"
                                             >
-                                                No
+                                                {t("No")}
                                             </Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
                             {(formData.haveDentalInsurance == "No") ? (
                                 <div className="mb-3">
-                                    <p> Would you like to receive information on Kansas Medicaid: {"  "}
+                                    <p> {t("Would you like to receive information on Kansas Medicaid: ")} 
                                     <input
                                         onClick={() => {
                                             setFormData({
@@ -602,7 +602,7 @@ const CollectionApp = () => {
                                             )
                                         }
                                     />
-                                    Yes {"   "}
+                                    {t(`Yes`)} {"   "}
                                     <input
                                         onClick={() => {
                                             setFormData({
@@ -621,12 +621,12 @@ const CollectionApp = () => {
                                             )
                                         }    
                                     />
-                                    No
+                                    {t("No")}
                                     </p>
                                 </div>  
                             ): "" }
                                 <div>
-                                    <p>Parent/Guardian Email* </p>
+                                    <p>{t("Parent/Guardian Email* ")}</p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             placeholder="Email"
@@ -645,7 +645,7 @@ const CollectionApp = () => {
                                 </div>
                                 <div className="econsentmsg"> 
                                     <h8 align="left">
-                                        * By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material
+                                    {t("* By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material")}
                                     </h8>
                                 </div>
                             </div>
@@ -654,17 +654,16 @@ const CollectionApp = () => {
                         </div>
                     </div>
                     <div className="photos-section">
-                    <h3 className="BasicDetails">Photos</h3>
+                    <h3 className="BasicDetails">{t("Photos")}</h3>
                     <h6 align="left" className="PhotosHeading">
-                        Please have your student in good lighting and take the
-                        pictures as shown. You can refer to this {" "}
+                    {t("Please have your student in good lighting and take the pictures as shown. You can refer to this")}
                         <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y" target= "_blank">
-                            Video
-                        </a>{" "} on how to take the best photos for screening.
+                        {t(" Video")}
+                        </a>{" "} {t("on how to take the best photos for screening.")}
                     </h6> <p></p>
                     <div className="uploadPictures">
                         <div class= "up-title"> 
-                            Non Smiling Demo Image {" "}
+                        {t("Non Smiling Demo Image")} {" "}
                         </div>
                         <div class="up-image">
                         <img
@@ -685,13 +684,13 @@ const CollectionApp = () => {
                                 className="image-input-label"
                                 htmlFor="home-file-input-nonSmiling"
                             >
-                                + No-Smile
+                                {t("+ No-Smile")}
                             </label>
                         </div> 
                     </div>
                      <div className="uploadPictures">
                         <div class= "up-title"> 
-                            Front Teeth Demo Image{" "}
+                            {t("Front Teeth Demo Image")} {" "}
                         </div>
                         <div class="up-image">
                             <img
@@ -712,13 +711,13 @@ const CollectionApp = () => {
                                 id="front-teeth"
                                 className="image-input-label"
                                 htmlFor="home-file-input-frontTeeth"
-                            >+ Front
+                            >{t("+ Front")}
                             </label>
                         </div>
                     </div>
                     <div className="uploadPictures">
                         <div class= "up-title"> 
-                            Left Bite Demo Image{"    "}
+                        {t("Left Bite Demo Image")}{"    "}
                         </div>
                         <div class="up-image">
                             <img
@@ -738,13 +737,13 @@ const CollectionApp = () => {
                                 id="left"
                                 className="image-input-label"
                                 htmlFor="home-file-input-left"
-                            > + Left
+                            > {t("+ Left")}
                             </label>
                         </div>
                     </div>
                     <div className="uploadPictures">
                         <div class= "up-title"> 
-                            Right Bite Demo Image{" "}
+                        {t("Right Bite Demo Image")}{" "}
                         </div>
                         <div class="up-image">
                             <img
@@ -764,14 +763,14 @@ const CollectionApp = () => {
                                 id="right"
                                 className="image-input-label"
                                 htmlFor="home-file-input-right"
-                            >+ Right
+                            >{t("+ Right")}
                             </label>
                         </div>
                     </div> 
                         
                     <div className="uploadPictures">
                         <div class= "up-title"> 
-                            Top Teeth Demo Image{" "}
+                        {t("Top Teeth Demo Image")}{" "}
                         </div>
                         <div class="up-image">
                             <img
@@ -791,14 +790,14 @@ const CollectionApp = () => {
                                 id="top"
                                 className="image-input-label"
                                 htmlFor="home-file-input-top"
-                            >+ Top
+                            >{t("+ Top")}
                             </label>
                         </div>
                     </div>
                        
                     <div className="uploadPictures">
                         <div class= "up-title"> 
-                            Bottom Teeth Demo Image {"  "}
+                        {t("Bottom Teeth Demo Image")} {"  "}
                         </div>
                         <div class="up-image">
                             <img
@@ -818,7 +817,7 @@ const CollectionApp = () => {
                                 id="bottom"
                                 className="image-input-label"
                                 htmlFor="home-file-input-bottom"
-                            > + Bottom
+                            >{t("+ Bottom")}
                             </label>
                         </div>
                     </div>
@@ -837,12 +836,12 @@ const CollectionApp = () => {
                                 )
                             }
                         >
-                            Submit Student*
+                            {t("Submit Student*")}
                         </button>
                        
                     </h4>
                     <h8 align="left">
-                        * By submiting, you authorize dental professionals to review the submitted data for screening purposes.
+                        {t("* By submiting, you authorize dental professionals to review the submitted data for screening purposes.")}
                     </h8>
                     <br/>
                     {/* <button
@@ -864,8 +863,7 @@ const CollectionApp = () => {
             >
                 <div style={modalStyle} className={classes.paper}>
                     <p>
-                        Would you like to receive additional information on
-                        Kansas Medicaid: {"  "}
+                    {t(`Would you like to receive additional information on Kansas Medicaid:`)}  {"  "}
                     </p>
                     <div>
                         <input
@@ -881,7 +879,7 @@ const CollectionApp = () => {
                             id=""
                             style={{ marginRight: "5px" }}
                         />
-                        Yes  {"   "}
+                        {t("Yes")}  {"   "}
                     </div>
                     <div>
                         <input
@@ -896,7 +894,7 @@ const CollectionApp = () => {
                             name="question"
                             style={{ marginRight: "5px" }}
                         />
-                        No
+                        {t("No")}
                     </div>
                 </div>
             </Modal>
