@@ -26,6 +26,7 @@ export const onCreateStudent = /* GraphQL */ `
       treatedDecay
       sealantsPresent
       treatmentRecommendationCode
+      cannotEvaluate
       evalcomments
       evalStatus
       virtualScreeningExperience
@@ -59,6 +60,7 @@ export const onUpdateStudent = /* GraphQL */ `
       treatedDecay
       sealantsPresent
       treatmentRecommendationCode
+      cannotEvaluate
       evalcomments
       evalStatus
       virtualScreeningExperience
@@ -92,6 +94,7 @@ export const onDeleteStudent = /* GraphQL */ `
       treatedDecay
       sealantsPresent
       treatmentRecommendationCode
+      cannotEvaluate
       evalcomments
       evalStatus
       virtualScreeningExperience
