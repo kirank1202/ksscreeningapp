@@ -16,6 +16,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import logo from "./TeledentalSolutionLogo13.png";
 
 import { useHistory } from "react-router-dom";
+import { AlertTitle } from "@material-ui/lab";
 
 
 const EvaluationApp = () => {
@@ -27,6 +28,7 @@ const EvaluationApp = () => {
     treatedDecay: "No",
     sealantsPresent: "Sealants Not Present",
     treatmentRecommendationCode: "No obvious problem",
+    cannotEvaluate: "NA",
   };
   const [states, setState] = React.useState(initialState); // const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
@@ -93,6 +95,10 @@ const EvaluationApp = () => {
     await Storage.remove(student.topimage);
     await Storage.remove(student.bottomimage);
   }
+
+  function handleCannotEvaluate(){
+    alert("Please make sure you are not able to evaluated based on the images before you select this reason");
+  }
   async function handleSubmit(e) {
     try {
       e.preventDefault();
@@ -100,13 +106,15 @@ const EvaluationApp = () => {
         setImageData(imageData + 1);
       }
       
-      states.evalStatus = "Completed";
+     // states.evalStatus = "Completed";
       // to be submitted info.
       const toSubmitStudentId = students[imageData].id;
       const toSubmitStateUD = states.untreatedDecay.toString();
       const toSubmitStateTD = states.treatedDecay.toString();
       const toSubmitStateTRC = states.treatmentRecommendationCode.toString();
       const toSubmitStateSP= states.sealantsPresent.toString();
+      const toSubmitStateCE= states.cannotEvaluate.toString();
+      const toSubmitStateES=states.evalStatus;
       // Next Student data setting.
       students[imageData].untreatedDecay = states.untreatedDecay;
       students[imageData].treatedDecay = states.treatedDecay;
@@ -120,6 +128,11 @@ const EvaluationApp = () => {
       states.treatmentRecommendationCode = students[imageData+1].treatmentRecommendationCode;
       states.sealantsPresent = students[imageData+1].sealantsPresent;
       states.evalStatus = students[imageData+1].evalStatus;
+      if (students[imageData+1].cannotEvaluate = ""){
+        states.cannotEvaluate = "NA"
+      } else{ 
+        states.cannotEvaluate = students[imageData+1].cannotEvaluate;
+      }
       setState(states);
       setStudents(students);
 
@@ -133,7 +146,8 @@ const EvaluationApp = () => {
             treatedDecay: toSubmitStateTD,
             treatmentRecommendationCode: toSubmitStateTRC,
             sealantsPresent: toSubmitStateSP,
-            evalStatus: "Completed",
+            evalStatus: toSubmitStateES,
+            cannotEvaluate: toSubmitStateCE
           },
         },
       }); // setState(initialState);
@@ -193,6 +207,17 @@ const EvaluationApp = () => {
     //   // console.log("1", states.untreatedDecay);
     // } 
     console.log("*******: ",students[key].untreatedDecay);
+
+    if (students[key]) {
+      if (students[key].cannotEvaluate){
+        states.cannotEvaluate = students[key].cannotEvaluate;
+        setState(states);
+      } else {
+        states.cannotEvaluate = "NA";
+        setState(states);
+      }
+      
+    }
     if (students[key] && students[key].untreatedDecay) {
       states.untreatedDecay = students[key].untreatedDecay;
       setState(states);
@@ -450,14 +475,6 @@ const EvaluationApp = () => {
                                     ...states,
                                     untreatedDecay: event.target.value,
                                     });
-                                    // console.log("selected event", event.target.value);
-                                    // students[imageData].untreatedDecay = event.target.value;
-                                    // setStudents(students);
-                                    // console.log("Immediate selected state", states.untreatedDecay);
-                                    // console.log(
-                                    // "selected student",
-                                    // students[imageData].untreatedDecay
-                                    // );
                                 }}
                                 //value={students[imageData].untreatedDecay}
                                 value={selectDDValue(imageData, "untreatedDecay")}
@@ -530,14 +547,6 @@ const EvaluationApp = () => {
                                     ...states,
                                     sealantsPresent: event.target.value,
                                     });
-                                   // console.log("selected event", event.target.value);
-                                    //students[imageData].sealantsPresent = event.target.value;
-                                    //setStudents(students);
-                                    // console.log("selected state", states.sealantsPresent);
-                                    // console.log(
-                                    // "selected student",
-                                    // students[imageData].sealantsPresent
-                                    // );
                                 }}
                                 //value={students[imageData].sealantsPresent}
                                 value={selectDDValue(imageData, "sealantsPresent")}
@@ -559,7 +568,7 @@ const EvaluationApp = () => {
                         </td>
                         <td>
                             <div>
-                            <label>4. Treatment Recomendation codes:</label>
+                            <label>4. Treatment Recomendation codes: </label>
                             <select
                                 name="treatment-recommendation-code" // onChange={handleDropdownChange()}
                                 onChange={(event) => {
@@ -603,11 +612,47 @@ const EvaluationApp = () => {
                             </div>
                         </td>
                     </tr>
-                    
+     
+                <tr>
+                  <td align="right"> 
+                      <h5>  <b>Please select a reason only if you cannot evaluate the images: </b> </h5>
+                  </td>
+                  <td align="left">
+                    <div>
+                        <select
+                            name="cannotEvaluate"  // onChange={handleCannotEvaluate()}
+                            onChange={(event) => {
+                                event.preventDefault();
+                                setState({
+                                ...states,
+                                cannotEvaluate: event.target.value,
+                                evalStatus: "Incomplete",
+                                });
+                                handleCannotEvaluate()
+                            }}
+                            //value={students[imageData].sealantsPresent}
+                            value={selectDDValue(imageData, "cannotEvaluate")}
+                            >
+                            <option
+                                value="NA"
+                            >
+                                NA
+                            </option>
+
+                            <option
+                                value="NotClear" 
+                            >
+                                ONE OR MORE IMAGES NOT CLEAR
+                            </option>
+                            
+                        </select>
+                      </div>
+                  </td>
+                </tr>
                 </table>
                 </div>
                 <p></p>
-            
+      
 
                 <div
                   style={{

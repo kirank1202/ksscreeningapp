@@ -26,6 +26,7 @@ export const getStudent = /* GraphQL */ `
       treatedDecay
       sealantsPresent
       treatmentRecommendationCode
+      cannotEvaluate
       evalcomments
       evalStatus
       virtualScreeningExperience
@@ -64,6 +65,7 @@ export const listStudents = /* GraphQL */ `
         treatedDecay
         sealantsPresent
         treatmentRecommendationCode
+        cannotEvaluate
         evalcomments
         evalStatus
         virtualScreeningExperience

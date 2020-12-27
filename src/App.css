@@ -264,6 +264,18 @@ table {
   width: 100%;
 }
 
+.noevaltable {
+  table-layout: fixed;
+  align-items: center;
+  border-collapse: collapse;
+  border: 4px solid #081ee4;
+  width: 100%;
+}
+.noevaltr {
+  border-bottom: 0px solid grey;
+}
+
+
 .evaltable {
   table-layout: fixed;
   align-items: center;

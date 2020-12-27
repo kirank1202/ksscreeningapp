@@ -21,6 +21,7 @@ type Student @model {
   treatedDecay: String
   sealantsPresent: String
   treatmentRecommendationCode: String
+  cannotEvaluate: String
   evalcomments: String
   evalStatus: String
   virtualScreeningExperience: String
