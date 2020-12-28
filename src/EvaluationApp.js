@@ -96,9 +96,10 @@ const EvaluationApp = () => {
     await Storage.remove(student.bottomimage);
   }
 
-  function handleCannotEvaluate(){
+  function handleCannotEvaluate(event){
     alert("Please make sure you are not able to evaluated based on the images before you select this reason");
   }
+
   async function handleSubmit(e) {
     try {
       e.preventDefault();
@@ -106,7 +107,11 @@ const EvaluationApp = () => {
         setImageData(imageData + 1);
       }
       
-     // states.evalStatus = "Completed";
+     if(states.cannotEvaluate == "NotClear") {
+      states.evalStatus = "Incomplete";
+     } else { 
+       states.evalStatus = "Completed";
+     }
       // to be submitted info.
       const toSubmitStudentId = students[imageData].id;
       const toSubmitStateUD = states.untreatedDecay.toString();
@@ -584,7 +589,7 @@ const EvaluationApp = () => {
                                    // console.log("selected state", states.treatmentRecommendationCode);
                                     //console.log("selected student",students[imageData].treatmentRecommendationCode);
                                 }}
-                                value={selectDDValue(imageData, "treatmentRecommendationCode")}
+                                value={selectDDValue(imageData, "treatmentRecommendationCode")} 
                                 //value={students[imageData].treatmentRecommendationCode}
                                 >
                                 <option
@@ -620,18 +625,18 @@ const EvaluationApp = () => {
                   <td align="left">
                     <div>
                         <select
-                            name="cannotEvaluate"  // onChange={handleCannotEvaluate()}
+                            name="cannot-evaluate"  // onChange={handleCannotEvaluate()}
                             onChange={(event) => {
                                 event.preventDefault();
-                                setState({
-                                ...states,
-                                cannotEvaluate: event.target.value,
-                                evalStatus: "Incomplete",
-                                });
-                                handleCannotEvaluate()
+                                  setState({
+                                    ...states,
+                                    cannotEvaluate: event.target.value,
+                                   // evalStatus: "Incomplete"
+                                    });
+                                handleCannotEvaluate(event)
                             }}
                             //value={students[imageData].sealantsPresent}
-                            value={selectDDValue(imageData, "cannotEvaluate")}
+                            value={selectDDValue(imageData, "cannotEvaluate")} 
                             >
                             <option
                                 value="NA"
