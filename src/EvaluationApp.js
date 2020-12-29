@@ -100,6 +100,40 @@ const EvaluationApp = () => {
     alert("Please make sure you are not able to evaluated based on the images before you select this reason");
   }
 
+  // set evaluation fields for new student selected i.e. new row. Initialize if null
+  async function setNewStateForEvalFields(newStudent){
+    //assign values of new student to temp variables
+    /*
+    let newUntreatedDecay = students[imageData+1].untreatedDecay;
+    let newTreatedDecay = students[imageData+1].treatedDecay ;
+    let newTreatmentRecommendationCode = students[imageData+1].treatmentRecommendationCode;
+    let newSealantsPresent = students[imageData+1].sealantsPresent;
+    let newCannotEvaluate = students[imageData+1].cannotEvaluate;
+    let newEvalStatus = students[imageData+1].evalStatus;
+    */
+    let newUntreatedDecay = newStudent.untreatedDecay;
+    let newTreatedDecay = newStudent.treatedDecay ;
+    let newTreatmentRecommendationCode = newStudent.treatmentRecommendationCode;
+    let newSealantsPresent = newStudent.sealantsPresent;
+    let newCannotEvaluate = newStudent.cannotEvaluate;
+    let newEvalStatus = newStudent.evalStatus;
+
+    // set initial values if new student fields are not valid values
+    if (newUntreatedDecay == null | newUntreatedDecay == "") { newUntreatedDecay= "No"; } 
+    if (newTreatedDecay == null | newTreatedDecay == "") { newTreatedDecay = "No"; }
+    if (newSealantsPresent == null | newSealantsPresent == "") { newSealantsPresent = "No"; } 
+    if (newTreatmentRecommendationCode == null | newTreatmentRecommendationCode == "") { newTreatmentRecommendationCode = "No obvious problem"; } 
+    if (newCannotEvaluate == null | newCannotEvaluate == "") { newCannotEvaluate = "No"; } 
+    
+    //set new state with initiated or valid values
+    states.untreatedDecay = newUntreatedDecay;
+    states.treatedDecay = newTreatedDecay;
+    states.sealantsPresent = newSealantsPresent;
+    states.treatmentRecommendationCode = newTreatmentRecommendationCode;
+    states.cannotEvaluate = newCannotEvaluate;
+    states.evalStatus = newEvalStatus;
+  }
+
   async function handleSubmit(e) {
     try {
       e.preventDefault();
@@ -127,17 +161,10 @@ const EvaluationApp = () => {
       students[imageData].sealantsPresent = states.sealantsPresent;
       students[imageData].evalStatus = states.evalStatus;
       //console.log("1", imageData);
+
       // Next state data setting.
-      states.untreatedDecay = students[imageData+1].untreatedDecay;
-      states.treatedDecay = students[imageData+1].treatedDecay ;
-      states.treatmentRecommendationCode = students[imageData+1].treatmentRecommendationCode;
-      states.sealantsPresent = students[imageData+1].sealantsPresent;
-      states.evalStatus = students[imageData+1].evalStatus;
-      if (students[imageData+1].cannotEvaluate = ""){
-        states.cannotEvaluate = "NA"
-      } else{ 
-        states.cannotEvaluate = students[imageData+1].cannotEvaluate;
-      }
+      setNewStateForEvalFields(students[imageData+1]);
+ 
       setState(states);
       setStudents(students);
 
@@ -201,6 +228,7 @@ const EvaluationApp = () => {
       padding: theme.spacing(2, 4, 3),
     },
   }));
+  
   const handleFormState = (key) => {
     console.log("students in handleformState:", students[key]);
     // if (students[key] && students[key].untreatedDecay) {
@@ -214,6 +242,10 @@ const EvaluationApp = () => {
     console.log("*******: ",students[key].untreatedDecay);
 
     if (students[key]) {
+      setNewStateForEvalFields (students[key]);
+      setState(states); 
+    }
+      /*
       if (students[key].cannotEvaluate){
         states.cannotEvaluate = students[key].cannotEvaluate;
         setState(states);
@@ -255,6 +287,7 @@ const EvaluationApp = () => {
       //   treatmentRecommendationCode: students[key].treatmentRecommendationCode,
       // });
     }
+    */
     console.log("states end of handleformState:", states, key); 
   };
   const handleImageLink = (link) => {
