@@ -103,14 +103,6 @@ const EvaluationApp = () => {
   // set evaluation fields for new student selected i.e. new row. Initialize if null
   async function setNewStateForEvalFields(newStudent){
     //assign values of new student to temp variables
-    /*
-    let newUntreatedDecay = students[imageData+1].untreatedDecay;
-    let newTreatedDecay = students[imageData+1].treatedDecay ;
-    let newTreatmentRecommendationCode = students[imageData+1].treatmentRecommendationCode;
-    let newSealantsPresent = students[imageData+1].sealantsPresent;
-    let newCannotEvaluate = students[imageData+1].cannotEvaluate;
-    let newEvalStatus = students[imageData+1].evalStatus;
-    */
     let newUntreatedDecay = newStudent.untreatedDecay;
     let newTreatedDecay = newStudent.treatedDecay ;
     let newTreatmentRecommendationCode = newStudent.treatmentRecommendationCode;
