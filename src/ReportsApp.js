@@ -15,7 +15,11 @@ const ReportsApp = () => {
   const [students, setStudents] = useState([]);
   const [unFilteredStudentsList, setUnFilteredStudentsList] = useState([]);
   const [schoolList, setSchoolList] = useState([]);
+  const [selectedSchool, setSelectedSchool] = useState(null);
   const [districtList, setDistrictlist] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [reportSummary, setReportSummary] = useState([]);
+  const [reRunState, setReRunState] = useState("");
 //   const schoolList = [
 //     {title: 'Olathe - North'},
 //     {title: 'Olathe - East' },
@@ -86,36 +90,65 @@ const ReportsApp = () => {
     });
     setSchoolList(schoolList);
     setDistrictlist(districtList);
+    generateSummary(sortedArr);
     setUnFilteredStudentsList(sortedArr);
     setStudents(sortedArr);
   }
   let handleSchoolListFilter = (e, val) => {
-    console.log("Selected School", val);
-    console.log("Students", unFilteredStudentsList);
-    
+    let schoolName = val != null ? val.title : null;
+    setSelectedSchool(schoolName);
+    console.log("School name:", val);
+    console.log("Disctrict name:", selectedDistrict);
       var filterdStudents = unFilteredStudentsList.filter((student) => {
-        if(val != null) {
+        if(val !== null && selectedDistrict !== null) {
+          return student.school == val.title && student.district == selectedDistrict;
+        } else if(val !== null && selectedDistrict == null) {
           return student.school == val.title;
+        } else if(val === null && selectedDistrict !== null) {
+          return student.district == selectedDistrict;
         } else {
           return student.school;
         }
       });
-    
+    generateSummary(filterdStudents);
     setStudents(filterdStudents);
+   
   }
   let handleDistrictFilter = (e, val) => {
-    console.log("Selected District", val);
-    console.log("Students", unFilteredStudentsList);
+    let districtName = val != null ? val.title : null;
+    setSelectedDistrict(districtName);
+    console.log("District name:", val);
+    console.log("School name:", selectedSchool);
     
       var filterdStudents = unFilteredStudentsList.filter((student) => {
-        if(val != null) {
+        if(val != null && selectedSchool !== null) {
+          return student.district == val.title && student.school == selectedSchool;
+        } else if(val != null && selectedSchool == null) {
           return student.district == val.title;
+        } else if(val == null && selectedSchool !== null) {
+          return student.school == selectedSchool;
         } else {
           return student.district;
         }
       });
-    
+    generateSummary(filterdStudents);
     setStudents(filterdStudents);
+  }
+  const generateSummary = (stdnts) => {
+    let summaryArray = [];
+    let summary = stdnts.reduce((std, obj) => {
+      // std["grade_"+obj.grade] = (std["grade_"+obj.grade] || 0) + 1;
+      std["gender_"+obj.gender] = (std["gender_"+obj.gender] || 0) + 1;
+      std["untreatedDecay_"+ obj.untreatedDecay] = (std["untreatedDecay_"+ obj.untreatedDecay] || 0) + 1;
+      std["treatedDecay_"+ obj.treatedDecay] = (std["treatedDecay_"+ obj.treatedDecay] || 0) + 1;
+      std["sealantsPresent_"+ obj.sealantsPresent] = (std["sealantsPresent_"+ obj.sealantsPresent] || 0) + 1;
+      std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] = (std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] || 0) + 1;
+      return std;
+      }, {});
+    summaryArray.push(summary);
+    setReportSummary(summaryArray);
+    console.log(summaryArray);
+    setReRunState("rerun"); // This is just to reset the state value
   }
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -218,6 +251,26 @@ const ReportsApp = () => {
               </thead>
 
               <tbody>
+                <tr>
+                    <td colSpan="12"> <b>{students.length}</b> Records Found!</td>
+                </tr>
+                <tr>
+                    <td colSpan="12">
+                    {reportSummary && reportSummary.map((student,key ) =>(
+                      <b key= {key}>
+                      Gender - Male: {student.gender_Male} - Female: {student.gender_Female}<br/>
+                      SealantsPresent - No: {student.sealantsPresent_No} , Yes: {student.sealantsPresent_Yes}, Null: {student.sealantsPresent_null}<br/>
+                      TreatedDecay - No: {student.treatedDecay_No}, Yes: {student.treatedDecay_Yes}, Null: {student.treatedDecay_null}<br/>
+                      UnTreatedDecay - No:{student.untreatedDecay_No}, Yes: {student.untreatedDecay_Yes}, Null: {student.untreatedDecay_null}<br/>
+                      TreatmentRecommendationCode - Evaluate for Restorative care:{student['treatmentRecommendationCode_Evaluate for Restorative care']},
+                      Evaluate for preventive sealants: {student['treatmentRecommendationCode_Evaluate for preventive sealants']},
+                      No obvious problem: {student['treatmentRecommendationCode_No obvious problem']},
+                      Urgent care needed: {student['treatmentRecommendationCode_Urgent care needed']},
+                      Null: {student['treatmentRecommendationCode_null']}
+                      </b>
+                    ))}
+                  </td>
+                </tr>
                 {students.map((student, key) => (
                   <tr
                     key={key}
@@ -245,9 +298,7 @@ const ReportsApp = () => {
                     
                   </tr>
                 ))}
-                <tr>
-                    <td colSpan="12"> <b>{students.length}</b> Records Found!</td>
-                  </tr>
+                
               </tbody>
             </table>
           </div>
