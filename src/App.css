@@ -7,6 +7,8 @@
 .econsentmsg{
   text-align: left;
   color: #9A9A9A;
+  font-size: 13px;
+  margin: -10px 0 10px 0;
 }
 
 .combobox{

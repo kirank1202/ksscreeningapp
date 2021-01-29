@@ -36,7 +36,7 @@ const initialFormState = {
     code: "",
     name: "",
     gender: "Male",
-    district: "",
+    district: "Hays USD 489",
     school: "",
     grade: "1",
     leftimage: "",
@@ -51,17 +51,24 @@ const initialExtraFormState = {
     dentalPain:  "No Pain"
 }
 
+// const schoolList = [
+//     {title: 'Olathe - North'},
+//     {title: 'Olathe - East' },
+//     {title: 'Olathe - West'},
+//     {title: 'Olathe - South' },
+//     {title: 'Blue Valley - North'},
+//     {title: 'Blue Valley - East' },
+//     {title: 'Blue Valley - West'},
+//     {title: 'Blue Valley - South' },    
+//     {title: 'Blue Valley - Northwest'},
+//     {title: 'Blue Valley - Southwest' },
+// ]; 
+
 const schoolList = [
-    {title: 'Olathe - North'},
-    {title: 'Olathe - East' },
-    {title: 'Olathe - West'},
-    {title: 'Olathe - South' },
-    {title: 'Blue Valley - North'},
-    {title: 'Blue Valley - East' },
-    {title: 'Blue Valley - West'},
-    {title: 'Blue Valley - South' },    
-    {title: 'Blue Valley - Northwest'},
-    {title: 'Blue Valley - Southwest' },
+    {title: "Lincoln Elementary"},
+    {title: "O'Loughlin Elementary" },
+    {title: "Roosevelt Elementary"},
+    {title: "Wilson Elementary" },
 ]; 
 
 const locationList = [
@@ -443,6 +450,7 @@ const CollectionApp = () => {
                                             value={formData.district}
                                             aria-label="district"
                                             aria-describedby="basic-addon1"
+                                            readOnly
                                             onChange={(e) =>
                                                 setFormData({
                                                     ...formData,
@@ -650,11 +658,47 @@ const CollectionApp = () => {
                                     </InputGroup>
                                 </div>
                                 <div className="econsentmsg"> 
-                                    <h6 align="left">
+                                    <span align="left">
                                     {t("* By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material")}
-                                    </h6>
+                                    </span>
                                 </div>
                                 <div className="mb-3">
+                                    <p>{t("Are you currently experiencing any dental pain?")}</p>
+                                    <Dropdown
+                                        value={extraFormData.dentalPain}
+                                        onSelect={(e) => {
+                                            setExtraFormData({
+                                                ...extraFormData,
+                                                dentalPain: e,
+                                            });
+                                        }}
+                                    >
+                                        <Dropdown.Toggle id="dropdown-basic">
+                                            {extraFormData.dentalPain}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                eventKey="No Pain"
+                                            >
+                                                {t("No Pain")}
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey="Minor Pain"
+                                            >
+                                                {t("Minor Pain")}
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey="significant pain"
+                                            >
+                                                {t("significant pain")}
+                                            </Dropdown.Item>
+                                            
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                </div>
+                                <div className="mb-3">
+                                <h6 className="BasicDetails">{t("OPT OUT")}</h6>
                                     <p>{t("I would like to opt out for dental screening.")}</p>
                                     <Dropdown
                                         value={extraFormData.dentalScreening}
@@ -690,7 +734,7 @@ const CollectionApp = () => {
                     </div>
                     { (extraFormData.dentalScreening == "No") ? (
                     <div className="photos-section">
-                    <h3 className="BasicDetails">{t("Photos")}</h3>
+                    <h6 className="BasicDetails">{t("PHOTOS")}</h6>
                     <h6 align="left" className="PhotosHeading">
                     {t("Please have your student in good lighting and take the pictures as shown. You can refer to this")}
                         <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y" target= "_blank">
@@ -865,7 +909,9 @@ const CollectionApp = () => {
                             className="SubmitButton"
                             type="submit"
                             disabled={
-                                !(
+                                !(  formData.code &&
+                                    formData.gender &&
+                                    formData.name &&
                                     formData.nonsmilingface &&
                                     formData.frontTeeth &&
                                     formData.topimage &&
@@ -879,7 +925,15 @@ const CollectionApp = () => {
                         </button>
                     </h4>)
                     : <h4>
-                        <button className="SubmitButton" type="submit">{t("Submit Student*")}
+                        <button className="SubmitButton" type="submit"
+                         disabled={
+                                !(  formData.code &&
+                                    formData.gender &&
+                                    formData.name
+                                )
+                                }
+                            >
+                                {t("Submit Student*")}
                         </button>
                     </h4>
                     }
