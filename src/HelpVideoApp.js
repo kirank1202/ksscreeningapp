@@ -51,7 +51,7 @@ const ReportsApp = () => {
                         <h5 className="logo-header" color="#fff">School Dental Screening Help </h5>
                             <nav role="navigation" class="desktop">
                             <ul id="d-menu">
-                                <li><a onClick={() => history.push('collection')}> Collection App </a> </li>
+                                <li><a onClick={() => history.push('collection')}>Screening App</a> </li>
                             </ul>
                             </nav>
                             <nav role="navigation" class="mobile">
@@ -61,7 +61,7 @@ const ReportsApp = () => {
                                 <span></span>
                                 <span></span>
                                 <ul id="menu">
-                                    <li><a onClick={() => history.push('collection') }>Collection App</a> </li>
+                                    <li><a onClick={() => history.push('collection') }>Screening App</a> </li>
                                 </ul>
                             </div>
                         </nav>
@@ -73,7 +73,7 @@ const ReportsApp = () => {
                     1. How to prepare for taking screening pictures
         </a>
         <br></br> <p></p>
-        <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y" target= "_blank">
+        <a href="https://vimeo.com/477795755" target= "_blank">
                     2. Demo of Completing student information and uploading dental images
         </a>
         <br></br> <p></p>

@@ -48,7 +48,7 @@ const initialFormState = {
 };
 const initialExtraFormState = {
     dentalScreening: "No",
-    dentalPain:  "No Pain"
+    dentalPain: "No"
 }
 
 // const schoolList = [
@@ -69,6 +69,8 @@ const schoolList = [
     {title: "O'Loughlin Elementary" },
     {title: "Roosevelt Elementary"},
     {title: "Wilson Elementary" },
+    {title: "Heys Middle School" },
+    {title: "Westside School" }
 ]; 
 
 const locationList = [
@@ -366,7 +368,7 @@ const CollectionApp = () => {
             formData.leftimage = image;
         }
         // handleConfirmSubmitModel();
-        alert(`Student ${formData.code} Uploaded Successfully.\n\nThank You for participating in Hays (USD 489) Dental Screening Program.`);
+        alert(`Student ${formData.code} Uploaded Successfully.\n\nThank You for participating in Hays (USD 489) 2021 Dental Screening Program.`);
         if(formData.okToReceiveMedicaidInfo === "Yes" ) {
             window.location.href = "https://www.kdheks.gov/hcf/Medicaid/eligibility_guidelines.html"; 
         } else {
@@ -414,13 +416,13 @@ const CollectionApp = () => {
             <form onSubmit={handleSubmit}>
                 <div className="mainContainer">
                     <div className="welcome-msg">
-                        <h4>{t("Welcome to Hays (USD 489) Dental Screening Program")} </h4>  
+                        <h4 class="heading-font">{t("Welcome to Hays (USD 489) 2021 Dental Screening Program ")} </h4>  
                     </div>
                     <div className="form">
                         <div className="formContainer">
                             <div className="leftArea">
                                 <div className="mb-3">
-                                    <p>{t("Screening Location")}</p>
+                                    <p>{t("Screening Location")}<span class="required">*</span></p>
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={locationList}
@@ -437,7 +439,7 @@ const CollectionApp = () => {
                                 </div>
                                 
                                 <div>
-                                    <p>{t("School District")}</p>
+                                    <p>{t("School District")}<span class="required">*</span></p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             value={formData.district}
@@ -456,7 +458,7 @@ const CollectionApp = () => {
                             
                                 
                                 <div className="mb-3">
-                                    <p>{t("School Name")}</p>
+                                    <p>{t("School Name")}<span class="required">*</span></p>
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={schoolList}
@@ -472,7 +474,7 @@ const CollectionApp = () => {
                                     />
                                 </div>
                                 <div>
-                                    <p>{t("Student ID")}</p>
+                                    <p>{t("Student ID")}<span class="required">*</span></p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             value={formData.code}
@@ -488,7 +490,7 @@ const CollectionApp = () => {
                                     </InputGroup>
                                 </div>
                                 <div>
-                                    <p>{t("First 3 Letters of Student's Legal First Name")}</p>
+                                    <p>{t("First 3 Letters of Student's Legal First Name")}<span class="required">*</span></p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             value={formData.firstname3letters}
@@ -505,7 +507,7 @@ const CollectionApp = () => {
                                     </InputGroup>
                                 </div>
                                 <div className="mb-3">
-                                    <p>{t("Grade")} </p>
+                                    <p>{t("Grade")}<span class="required">*</span> </p>
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={gradelist}
@@ -521,7 +523,7 @@ const CollectionApp = () => {
                                     />
                                 </div>
                                 <div className="mb-3">
-                                    <p>{t("Gender")}</p>
+                                    <p>{t("Gender")}<span class="required">*</span></p>
                                     <Dropdown
                                         value={formData.gender}
                                         onSelect={(e) => {
@@ -554,7 +556,7 @@ const CollectionApp = () => {
                                     </Dropdown>
                                 </div>
                                 <div className="mb-3">
-                                    <p>{t("Does student have dental insurance?")}</p>
+                                    <p>{t("Does student have dental insurance?")}<span class="required">*</span></p>
                                     <Dropdown
                                         value={formData.haveDentalInsurance}
                                         onSelect={(e) => {
@@ -634,7 +636,7 @@ const CollectionApp = () => {
                                 </div>  
                             ): "" }
                                 <div>
-                                    <p>{t("Parent/Guardian Email* ")}</p>
+                                    <p>{t("Parent/Guardian Email ")}<sup>1</sup><span class="required">*</span></p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             placeholder="Email"
@@ -653,11 +655,11 @@ const CollectionApp = () => {
                                 </div>
                                 <div className="econsentmsg"> 
                                     <span align="left">
-                                    {t("* By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material")}
+                                    <sup>1</sup>{t("By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material")}
                                     </span>
                                 </div>
                                 <div className="mb-3">
-                                    <p>{t("Are you currently experiencing any dental pain?")}</p>
+                                    <p>{t("Are you currently experiencing any mouth pain?")}<span class="required">*</span></p>
                                     <Dropdown
                                         value={extraFormData.dentalPain}
                                         onSelect={(e) => {
@@ -673,27 +675,21 @@ const CollectionApp = () => {
 
                                         <Dropdown.Menu>
                                             <Dropdown.Item
-                                                eventKey="No Pain"
+                                                eventKey="Yes"
                                             >
-                                                {t("No Pain")}
+                                                {t("Yes")}
                                             </Dropdown.Item>
                                             <Dropdown.Item
-                                                eventKey="Minor Pain"
+                                                eventKey="No"
                                             >
-                                                {t("Minor Pain")}
+                                                {t("No")}
                                             </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey="Significant Pain"
-                                            >
-                                                {t("Significant Pain")}
-                                            </Dropdown.Item>
-                                            
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
                                 <div className="mb-3">
                                 <h6 className="BasicDetails">{t("OPT OUT")}</h6>
-                                    <p>{t("Do you want to opt out of dental screening?")}</p>
+                                    <p>{t("I would not like to participate in the school dental screening?")}</p>
                                     <Dropdown
                                         value={extraFormData.dentalScreening}
                                         onSelect={(e) => {
@@ -899,12 +895,19 @@ const CollectionApp = () => {
                     ): "" }
                    { (extraFormData.dentalScreening === "No")? (
                        <h4>
+                        <span class="required"> {t("*Please select all the required fields")}</span>
                         <button
                             className="SubmitButton"
                             type="submit"
                             disabled={
-                                !(  formData.code &&
+                                !(  formData.location &&
+                                    formData.district &&
+                                    formData.school &&
+                                    formData.code &&
+                                    formData.firstname3letters &&
+                                    formData.grade &&
                                     formData.gender &&
+                                    formData.haveDentalInsurance &&
                                     formData.name &&
                                     formData.nonsmilingface &&
                                     formData.frontTeeth &&
@@ -919,10 +922,17 @@ const CollectionApp = () => {
                         </button>
                     </h4>)
                     : <h4>
+                        <span class="required"> {t("*Please select all the required fields")}</span>
                         <button className="SubmitButton" type="submit"
                          disabled={
-                                !(  formData.code &&
+                                !(  formData.location &&
+                                    formData.district &&
+                                    formData.school &&
+                                    formData.code &&
+                                    formData.firstname3letters &&
+                                    formData.grade &&
                                     formData.gender &&
+                                    formData.haveDentalInsurance &&
                                     formData.name
                                 )
                                 }
