@@ -46,6 +46,11 @@ const initialFormState = {
     okToReceiveMedicaidInfo: "No",
     evalStatus: "New",
 };
+const initialExtraFormState = {
+    dentalScreening: "No",
+    dentalPain:  "No Pain"
+}
+
 const schoolList = [
     {title: 'Olathe - North'},
     {title: 'Olathe - East' },
@@ -118,6 +123,7 @@ function getModalStyle() {
 
 const CollectionApp = () => {
     const [formData, setFormData] = useState(initialFormState);
+    const [extraFormData, setExtraFormData] = useState(initialExtraFormState);
     const [lang, setLang] = React.useState('en');
     const [students, setStudents] = useState([]);
     const [modalStyle] = React.useState(getModalStyle);
@@ -644,15 +650,45 @@ const CollectionApp = () => {
                                     </InputGroup>
                                 </div>
                                 <div className="econsentmsg"> 
-                                    <h8 align="left">
+                                    <h6 align="left">
                                     {t("* By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material")}
-                                    </h8>
+                                    </h6>
+                                </div>
+                                <div className="mb-3">
+                                    <p>{t("I would like to opt out for dental screening.")}</p>
+                                    <Dropdown
+                                        value={extraFormData.dentalScreening}
+                                        onSelect={(e) => {
+                                            setExtraFormData({
+                                                ...extraFormData,
+                                                dentalScreening: e,
+                                            });
+                                        }}
+                                    >
+                                        <Dropdown.Toggle id="dropdown-basic">
+                                            {extraFormData.dentalScreening}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                eventKey="Yes"
+                                            >
+                                                {t("Yes")}
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey="No"
+                                            >
+                                                {t("No")}
+                                            </Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
                                 </div>
                             </div>
                             
                             <div className="rightArea"></div>
                         </div>
                     </div>
+                    { (extraFormData.dentalScreening == "No") ? (
                     <div className="photos-section">
                     <h3 className="BasicDetails">{t("Photos")}</h3>
                     <h6 align="left" className="PhotosHeading">
@@ -821,7 +857,10 @@ const CollectionApp = () => {
                             </label>
                         </div>
                     </div>
-                    <h4>
+                </div>
+                    ): "" }
+                   { (extraFormData.dentalScreening === "No")? (
+                       <h4>
                         <button
                             className="SubmitButton"
                             type="submit"
@@ -838,21 +877,16 @@ const CollectionApp = () => {
                         >
                             {t("Submit Student*")}
                         </button>
-                       
+                    </h4>)
+                    : <h4>
+                        <button className="SubmitButton" type="submit">{t("Submit Student*")}
+                        </button>
                     </h4>
-                    <h8 align="left">
+                    }
+                    <h6 align="left">
                         {t("* By submiting, you authorize dental professionals to review the submitted data for screening purposes.")}
-                    </h8>
+                    </h6>
                     <br/>
-                    {/* <button
-                        className="SubmitButton"
-                        onClick={() => {
-                          history.push('/reports');
-                        }}
-                    > 
-                        Go To Reports
-                    </button> */}
-                </div>
                 </div>
             </form>
             <Modal
@@ -912,13 +946,7 @@ const CollectionApp = () => {
                         </a>
                     )}
                     <br />
-                    
-                    {/* <Button
-                        onClick={handleConfirmSubmitModelClose}
-                        style={{ display: "block", margin: "10px auto" }}
-                    >
-                        OK
-                    </Button> */}
+                   
                 </div>
             </Modal>
             
