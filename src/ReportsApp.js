@@ -1,47 +1,44 @@
 import React, { useState, useEffect } from "react";
 import { API, Storage } from "aws-amplify";
 import { listStudents } from "./graphql/queries";
-import {
-  createStudent as createStudentMutation,
-  deleteStudent as deleteStudentMutation,
-  updateStudent as updateStudentMutation,
-} from "./graphql/mutations";
 import "./App.css";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
 import { makeStyles } from "@material-ui/core/styles";
-import Modal from "@material-ui/core/Modal";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import logo from "./TeledentalSolutionLogo13.png";
-
 import { useHistory } from "react-router-dom";
-
+import FormCntrl from "react-bootstrap/FormControl";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 
 const ReportsApp = () => {
   const [students, setStudents] = useState([]);
-  const [imageData, setImageData] = useState();
-  const [dummyState, setDummyState] = useState();
-  const initialState = {
-    untreatedDecay: "No",
-    treatedDecay: "No",
-    sealantsPresent: "Sealants Not Present",
-    treatmentRecommendationCode: "No obvious problem",
-  };
-  const [states, setState] = React.useState(initialState); // const [modalStyle] = React.useState(getModalStyle);
-  const [open, setOpen] = React.useState(false);
+  const [unFilteredStudentsList, setUnFilteredStudentsList] = useState([]);
+  const [schoolList, setSchoolList] = useState([]);
+  const [selectedSchool, setSelectedSchool] = useState(null);
+  const [districtList, setDistrictlist] = useState([]);
+  const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [reportSummary, setReportSummary] = useState([]);
+  const [reRunState, setReRunState] = useState("");
+//   const schoolList = [
+//     {title: 'Olathe - North'},
+//     {title: 'Olathe - East' },
+//     {title: 'Olathe - West'},
+//     {title: 'Olathe - South' },
+//     {title: 'Blue Valley - North'},
+//     {title: 'Blue Valley - East' },
+//     {title: 'Blue Valley - West'},
+//     {title: 'Blue Valley - South' },    
+//     {title: 'Blue Valley - Northwest'},
+//     {title: 'Blue Valley - Southwest' },
+// ]; 
   window.$stateChanged = false;
-  const [imageLink, setImageLink] = React.useState("");
   let history = useHistory();
-
-  const handleOpen = () => {
-            setOpen(!open);
-          };
-          console.log("ABC", states); // function getModalStyle() { // const top = 15; // const left = 15; // return { // top: `${top}%`, // left: `${left}%`, // transform: `translate(-${top}%, -${left}%)`, // }; // }
-          useEffect(() => {
-            fetchAllStudents();
-          }, []); /* retrieve all students from DynamoDB using graphql API interace */
-
+  useEffect(() => {
+    fetchAllStudents();
+  }, []); 
+          
+  /* retrieve all students from DynamoDB using graphql API interace */
   async function fetchAllStudents() {
    // const apiData = await API.graphql({ query: listStudents });
     const apiData = await API.graphql({
@@ -83,78 +80,75 @@ const ReportsApp = () => {
       (a, b) =>
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     ); // setStudents(apiData.data.listStudents.items);
+    studentsFromAPI.forEach(student => {
+      if(!schoolList.some( e => e.title == student.school)) {
+        schoolList.push({title: student.school});
+      }
+      if(!districtList.some(e => e.title == student.district)) {
+        districtList.push({title: student.district});
+      }
+    });
+    setSchoolList(schoolList);
+    setDistrictlist(districtList);
+    generateSummary(sortedArr);
+    setUnFilteredStudentsList(sortedArr);
     setStudents(sortedArr);
   }
-  async function deleteStudent({ id }) {
-    const student = students.find((student) => student.id === id);
-    const newStudentArray = students.filter((student) => student.id !== id);
-    setStudents(newStudentArray);
-    await API.graphql({
-      query: deleteStudentMutation,
-      variables: { input: { id: id } },
-    });
-    await Storage.remove(student.leftimage);
-    await Storage.remove(student.rightimage);
-    await Storage.remove(student.topimage);
-    await Storage.remove(student.bottomimage);
+  let handleSchoolListFilter = (e, val) => {
+    let schoolName = val != null ? val.title : null;
+    setSelectedSchool(schoolName);
+    console.log("School name:", val);
+    console.log("Disctrict name:", selectedDistrict);
+      var filterdStudents = unFilteredStudentsList.filter((student) => {
+        if(val !== null && selectedDistrict !== null) {
+          return student.school == val.title && student.district == selectedDistrict;
+        } else if(val !== null && selectedDistrict == null) {
+          return student.school == val.title;
+        } else if(val === null && selectedDistrict !== null) {
+          return student.district == selectedDistrict;
+        } else {
+          return student.school;
+        }
+      });
+    generateSummary(filterdStudents);
+    setStudents(filterdStudents);
+   
   }
-  async function handleSubmit(e) {
-    try {
-      e.preventDefault();
-      if (imageData < students.length) {
-        setImageData(imageData + 1);
-      }
-      
-      states.evalStatus = "Completed";
-      // to be submitted info.
-      const toSubmitStudentId = students[imageData].id;
-      const toSubmitStateUD = states.untreatedDecay.toString();
-      const toSubmitStateTD = states.treatedDecay.toString();
-      const toSubmitStateTRC = states.treatmentRecommendationCode.toString();
-      const toSubmitStateSP= states.sealantsPresent.toString();
-      // Next Student data setting.
-      students[imageData].untreatedDecay = states.untreatedDecay;
-      students[imageData].treatedDecay = states.treatedDecay;
-      students[imageData].treatmentRecommendationCode = states.treatmentRecommendationCode;
-      students[imageData].sealantsPresent = states.sealantsPresent;
-      students[imageData].evalStatus = states.evalStatus;
-      //console.log("1", imageData);
-      // Next state data setting.
-      states.untreatedDecay = students[imageData+1].untreatedDecay;
-      states.treatedDecay = students[imageData+1].treatedDecay ;
-      states.treatmentRecommendationCode = students[imageData+1].treatmentRecommendationCode;
-      states.sealantsPresent = students[imageData+1].sealantsPresent;
-      states.evalStatus = students[imageData+1].evalStatus;
-      setState(states);
-      setStudents(students);
-
-      //console.log("1", imageData);
-      await API.graphql({
-        query: updateStudentMutation,
-        variables: {
-          input: {
-            id: toSubmitStudentId,
-            untreatedDecay: toSubmitStateUD,
-            treatedDecay: toSubmitStateTD,
-            treatmentRecommendationCode: toSubmitStateTRC,
-            sealantsPresent: toSubmitStateSP,
-            evalStatus: "Completed",
-          },
-        },
-      }); // setState(initialState);
-      // //setImageData(imageData);
-      // setDummyState("re-render-component");
-
-      alert("Evaluation Recorded Successfully for student " + students[imageData].code);
-    } catch (error) {
-      console.error(error);
-    }
+  let handleDistrictFilter = (e, val) => {
+    let districtName = val != null ? val.title : null;
+    setSelectedDistrict(districtName);
+    console.log("District name:", val);
+    console.log("School name:", selectedSchool);
+    
+      var filterdStudents = unFilteredStudentsList.filter((student) => {
+        if(val != null && selectedSchool !== null) {
+          return student.district == val.title && student.school == selectedSchool;
+        } else if(val != null && selectedSchool == null) {
+          return student.district == val.title;
+        } else if(val == null && selectedSchool !== null) {
+          return student.school == selectedSchool;
+        } else {
+          return student.district;
+        }
+      });
+    generateSummary(filterdStudents);
+    setStudents(filterdStudents);
   }
-  
-  function selectDDValue(imgIndex, stateProperty) {
-      console.log("Student on DD Change", imgIndex, stateProperty, students[imgIndex][stateProperty]);
-      console.log("State on DD Change", states[stateProperty]);
-      return states[stateProperty];
+  const generateSummary = (stdnts) => {
+    let summaryArray = [];
+    let summary = stdnts.reduce((std, obj) => {
+      // std["grade_"+obj.grade] = (std["grade_"+obj.grade] || 0) + 1;
+      std["gender_"+obj.gender] = (std["gender_"+obj.gender] || 0) + 1;
+      std["untreatedDecay_"+ obj.untreatedDecay] = (std["untreatedDecay_"+ obj.untreatedDecay] || 0) + 1;
+      std["treatedDecay_"+ obj.treatedDecay] = (std["treatedDecay_"+ obj.treatedDecay] || 0) + 1;
+      std["sealantsPresent_"+ obj.sealantsPresent] = (std["sealantsPresent_"+ obj.sealantsPresent] || 0) + 1;
+      std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] = (std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] || 0) + 1;
+      return std;
+      }, {});
+    summaryArray.push(summary);
+    setReportSummary(summaryArray);
+    console.log(summaryArray);
+    setReRunState("rerun"); // This is just to reset the state value
   }
   const useStyles = makeStyles((theme) => ({
     formControl: {
@@ -187,73 +181,9 @@ const ReportsApp = () => {
       padding: theme.spacing(2, 4, 3),
     },
   }));
-  const handleFormState = (key) => {
-    console.log("students in handleformState:", students[key]);
-    // if (students[key] && students[key].untreatedDecay) {
-    //   setState({
-    //     ...states,
-    //     untreatedDecay: students[key].untreatedDecay,
-    //    });
-    //   // console.log("untreated decay", students[key].untreatedDecay); // useEffect(() => {console.log('1', states.untreatedDecay); }, [states]);
-    //   // console.log("1", states.untreatedDecay);
-    // } 
-    console.log("*******: ",students[key].untreatedDecay);
-    if (students[key] && students[key].untreatedDecay) {
-      states.untreatedDecay = students[key].untreatedDecay;
-      setState(states);
-      console.log("Immediate states 2:", states); 
-      // setState({
-      //   ...states,
-      //   untreatedDecay: students[key].untreatedDecay,
-      // });
-    }
-    if (students[key] && students[key].treatedDecay) {
-      states.treatedDecay = students[key].treatedDecay;
-      setState(states);
-      //setState({ ...states, treatedDecay: students[key].treatedDecay });
-    }
-    if (students[key] && students[key].sealantsPresent) {
-      states.sealantsPresent = students[key].sealantsPresent;
-      setState(states);
-      // setState({
-      //   ...states,
-      //   sealantsPresent: students[key].sealantsPresent,
-      // });
-      //console.log("Students sealantsPresent inside form state", students[key].sealantsPresent); // useEffect(() => {console.log('1', states.untreatedDecay); }, [states]);
-     // console.log("States sealantsPresent inside form state", states.sealantsPresent);
-    }
-    if (students[key] && students[key].treatmentRecommendationCode) {
-      states.treatmentRecommendationCode = students[key].treatmentRecommendationCode;
-      setState(states);
-      // setState({
-      //   ...states,
-      //   treatmentRecommendationCode: students[key].treatmentRecommendationCode,
-      // });
-    }
-    console.log("states end of handleformState:", states, key); 
-  };
-  const handleImageLink = (link) => {
-    setImageLink(link);
-    setOpen(!open); // console.log(imageLink)
-  };
-
-
   const classes = useStyles();
   return (
-    /* if user.group = "datacollector"
- {
- } */
     <div className="App">
-      {/* {students.length === 0 && (
- <>
- <h2>Screening Evaluation App</h2>
- <h4>
- <button onClick={fetchAllStudents}>Fetch All Students</button>
- </h4>
- </>
- )} */}
-
-      {students.length > 1 && (
         <>
           <div className={classes.root}>
             <AppBar position="fixed" color="#fff">
@@ -263,9 +193,6 @@ const ReportsApp = () => {
                 <nav role="navigation" class="desktop">
                   <ul id="d-menu">
                       <li> <a onClick={() => history.push('evaluation') }><h5> Evaluation</h5> </a> </li>
-                      {/* <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
-                      <li> <a onClick={() => history.push('reports') }>Communication</a> </li>          
-                      <li> <a href="https://www.teledentalsolutions.com/" target="_blank">Other</a></li> */}
                   </ul>
                 </nav>
                 <nav role="navigation" class="mobile">
@@ -282,16 +209,29 @@ const ReportsApp = () => {
               </Toolbar>
             </AppBar>
           </div>
-
           <div className="content-container">
-            {/* <InputGroup className="mb-3">
- <FormControl
- placeholder="Search Student ID # Or School ID #"
- aria-label="Username"
- aria-describedby="basic-addon1"
- />
- </InputGroup> */}
-
+                <div className="leftArea">
+                  <div>
+                    <p>School District</p>
+                    <Autocomplete
+                      id="combo-box-demo"
+                      options={districtList}
+                      onChange={(event, newValue) => handleDistrictFilter(event, newValue)}
+                      getOptionLabel={(option) => option.title}
+                      renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <p>School Name</p>
+                    <Autocomplete
+                      id="combo-box-demo"
+                      options={schoolList}
+                      onChange={(event, newValue) => handleSchoolListFilter(event, newValue)}
+                      getOptionLabel={(option) => option.title}
+                      renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                    />
+                  </div>
+            </div>
             <table>
               <thead>
                 <tr>
@@ -311,18 +251,29 @@ const ReportsApp = () => {
               </thead>
 
               <tbody>
+                <tr>
+                    <td colSpan="12"> <b>{students.length}</b> Records Found!</td>
+                </tr>
+                <tr>
+                    <td colSpan="12">
+                    {reportSummary && reportSummary.map((student,key ) =>(
+                      <b key= {key}>
+                      Gender - Male: {student.gender_Male} - Female: {student.gender_Female}<br/>
+                      SealantsPresent - No: {student.sealantsPresent_No} , Yes: {student.sealantsPresent_Yes}, Null: {student.sealantsPresent_null}<br/>
+                      TreatedDecay - No: {student.treatedDecay_No}, Yes: {student.treatedDecay_Yes}, Null: {student.treatedDecay_null}<br/>
+                      UnTreatedDecay - No:{student.untreatedDecay_No}, Yes: {student.untreatedDecay_Yes}, Null: {student.untreatedDecay_null}<br/>
+                      TreatmentRecommendationCode - Evaluate for Restorative care:{student['treatmentRecommendationCode_Evaluate for Restorative care']},
+                      Evaluate for preventive sealants: {student['treatmentRecommendationCode_Evaluate for preventive sealants']},
+                      No obvious problem: {student['treatmentRecommendationCode_No obvious problem']},
+                      Urgent care needed: {student['treatmentRecommendationCode_Urgent care needed']},
+                      Null: {student['treatmentRecommendationCode_null']}
+                      </b>
+                    ))}
+                  </td>
+                </tr>
                 {students.map((student, key) => (
                   <tr
                     key={key}
-                    onClick={() => {
-                      setImageData(key); // setEvalData(key);
-                      handleFormState(key);
-                    }}
-                    className={
-                      key === imageData
-                        ? "table-row-page-active"
-                        : "table-row-page"
-                    }
                   >
                     <td>{student.district}</td>
                     <td>{student.school}</td>
@@ -347,132 +298,11 @@ const ReportsApp = () => {
                     
                   </tr>
                 ))}
+                
               </tbody>
             </table>
           </div>
-
-
-          {students[imageData] ? (
-            <div>
-              <form onSubmit={handleSubmit}>
-                <div className="image-info-container">
-                  <p>
-                    <b
-                      style={{
-                        fontSize: "18px",
-                      }}
-                    >
-                      ID:{" "}
-                    </b>
-
-                    {students[imageData].code}
-                  </p>
-
-                  <p>
-                    <b
-                      style={{
-                        fontSize: "18px",
-                      }}
-                    >
-                      School:{" "}
-                    </b>{" "}
-                    {students[imageData].school}
-                  </p>
-
-                  <p>
-                    <b
-                      style={{
-                        fontSize: "18px",
-                      }}
-                    >
-                      Grade:{" "}
-                    </b>
-
-                    {students[imageData].grade}
-                  </p>
-                </div>
-
-                <div
-                  style={{
-                    marginBottom: "20px",
-                    marginTop: "20px",
-                  }}
-                  className="teeth-image-container"
-                >
-                  Nonsmiling
-                  <img
-                    src={students[imageData].nonsmilingface}
-                    onClick={() =>
-                      handleImageLink(students[imageData].nonsmilingface)
-                    }
-                    alt="..."
-                  />
-                  Front
-                  <img
-                    src={students[imageData].frontTeeth}
-                    onClick={() =>
-                      handleImageLink(students[imageData].frontTeeth)
-                    }
-                    alt="..."
-                  />
-                  Left
-                  <img
-                    src={students[imageData].leftimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].leftimage)
-                    }
-                    alt="..."
-                  />
-                  Right
-                  <img
-                    src={students[imageData].rightimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].rightimage)
-                    }
-                    alt="..."
-                  />
-                  Top
-                  <img
-                    src={students[imageData].topimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].topimage)
-                    }
-                    alt="..."
-                  />
-                  Bottom
-                  <img
-                    src={students[imageData].bottomimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].bottomimage)
-                    }
-                    alt="..."
-                  />
-                </div>
-                <p></p>
-              </form>
-
-              <Modal
-                open={open}
-                onClose={handleOpen}
-                aria-labelledby="simple-modal-title"
-                aria-describedby="simple-modal-description"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <div
-                  style={{ margin: "0 auto", width: "60%", height: "50%" }}
-                  className={classes.paper}
-                >
-                  <img height="100%" width="100%" src={imageLink} alt="..." />
-                </div>
-              </Modal>
-            </div>
-          ) : null}
         </>
-      )}
     </div>
   );
 };
