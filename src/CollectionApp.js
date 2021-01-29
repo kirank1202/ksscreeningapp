@@ -85,13 +85,6 @@ const gradelist = [
     { title: '3'},
     { title: '4'},
     { title: '5'},
-    { title: '6'},
-    { title: '7'},
-    { title: '8'},
-    { title: '9'},
-    { title: '10'},
-    { title: '11'},
-    { title: '12'}
   ];
 
 const resetStudentState = {
@@ -373,7 +366,7 @@ const CollectionApp = () => {
             formData.leftimage = image;
         }
         // handleConfirmSubmitModel();
-        alert(`Student ${formData.code} Uploaded Successfully.\n\nThank You for participating in Dental Screening 2020 Program.`);
+        alert(`Student ${formData.code} Uploaded Successfully.\n\nThank You for participating in Hays (USD 489) Dental Screening Program.`);
         if(formData.okToReceiveMedicaidInfo === "Yes" ) {
             window.location.href = "https://www.kdheks.gov/hcf/Medicaid/eligibility_guidelines.html"; 
         } else {
@@ -421,7 +414,7 @@ const CollectionApp = () => {
             <form onSubmit={handleSubmit}>
                 <div className="mainContainer">
                     <div className="welcome-msg">
-                        <h4>{t("Welcome to 2020 Student Screening Program")} </h4>  
+                        <h4>{t("Welcome to Hays (USD 489) Dental Screening Program")} </h4>  
                     </div>
                     <div className="form">
                         <div className="formContainer">
@@ -495,12 +488,13 @@ const CollectionApp = () => {
                                     </InputGroup>
                                 </div>
                                 <div>
-                                    <p>{t("First 3 Letters of Student's first Name")}</p>
+                                    <p>{t("First 3 Letters of Student's Legal First Name")}</p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             value={formData.firstname3letters}
                                             aria-label="firstname3letters"
                                             aria-describedby="basic-addon1"
+                                            maxlength="3"
                                             onChange={(e) =>
                                                 setFormData({
                                                     ...formData,
@@ -689,9 +683,9 @@ const CollectionApp = () => {
                                                 {t("Minor Pain")}
                                             </Dropdown.Item>
                                             <Dropdown.Item
-                                                eventKey="significant pain"
+                                                eventKey="Significant Pain"
                                             >
-                                                {t("significant pain")}
+                                                {t("Significant Pain")}
                                             </Dropdown.Item>
                                             
                                         </Dropdown.Menu>
@@ -699,7 +693,7 @@ const CollectionApp = () => {
                                 </div>
                                 <div className="mb-3">
                                 <h6 className="BasicDetails">{t("OPT OUT")}</h6>
-                                    <p>{t("I would like to opt out for dental screening.")}</p>
+                                    <p>{t("Do you want to opt out of dental screening?")}</p>
                                     <Dropdown
                                         value={extraFormData.dentalScreening}
                                         onSelect={(e) => {
