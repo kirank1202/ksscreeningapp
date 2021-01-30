@@ -593,7 +593,7 @@ const CollectionApp = () => {
                                 </div>
                             {(formData.haveDentalInsurance == "No") ? (
                                 <div className="mb-3">
-                                    <p> {t("Would you like to receive information on Kansas Medicaid: ")} 
+                                    <p>{t("Would you like to receive information on Kansas Medicaid?")} &nbsp;
                                     <input
                                         onClick={() => {
                                             setFormData({

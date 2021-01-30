@@ -127,9 +127,8 @@ const ReportsApp = () => {
   }
   let handleGradeFilter = (unFiltStudents) => {
     var wholeSummary = [];
-    var gradeCodesList = ['K','1', '2', '3', '4', '5', '6', '7'];
+    var gradeCodesList = ['K','1', '2', '3', '4', '5', '6', '7', 'Total'];
     let gradesSummary = [];
-    let totalGradeSummary = [];
 
     for (let i = 0; i < gradeCodesList.length; i++) {
       if(gradeCodesList[i] !== "Total") {
@@ -137,7 +136,6 @@ const ReportsApp = () => {
         let filterByGrade = unFiltStudents.filter((student) => {
           return student.grade == gradeCodesList[i];
         });
-        console.log('for summary: ',filterByGrade);
         gradesSummary = filterByGrade.reduce((std, obj) => {
           std["grade"] = gradeCodesList[i];
           std["untreatedDecay_"+ obj.untreatedDecay] = (std["untreatedDecay_"+ obj.untreatedDecay] || 0) + 1;
@@ -147,38 +145,35 @@ const ReportsApp = () => {
           return std;
           }, {});
           wholeSummary.push(gradesSummary);
-      } else {
-        console.log('for total: ', wholeSummary);
-        totalGradeSummary = wholeSummary.reduce((grade, obj) => {
-          grade["grade"] = 'Total';
-          grade['untreatedDecay_Yes'] = (grade["untreatedDecay_Yes"] || 0) + 1;
-          grade['untreatedDecay_No'] = (grade["untreatedDecay_No"] || 0) + 1;
-          grade["treatedDecay_Yes"] = (grade["treatedDecay_Yes"] || 0) + 1;
-          grade["treatedDecay_No"] = (grade["treatedDecay_No"] || 0) + 1;
-          grade["sealantsPresent_Yes"] = (grade["sealantsPresent_Yes"] || 0) + 1;
-          grade["sealantsPresent_No"] = (grade["sealantsPresent_No"] || 0) + 1;
-          grade['treatmentRecommendationCode_No obvious problem']  = (grade['treatmentRecommendationCode_No obvious problem']  || 0) + 1;
-          grade['treatmentRecommendationCode_Evaluate for preventive sealants']  = (grade['treatmentRecommendationCode_Evaluate for preventive sealants'] || 0) + 1;
-          grade['treatmentRecommendationCode_Evaluate for Restorative care']  = (grade['treatmentRecommendationCode_Evaluate for Restorative care'] || 0) + 1;
-          grade['treatmentRecommendationCode_Urgent care needed']  = (grade['treatmentRecommendationCode_Urgent care needed'] || 0) + 1;
-          return grade;
-        }
-       );
-       wholeSummary.push(totalGradeSummary);
-      }
+      }      
     }
+    let grade= {};
+    for(var item in wholeSummary) {
+      grade["grade"] = 'Total';
+      grade['untreatedDecay_Yes'] = (grade['untreatedDecay_Yes'] ? grade['untreatedDecay_Yes'] : 0) + (wholeSummary[item]['untreatedDecay_Yes'] ? wholeSummary[item]['untreatedDecay_Yes'] : 0 );
+      grade['untreatedDecay_No'] = (grade['untreatedDecay_No'] ? grade['untreatedDecay_No'] : 0) + (wholeSummary[item]['untreatedDecay_No'] ? wholeSummary[item]['untreatedDecay_No'] : 0 );
+      
+      grade['treatedDecay_Yes'] = (grade['treatedDecay_Yes'] ? grade['treatedDecay_Yes'] : 0) + (wholeSummary[item]['treatedDecay_Yes'] ? wholeSummary[item]['treatedDecay_Yes'] : 0 );
+      grade['treatedDecay_No'] = (grade['treatedDecay_No'] ? grade['treatedDecay_No'] : 0) + (wholeSummary[item]['treatedDecay_No'] ? wholeSummary[item]['treatedDecay_No'] : 0 );
+      
+      grade['sealantsPresent_Yes'] = (grade['sealantsPresent_Yes'] ? grade['sealantsPresent_Yes'] : 0) + (wholeSummary[item]['sealantsPresent_Yes'] ? wholeSummary[item]['sealantsPresent_Yes'] : 0 );
+      grade['sealantsPresent_No'] = (grade['sealantsPresent_No'] ? grade['sealantsPresent_No'] : 0) + (wholeSummary[item]['sealantsPresent_No'] ? wholeSummary[item]['sealantsPresent_No'] : 0 );
+
+      grade['treatmentRecommendationCode_No obvious problem'] = (grade['treatmentRecommendationCode_No obvious problem'] ? grade['treatmentRecommendationCode_No obvious problem'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_No obvious problem'] ? wholeSummary[item]['treatmentRecommendationCode_No obvious problem'] : 0 );
+      grade['treatmentRecommendationCode_Evaluate for preventive sealants'] = (grade['treatmentRecommendationCode_Evaluate for preventive sealants'] ? grade['treatmentRecommendationCode_Evaluate for preventive sealants'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Evaluate for preventive sealants'] ? wholeSummary[item]['treatmentRecommendationCode_Evaluate for preventive sealants'] : 0 );
+      grade['treatmentRecommendationCode_Evaluate for Restorative care'] = (grade['treatmentRecommendationCode_Evaluate for Restorative care'] ? grade['treatmentRecommendationCode_Evaluate for Restorative care'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Evaluate for Restorative care'] ? wholeSummary[item]['treatmentRecommendationCode_Evaluate for Restorative care'] : 0 );
+      grade['treatmentRecommendationCode_Urgent care needed'] = (grade['treatmentRecommendationCode_Urgent care needed'] ? grade['treatmentRecommendationCode_Urgent care needed'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Urgent care needed'] ? wholeSummary[item]['treatmentRecommendationCode_Urgent care needed'] : 0 );
+  
+    }
+    wholeSummary.push(grade);
+   // console.log("Whole Summary", wholeSummary);
     setReportSummary(wholeSummary);
     setReRunState("return"); // This is just to reset the state value
-    // console.log("Summary By Grade: ", reportSummary);
-    // setReRunState("retur2n");
-    // console.log("Summary By Grade: ", reportSummary);
   }
   const generateSummary = (stdnts, grade) => {
     var gradeCode = grade;
     console.log('students',stdnts);
     let summary = stdnts.reduce((std, obj) => {
-      // std["grade_"+obj.grade] = (std["grade_"+obj.grade] || 0) + 1;
-      // std["gender_"+obj.gender] = (std["gender_"+obj.gender] || 0) + 1;
       std["untreatedDecay_"+ obj.untreatedDecay] = (std["untreatedDecay_"+ obj.untreatedDecay] || 0) + 1;
       std["treatedDecay_"+ obj.treatedDecay] = (std["treatedDecay_"+ obj.treatedDecay] || 0) + 1;
       std["sealantsPresent_"+ obj.sealantsPresent] = (std["sealantsPresent_"+ obj.sealantsPresent] || 0) + 1;
@@ -275,9 +270,9 @@ const ReportsApp = () => {
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody >
                 {reportSummary.map((studentGrade, key) => (
-                  <tr
+                  <tr class={studentGrade.grade.toLowerCase()}
                     key={key}
                   >
                     <td>{studentGrade.grade}</td>

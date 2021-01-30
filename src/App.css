@@ -21,6 +21,9 @@
   border: 1px solid grey;
   padding: 10px;
 }
+.table-row-page td {
+  padding: 10px; 
+}
 .combobox{
   height: 2px;
   padding: rem 1rem 1. rem0;
@@ -329,7 +332,13 @@ tr {
   margin: 0 auto;
   padding: 70px 30px 30px;
 }
-
+.table-scroll {
+  height: 700px;
+  overflow-y: scroll;
+}
+.total {
+  font-weight: 700;
+}
 .details-details-container {
   padding: 20px;
 }
