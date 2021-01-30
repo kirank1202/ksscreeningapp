@@ -20,7 +20,18 @@ const ReportsApp = () => {
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [reportSummary, setReportSummary] = useState([]);
   const [reRunState, setReRunState] = useState("");
-
+//   const schoolList = [
+//     {title: 'Olathe - North'},
+//     {title: 'Olathe - East' },
+//     {title: 'Olathe - West'},
+//     {title: 'Olathe - South' },
+//     {title: 'Blue Valley - North'},
+//     {title: 'Blue Valley - East' },
+//     {title: 'Blue Valley - West'},
+//     {title: 'Blue Valley - South' },    
+//     {title: 'Blue Valley - Northwest'},
+//     {title: 'Blue Valley - Southwest' },
+// ]; 
   window.$stateChanged = false;
   let history = useHistory();
   useEffect(() => {
@@ -79,11 +90,9 @@ const ReportsApp = () => {
     });
     setSchoolList(schoolList);
     setDistrictlist(districtList);
-    //generateSummary(sortedArr);
-    handleGradeFilter(sortedArr);
+    generateSummary(sortedArr);
     setUnFilteredStudentsList(sortedArr);
     setStudents(sortedArr);
-  //  handleGradeFilter();
   }
   let handleSchoolListFilter = (e, val) => {
     let schoolName = val != null ? val.title : null;
@@ -125,75 +134,22 @@ const ReportsApp = () => {
     generateSummary(filterdStudents);
     setStudents(filterdStudents);
   }
-  let handleGradeFilter = (unFiltStudents) => {
-    var wholeSummary = [];
-    var gradeCodesList = ['K','1', '2', '3', '4', '5', '6', '7'];
-    let gradesSummary = [];
-    let totalGradeSummary = [];
-
-    for (let i = 0; i < gradeCodesList.length; i++) {
-      if(gradeCodesList[i] !== "Total") {
-
-        let filterByGrade = unFiltStudents.filter((student) => {
-          return student.grade == gradeCodesList[i];
-        });
-        console.log('for summary: ',filterByGrade);
-        gradesSummary = filterByGrade.reduce((std, obj) => {
-          std["grade"] = gradeCodesList[i];
-          std["untreatedDecay_"+ obj.untreatedDecay] = (std["untreatedDecay_"+ obj.untreatedDecay] || 0) + 1;
-          std["treatedDecay_"+ obj.treatedDecay] = (std["treatedDecay_"+ obj.treatedDecay] || 0) + 1;
-          std["sealantsPresent_"+ obj.sealantsPresent] = (std["sealantsPresent_"+ obj.sealantsPresent] || 0) + 1;
-          std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] = (std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] || 0) + 1;
-          return std;
-          }, {});
-          wholeSummary.push(gradesSummary);
-      } else {
-        console.log('for total: ', wholeSummary);
-        totalGradeSummary = wholeSummary.reduce((grade, obj) => {
-          grade["grade"] = 'Total';
-          grade['untreatedDecay_Yes'] = (grade["untreatedDecay_Yes"] || 0) + 1;
-          grade['untreatedDecay_No'] = (grade["untreatedDecay_No"] || 0) + 1;
-          grade["treatedDecay_Yes"] = (grade["treatedDecay_Yes"] || 0) + 1;
-          grade["treatedDecay_No"] = (grade["treatedDecay_No"] || 0) + 1;
-          grade["sealantsPresent_Yes"] = (grade["sealantsPresent_Yes"] || 0) + 1;
-          grade["sealantsPresent_No"] = (grade["sealantsPresent_No"] || 0) + 1;
-          grade['treatmentRecommendationCode_No obvious problem']  = (grade['treatmentRecommendationCode_No obvious problem']  || 0) + 1;
-          grade['treatmentRecommendationCode_Evaluate for preventive sealants']  = (grade['treatmentRecommendationCode_Evaluate for preventive sealants'] || 0) + 1;
-          grade['treatmentRecommendationCode_Evaluate for Restorative care']  = (grade['treatmentRecommendationCode_Evaluate for Restorative care'] || 0) + 1;
-          grade['treatmentRecommendationCode_Urgent care needed']  = (grade['treatmentRecommendationCode_Urgent care needed'] || 0) + 1;
-          return grade;
-        }
-       );
-       wholeSummary.push(totalGradeSummary);
-      }
-    }
-    setReportSummary(wholeSummary);
-    setReRunState("return"); // This is just to reset the state value
-    // console.log("Summary By Grade: ", reportSummary);
-    // setReRunState("retur2n");
-    // console.log("Summary By Grade: ", reportSummary);
-  }
-  const generateSummary = (stdnts, grade) => {
-    var gradeCode = grade;
-    console.log('students',stdnts);
+  const generateSummary = (stdnts) => {
+    let summaryArray = [];
     let summary = stdnts.reduce((std, obj) => {
       // std["grade_"+obj.grade] = (std["grade_"+obj.grade] || 0) + 1;
-      // std["gender_"+obj.gender] = (std["gender_"+obj.gender] || 0) + 1;
+      std["gender_"+obj.gender] = (std["gender_"+obj.gender] || 0) + 1;
       std["untreatedDecay_"+ obj.untreatedDecay] = (std["untreatedDecay_"+ obj.untreatedDecay] || 0) + 1;
       std["treatedDecay_"+ obj.treatedDecay] = (std["treatedDecay_"+ obj.treatedDecay] || 0) + 1;
       std["sealantsPresent_"+ obj.sealantsPresent] = (std["sealantsPresent_"+ obj.sealantsPresent] || 0) + 1;
       std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] = (std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] || 0) + 1;
       return std;
       }, {});
-      console.log(gradeCode, summary);
-      setReportSummary({
-        ...reportSummary,
-        [gradeCode] : summary,
-    })
-    setReRunState("return"); // This is just to reset the state value
-    console.log("Summary By Grade: ", reportSummary);
+    summaryArray.push(summary);
+    setReportSummary(summaryArray);
+    console.log(summaryArray);
+    setReRunState("rerun"); // This is just to reset the state value
   }
-
   const useStyles = makeStyles((theme) => ({
     formControl: {
       margin: theme.spacing(1),
@@ -253,50 +209,96 @@ const ReportsApp = () => {
               </Toolbar>
             </AppBar>
           </div>
-          <div className="content-container summary">
+          <div className="content-container">
+                <div className="leftArea">
+                  <div>
+                    <p>School District</p>
+                    <Autocomplete
+                      id="combo-box-demo"
+                      options={districtList}
+                      onChange={(event, newValue) => handleDistrictFilter(event, newValue)}
+                      getOptionLabel={(option) => option.title}
+                      renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                    />
+                  </div>
+                  <div className="mb-3">
+                    <p>School Name</p>
+                    <Autocomplete
+                      id="combo-box-demo"
+                      options={schoolList}
+                      onChange={(event, newValue) => handleSchoolListFilter(event, newValue)}
+                      getOptionLabel={(option) => option.title}
+                      renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                    />
+                  </div>
+            </div>
             <table>
               <thead>
                 <tr>
+                  <th>District</th>
+                  <th>School</th>
                   <th>Grade</th>
-
-                  <th>UnTreated Decay <br/> Yes</th>
-                  <th>UnTreated Decay <br/> No</th>
-
-                  <th>Treated Decay <br/> Yes</th>
-                  <th>Treated Decay <br/> No</th>
-
-                  <th>Sealants Present <br/> Yes</th>
-                  <th>Sealants Present <br/> No</th>
-
-                  <th>Treatment Code <br/> No obvious problem</th>
-                  <th>Treatment Code <br/> Evaluate for Preventive Sealants</th>
-                  <th>Treatment Code <br/> Evaluate for Restorative Care</th>
-                  <th>Treatment Code <br/> Urgent care neede</th>
+                  <th>Code</th>
+                  <th>Gender</th>
+                  <th>Dental Insurance</th>
+                  <th>Date</th>
+                  <th>Status</th>
+                  <th>uUtreated Decay</th>
+                  <th>Treated Decay</th>
+                  <th>Sealants</th>
+                  <th>Treatment</th>
                 </tr>
               </thead>
 
               <tbody>
-                {reportSummary.map((studentGrade, key) => (
+                <tr>
+                    <td colSpan="12"> <b>{students.length}</b> Records Found!</td>
+                </tr>
+                <tr>
+                    <td colSpan="12">
+                    {reportSummary && reportSummary.map((student,key ) =>(
+                      <b key= {key}>
+                      Gender - Male: {student.gender_Male} - Female: {student.gender_Female}<br/>
+                      SealantsPresent - No: {student.sealantsPresent_No} , Yes: {student.sealantsPresent_Yes}, Null: {student.sealantsPresent_null}<br/>
+                      TreatedDecay - No: {student.treatedDecay_No}, Yes: {student.treatedDecay_Yes}, Null: {student.treatedDecay_null}<br/>
+                      UnTreatedDecay - No:{student.untreatedDecay_No}, Yes: {student.untreatedDecay_Yes}, Null: {student.untreatedDecay_null}<br/>
+                      TreatmentRecommendationCode - Evaluate for Restorative care:{student['treatmentRecommendationCode_Evaluate for Restorative care']},
+                      Evaluate for preventive sealants: {student['treatmentRecommendationCode_Evaluate for preventive sealants']},
+                      No obvious problem: {student['treatmentRecommendationCode_No obvious problem']},
+                      Urgent care needed: {student['treatmentRecommendationCode_Urgent care needed']},
+                      Null: {student['treatmentRecommendationCode_null']}
+                      </b>
+                    ))}
+                  </td>
+                </tr>
+                {students.map((student, key) => (
                   <tr
                     key={key}
                   >
-                    <td>{studentGrade.grade}</td>
-                   
-                    <td>{studentGrade.untreatedDecay_Yes ? studentGrade.untreatedDecay_Yes : "0"}</td>
-                    <td>{studentGrade.untreatedDecay_No ? studentGrade.untreatedDecay_No : "0"}</td>
+                    <td>{student.district}</td>
+                    <td>{student.school}</td>
+                    <td>{student.grade}</td>
+                    <td>{student.code}</td>
+                    <td>{student.gender}</td>
+                    <td>{student.haveDentalInsurance}</td>
+
+                    <td>
+                      {new Date(student.createdAt).toLocaleString(undefined, {
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </td>
+
+                    <td>{student.evalStatus}</td>
+                    <td>{student.untreatedDecay}</td>
+                    <td>{student.treatedDecay}</td>
+                    <td>{student.sealantsPresent}</td>
+                    <td>{student.treatmentRecommendationCode}</td>
                     
-                    <td>{studentGrade.treatedDecay_Yes ? studentGrade.treatedDecay_Yes : "0"}</td>
-                    <td>{studentGrade.treatedDecay_No ? studentGrade.treatedDecay_No : "0"}</td>
-                    
-                    <td>{studentGrade.sealantsPresent_Yes ? studentGrade.sealantsPresent_Yes : "0"}</td>
-                    <td>{studentGrade.sealantsPresent_No ? studentGrade.sealantsPresent_No: "0"}</td>
-                    
-                    <td>{studentGrade['treatmentRecommendationCode_No obvious problem'] ? studentGrade['treatmentRecommendationCode_No obvious problem']: "0"}</td>
-                    <td>{studentGrade['treatmentRecommendationCode_Evaluate for preventive sealants'] ? studentGrade['treatmentRecommendationCode_Evaluate for preventive sealants'] : "0"}</td>
-                    <td>{studentGrade['treatmentRecommendationCode_Evaluate for Restorative care'] ? studentGrade['treatmentRecommendationCode_Evaluate for Restorative care'] : "0"}</td>
-                    <td>{studentGrade['treatmentRecommendationCode_Urgent care needed'] ? studentGrade['treatmentRecommendationCode_Urgent care needed'] : "0"}</td>
                   </tr>
                 ))}
+                
               </tbody>
             </table>
           </div>

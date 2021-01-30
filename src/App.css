@@ -17,6 +17,10 @@
 .heading-font {
   font-size: 1.35em;
 }
+.summary td {
+  border: 1px solid grey;
+  padding: 10px;
+}
 .combobox{
   height: 2px;
   padding: rem 1rem 1. rem0;
