@@ -389,7 +389,7 @@ const CollectionApp = () => {
                         <h5 className="logo-header" color="#fff">{t('School Dental Screening')}</h5>
                             <nav role="navigation" class="desktop">
                             <ul id="d-menu">
-                                <li><a onClick={() => history.push('help-video') }>{t('Help Video')}</a> </li>
+                                <li><a onClick={() => history.push('help-video') }>{t('Help')}</a> </li>
                                 <li className="es"><a onClick={() => handleLanguage("es")}>{t('Spanish')}</a> </li>
                                 <li className="en"><a onClick={() => handleLanguage("en")}>{t('English')}</a> </li>
                                 {/* <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
@@ -405,7 +405,7 @@ const CollectionApp = () => {
                                 <span></span>
                                 <span></span>
                                 <ul id="menu">
-                                    <li><a onClick={() => history.push('help-video') }>{t('Help Video')}</a> </li>
+                                    <li><a onClick={() => history.push('help-video') }>{t('Help')}</a> </li>
                                     <li className="es"><a onClick={() => handleLanguage("es")}>{t('Spanish')}</a> </li>
                                     <li className="en"><a onClick={() => handleLanguage("en")}>{t('English')}</a> </li>
                                 </ul>
@@ -637,7 +637,7 @@ const CollectionApp = () => {
                                 </div>  
                             ): "" }
                                 <div>
-                                    <p>{t("Parent/Guardian Email ")}<sup>1</sup><span class="required">*</span></p>
+                                    <p>{t("Parent/Guardian Email")}<sup>1</sup></p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             placeholder="Email"
@@ -909,7 +909,6 @@ const CollectionApp = () => {
                                     formData.grade &&
                                     formData.gender &&
                                     formData.haveDentalInsurance &&
-                                    formData.name &&
                                     formData.nonsmilingface &&
                                     formData.frontTeeth &&
                                     formData.topimage &&
@@ -933,8 +932,7 @@ const CollectionApp = () => {
                                     formData.firstname3letters &&
                                     formData.grade &&
                                     formData.gender &&
-                                    formData.haveDentalInsurance &&
-                                    formData.name
+                                    formData.haveDentalInsurance
                                 )
                                 }
                             >

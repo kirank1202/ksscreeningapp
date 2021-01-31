@@ -67,26 +67,21 @@ const ReportsApp = () => {
                         </nav>
                     </Toolbar>
                 </AppBar>
-                <br></br> <p></p>
-                <br></br> <p></p>
+                <br></br> 
+                <br></br>
+        <h3 class="helpSupport-heading"> Help Videos</h3>
         <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y" target= "_blank">
-                    1. How to prepare for taking screening pictures
+            1. How to prepare for taking screening pictures
         </a>
         <br></br> <p></p>
         <a href="https://vimeo.com/477795755" target= "_blank">
-                    2. Demo of Completing student information and uploading dental images
+            2. Demo of Completing student information and uploading dental images
         </a>
         <br></br> <p></p>
+        <h3 class="helpSupport-heading"> Support </h3>
+        <p>If you encounter any technical issues please email Support@TeledentalSolutions.com </p>
        
         <br/>
-        {/* <button
-          className="SubmitButton"
-          onClick={() => {
-            history.push("/evaluation");
-          }}
-        >
-          Go To Evaluation App
-        </button> */}
       </div>
     );
 }

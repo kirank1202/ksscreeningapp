@@ -15,11 +15,11 @@ const ReportsApp = () => {
   const [students, setStudents] = useState([]);
   const [unFilteredStudentsList, setUnFilteredStudentsList] = useState([]);
   const [schoolList, setSchoolList] = useState([]);
-  const [selectedSchool, setSelectedSchool] = useState(null);
   const [districtList, setDistrictlist] = useState([]);
-  const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [reportSummary, setReportSummary] = useState([]);
   const [reRunState, setReRunState] = useState("");
+  const [showStudentDetails, setShowStudentDetails] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   window.$stateChanged = false;
   let history = useHistory();
@@ -30,6 +30,7 @@ const ReportsApp = () => {
   /* retrieve all students from DynamoDB using graphql API interace */
   async function fetchAllStudents() {
    // const apiData = await API.graphql({ query: listStudents });
+    setIsLoaded(false);
     const apiData = await API.graphql({
       query: listStudents,
       variables: { input: { grade: 8 } },
@@ -85,45 +86,8 @@ const ReportsApp = () => {
     setStudents(sortedArr);
   //  handleGradeFilter();
   }
-  let handleSchoolListFilter = (e, val) => {
-    let schoolName = val != null ? val.title : null;
-    setSelectedSchool(schoolName);
-    console.log("School name:", val);
-    console.log("Disctrict name:", selectedDistrict);
-      var filterdStudents = unFilteredStudentsList.filter((student) => {
-        if(val !== null && selectedDistrict !== null) {
-          return student.school == val.title && student.district == selectedDistrict;
-        } else if(val !== null && selectedDistrict == null) {
-          return student.school == val.title;
-        } else if(val === null && selectedDistrict !== null) {
-          return student.district == selectedDistrict;
-        } else {
-          return student.school;
-        }
-      });
-    generateSummary(filterdStudents);
-    setStudents(filterdStudents);
-   
-  }
-  let handleDistrictFilter = (e, val) => {
-    let districtName = val != null ? val.title : null;
-    setSelectedDistrict(districtName);
-    console.log("District name:", val);
-    console.log("School name:", selectedSchool);
-    
-      var filterdStudents = unFilteredStudentsList.filter((student) => {
-        if(val != null && selectedSchool !== null) {
-          return student.district == val.title && student.school == selectedSchool;
-        } else if(val != null && selectedSchool == null) {
-          return student.district == val.title;
-        } else if(val == null && selectedSchool !== null) {
-          return student.school == selectedSchool;
-        } else {
-          return student.district;
-        }
-      });
-    generateSummary(filterdStudents);
-    setStudents(filterdStudents);
+  let showStudentInfo = () => {
+    setShowStudentDetails(true);
   }
   let handleGradeFilter = (unFiltStudents) => {
     var wholeSummary = [];
@@ -132,22 +96,44 @@ const ReportsApp = () => {
 
     for (let i = 0; i < gradeCodesList.length; i++) {
       if(gradeCodesList[i] !== "Total") {
+        let studentDataUNCList = [];
+        let codeList = [];
+        let genderList = [];
+        let gradeList = [];
+        let threeLetterList = [];
+        let nameList = [];
 
         let filterByGrade = unFiltStudents.filter((student) => {
           return student.grade == gradeCodesList[i];
         });
         gradesSummary = filterByGrade.reduce((std, obj) => {
+          // console.log("Student Info", std);
+          // console.log("Student obj", obj);
           std["grade"] = gradeCodesList[i];
           std["untreatedDecay_"+ obj.untreatedDecay] = (std["untreatedDecay_"+ obj.untreatedDecay] || 0) + 1;
           std["treatedDecay_"+ obj.treatedDecay] = (std["treatedDecay_"+ obj.treatedDecay] || 0) + 1;
           std["sealantsPresent_"+ obj.sealantsPresent] = (std["sealantsPresent_"+ obj.sealantsPresent] || 0) + 1;
           std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] = (std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] || 0) + 1;
+          //  Details Object
+          if(obj.treatmentRecommendationCode == "Urgent care needed") {
+            let studentDataUNC = {
+              name: obj.name,
+              code: obj.code,
+              gender: obj.gender,
+              grade: obj.grade,
+              threeLetterList: obj.firstname3letters
+            }
+            studentDataUNCList.push(studentDataUNC);
+            std["studentDataUNCList"] = studentDataUNCList;
+          }
           return std;
           }, {});
           wholeSummary.push(gradesSummary);
       }      
     }
+    console.log("TEST", wholeSummary);
     let grade= {};
+    let ucnTotalSummary = [];
     for(var item in wholeSummary) {
       grade["grade"] = 'Total';
       grade['untreatedDecay_Yes'] = (grade['untreatedDecay_Yes'] ? grade['untreatedDecay_Yes'] : 0) + (wholeSummary[item]['untreatedDecay_Yes'] ? wholeSummary[item]['untreatedDecay_Yes'] : 0 );
@@ -163,11 +149,15 @@ const ReportsApp = () => {
       grade['treatmentRecommendationCode_Evaluate for preventive sealants'] = (grade['treatmentRecommendationCode_Evaluate for preventive sealants'] ? grade['treatmentRecommendationCode_Evaluate for preventive sealants'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Evaluate for preventive sealants'] ? wholeSummary[item]['treatmentRecommendationCode_Evaluate for preventive sealants'] : 0 );
       grade['treatmentRecommendationCode_Evaluate for Restorative care'] = (grade['treatmentRecommendationCode_Evaluate for Restorative care'] ? grade['treatmentRecommendationCode_Evaluate for Restorative care'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Evaluate for Restorative care'] ? wholeSummary[item]['treatmentRecommendationCode_Evaluate for Restorative care'] : 0 );
       grade['treatmentRecommendationCode_Urgent care needed'] = (grade['treatmentRecommendationCode_Urgent care needed'] ? grade['treatmentRecommendationCode_Urgent care needed'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Urgent care needed'] ? wholeSummary[item]['treatmentRecommendationCode_Urgent care needed'] : 0 );
-  
+      if(wholeSummary[item]['studentDataUNCList']) {
+        ucnTotalSummary.push(wholeSummary[item]['studentDataUNCList']);
+        grade["UCNTotalSummary"] = ucnTotalSummary;
+      }
     }
     wholeSummary.push(grade);
-   // console.log("Whole Summary", wholeSummary);
+    console.log("Whole Summary", wholeSummary);
     setReportSummary(wholeSummary);
+    setIsLoaded(true);
     setReRunState("return"); // This is just to reset the state value
   }
   const generateSummary = (stdnts, grade) => {
@@ -266,7 +256,7 @@ const ReportsApp = () => {
                   <th>Treatment Code <br/> No obvious problem</th>
                   <th>Treatment Code <br/> Evaluate for Preventive Sealants</th>
                   <th>Treatment Code <br/> Evaluate for Restorative Care</th>
-                  <th>Treatment Code <br/> Urgent care neede</th>
+                  <th>Treatment Code <br/> Urgent care needed</th>
                 </tr>
               </thead>
 
@@ -289,12 +279,49 @@ const ReportsApp = () => {
                     <td>{studentGrade['treatmentRecommendationCode_No obvious problem'] ? studentGrade['treatmentRecommendationCode_No obvious problem']: "0"}</td>
                     <td>{studentGrade['treatmentRecommendationCode_Evaluate for preventive sealants'] ? studentGrade['treatmentRecommendationCode_Evaluate for preventive sealants'] : "0"}</td>
                     <td>{studentGrade['treatmentRecommendationCode_Evaluate for Restorative care'] ? studentGrade['treatmentRecommendationCode_Evaluate for Restorative care'] : "0"}</td>
-                    <td>{studentGrade['treatmentRecommendationCode_Urgent care needed'] ? studentGrade['treatmentRecommendationCode_Urgent care needed'] : "0"}</td>
+                    <td>
+                      <a class="td-link" onClick={showStudentInfo}>
+                        {studentGrade['treatmentRecommendationCode_Urgent care needed'] ? studentGrade['treatmentRecommendationCode_Urgent care needed'] : "0"}
+                      </a>
+                    </td>
                   </tr>
                 ))}
+                {(!isLoaded)?(<tr><td colSpan="11"> Loading... </td></tr>) : ""}
               </tbody>
             </table>
           </div>
+          {(showStudentDetails)? (
+            <div className="content-container detailed-summary">
+            <table>
+              <thead>
+                <tr>
+                  <th colSpan="5">
+                    Urget Care Needed Students
+                  </th>
+                </tr>
+              </thead>
+              <tr>
+                <th>Code</th>
+                <th>First 3 Letters</th>
+                <th>Grade</th>
+                <th>Gender</th>
+                <th>Email Id</th>
+              </tr>
+            {reportSummary[8].UCNTotalSummary.map((item, key) => (
+              item.map((innerItem, key) => (
+                <tr>
+                  <td>{innerItem.code}</td>
+                  <td>{innerItem.firstname3letters}</td>
+                  <td>{innerItem.grade}</td>
+                  <td>{innerItem.gender}</td>
+                  <td>{innerItem.name}</td>
+                </tr>
+              ))
+            ))
+            }
+            </table>
+            </div>
+          ) : ""}
         </>
     </div>
   );

@@ -17,13 +17,31 @@
 .heading-font {
   font-size: 1.35em;
 }
+.content-container.detailed-summary {
+  padding-top: 0;
+}
+.detailed-summary td,
 .summary td {
   border: 1px solid grey;
-  padding: 10px;
 }
+.summary td,
+.detailed-summary td,
 .table-row-page td {
-  padding: 10px; 
+  padding: 7px; 
 }
+.td-link {
+  display: block;
+  cursor: pointer;
+  pointer-events: none;
+  color:#000;
+}
+.total .td-link {
+  display: block;
+  cursor: pointer;
+  pointer-events: all;
+  color:#007bff;
+}
+
 .combobox{
   height: 2px;
   padding: rem 1rem 1. rem0;
@@ -436,7 +454,18 @@ tr {
 .images-data > img{
   margin: 5px;
 }
-
+.helpSupport-heading {
+  padding: 7px 7px 15px 0;
+  border-bottom: solid 1px #1473a2;
+  text-align: left;
+  margin: 7px 20px 15px;
+  color: #1473a2;
+}
+.helpSupport-heading + p {
+  color: #007bff;
+  margin: 7px 20px 15px;
+  text-align: left;
+}
 /* Hamburger menu styles */
 #menuToggle
 {
