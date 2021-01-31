@@ -42,7 +42,7 @@ function App() {
   useEffect(() => {
     async function fetchCurrentUserGroup() {
       Auth.currentAuthenticatedUser().then((authuser) => {
-        // console.log(authuser);
+        console.log("AuthUser: ",authuser);
         currentUserGroup =
           authuser.signInUserSession.idToken.payload["cognito:groups"][0];
         setUserType(currentUserGroup);
@@ -64,6 +64,7 @@ function App() {
 
   async function fetchCurrentUserGroup() {
     Auth.currentAuthenticatedUser().then((authuser) => {
+     
       currentUserGroup =
         authuser.signInUserSession.idToken.payload["cognito:groups"][0];
       console.log(

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { API, Storage } from "aws-amplify";
 import { listStudents } from "./graphql/queries";
 import {
@@ -35,6 +35,7 @@ const EvaluationApp = () => {
   window.$stateChanged = false;
   const [imageLink, setImageLink] = React.useState("");
   let history = useHistory();
+  const imageSection = useRef(null);
 
   const handleOpen = () => {
             setOpen(!open);
@@ -221,6 +222,11 @@ const EvaluationApp = () => {
     },
   }));
   
+  function focusOnImages() {
+    if (imageSection.current) {
+      imageSection.current.focus();
+    }
+  }
   const handleFormState = (key) => {
     console.log("students in handleformState:", students[key]);
     // if (students[key] && students[key].untreatedDecay) {
@@ -333,7 +339,7 @@ const EvaluationApp = () => {
             </AppBar>
           </div>
 
-          <div className="content-container">
+          <div className="content-container table-scroll">
             {/* <InputGroup className="mb-3">
  <FormControl
  placeholder="Search Student ID # Or School ID #"
@@ -363,6 +369,7 @@ const EvaluationApp = () => {
                     onClick={() => {
                       setImageData(key); // setEvalData(key);
                       handleFormState(key);
+                      focusOnImages();
                     }}
                     className={
                       key === imageData
@@ -394,7 +401,7 @@ const EvaluationApp = () => {
 
 
           {students[imageData] ? (
-            <div>
+            <div ref={imageSection}>
               <form onSubmit={handleSubmit}>
                 <div className="image-info-container">
                   <p>
