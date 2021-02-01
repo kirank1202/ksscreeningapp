@@ -70,17 +70,27 @@ const ReportsApp = () => {
                 <br></br> 
                 <br></br>
         <h3 class="helpSupport-heading"> Help Videos</h3>
+
+        <h5 class="help-items" align="left">
+        <a href="https://youtu.be/oWImHHcAhi4" target= "_blank">
+            1. Demo of taking screening pictures using mobile phone
+        </a>
+        <br></br> <p></p>
         <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y" target= "_blank">
-            1. How to prepare for taking screening pictures
+            2. How to prepare for taking screening pictures
         </a>
         <br></br> <p></p>
         <a href="https://vimeo.com/477795755" target= "_blank">
-            2. Demo of Completing student information and uploading dental images
+            3. Demo of Completing student information and uploading dental images
         </a>
+        </h5>
         <br></br> <p></p>
         <h3 class="helpSupport-heading"> Support </h3>
-        <p>If you encounter any technical issues please email Support@TeledentalSolutions.com </p>
-       
+        <h5 class="help-items" align="left"> 
+        <p></p> If you encounter any technical issues please email {" "}
+        <a href = "mailto:support@Teledentalsolutions.com">Support@TeledentalSolutions.com </a>
+       <p></p>
+       </h5>
         <br/>
       </div>
     );
