@@ -25,6 +25,9 @@ type Student @model {
   evalcomments: String
   evalStatus: String
   virtualScreeningExperience: String
+  optout: String
+  dentalPain: String
+  screener: String
 }
 
 type School @model {

@@ -53,6 +53,8 @@ const initialFormState = {
     haveDentalInsurance: "Yes",
     okToReceiveMedicaidInfo: "No",
     evalStatus: "New",
+    optout: "No",
+    dentalPain: "No"
 };
 const initialExtraFormState = {
     dentalScreening: "No",
@@ -363,6 +365,11 @@ const CollectionApp = () => {
         if (confirmToSubmit) {  
             createStudent(e);
         } else {return;} */
+        formData.optout = extraFormData.dentalScreening;
+        formData.dentalPain = extraFormData.dentalPain;
+        
+        console.log("FormData: ",formData);
+        
         createStudent(e);
     }
     async function createStudent(e) {
@@ -698,7 +705,7 @@ const CollectionApp = () => {
                                 </div>
                                 <div className="mb-3">
                                 <h6 className="BasicDetails">{t("OPT OUT")}</h6>
-                                    <p>{t("I would not like to participate in the school dental screening?")}</p>
+                                    <p>{t("Please select Yes from the dropdown if you would like to optout of school dental screening.")}</p>
                                     <Dropdown
                                         value={extraFormData.dentalScreening}
                                         onSelect={(e) => {
