@@ -467,6 +467,10 @@ tr {
   margin: 7px 20px 15px;
   text-align: left;
 }
+.help-items {
+  margin: 7px 20px 15px;
+  text-align: left;
+}
 /* Hamburger menu styles */
 #menuToggle
 {
