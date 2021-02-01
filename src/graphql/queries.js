@@ -30,6 +30,9 @@ export const getStudent = /* GraphQL */ `
       evalcomments
       evalStatus
       virtualScreeningExperience
+      optout
+      dentalPain
+      screener
       createdAt
       updatedAt
     }
@@ -69,6 +72,9 @@ export const listStudents = /* GraphQL */ `
         evalcomments
         evalStatus
         virtualScreeningExperience
+        optout
+        dentalPain
+        screener
         createdAt
         updatedAt
       }
