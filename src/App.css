@@ -275,9 +275,10 @@ body {
   font-weight: 500;
   cursor: pointer;
   width: 300px !important;
+  height: 300px !important;
   background: #1473a2;
   color: #fff;
-  box-shadow: 2px 5px 7px #ccc;
+  box-shadow: 2px 5px 7px #ccc; 
 }
 
 imageUploadTable {

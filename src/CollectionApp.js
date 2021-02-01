@@ -25,12 +25,20 @@ import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 
-const DemoBottomImg = "https://screeningdemoimages.s3.amazonaws.com/mandibular.PNG";
-const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/maxillary.PNG";
-const DemoLeftImg = "https://screeningdemoimages.s3.amazonaws.com/left.PNG";
-const DemoRightImg = "https://screeningdemoimages.s3.amazonaws.com/right.PNG";
-const DemoNonsmilingImg = "https://screeningdemoimages.s3.amazonaws.com/nonsmiling.JPG";
-const DemoFrontTeethImg = "https://screeningdemoimages.s3.amazonaws.com/frontteeth.jpeg";
+// const DemoBottomImg = "https://screeningdemoimages.s3.amazonaws.com/mandibular.PNG";
+//const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/maxillary.PNG";
+// const DemoLeftImg = "https://screeningdemoimages.s3.amazonaws.com/left.PNG";
+// const DemoRightImg = "https://screeningdemoimages.s3.amazonaws.com/right.PNG";
+// const DemoNonsmilingImg = "https://screeningdemoimages.s3.amazonaws.com/nonsmiling.JPG";
+// const DemoFrontTeethImg = "https://screeningdemoimages.s3.amazonaws.com/frontteeth.jpeg";
+
+
+const DemoBottomImg = "https://screeningdemoimages.s3.amazonaws.com/BottomDemo.JPG"; 
+const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/TopDemo.jpg";
+const DemoLeftImg = "https://screeningdemoimages.s3.amazonaws.com/LeftDemo.JPG";
+const DemoRightImg = "https://screeningdemoimages.s3.amazonaws.com/RightDemo.JPG";
+const DemoNonsmilingImg = "https://screeningdemoimages.s3.amazonaws.com/nonsmilingdemo.JPG";
+const DemoFrontTeethImg = "https://screeningdemoimages.s3.amazonaws.com/FrontDemo.JPG";
 
 const initialFormState = {
     code: "",
