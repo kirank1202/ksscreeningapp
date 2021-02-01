@@ -77,7 +77,7 @@ const schoolList = [
     {title: "O'Loughlin Elementary" },
     {title: "Roosevelt Elementary"},
     {title: "Wilson Elementary" },
-    {title: "Heys Middle School" },
+    {title: "Hays Middle School" },
     {title: "Westside School" }
 ]; 
 
