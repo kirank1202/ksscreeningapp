@@ -38,7 +38,7 @@ const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/TopDemo.jpg";
 const DemoLeftImg = "https://screeningdemoimages.s3.amazonaws.com/LeftDemo.JPG";
 const DemoRightImg = "https://screeningdemoimages.s3.amazonaws.com/RightDemo.JPG";
 const DemoNonsmilingImg = "https://screeningdemoimages.s3.amazonaws.com/nonsmilingdemo.JPG";
-const DemoFrontTeethImg = "https://screeningdemoimages.s3.amazonaws.com/FrontDemo.JPG";
+const DemoFrontTeethImg = "https://screeningdemoimages.s3.amazonaws.com/FrontTeethDemo.JPG";
 
 const initialFormState = {
     code: "",
@@ -770,7 +770,7 @@ const CollectionApp = () => {
                                 className="image-input-label"
                                 htmlFor="home-file-input-nonSmiling"
                             >
-                                {t("+ No-Smile")}
+                                {t("+ Click Here to Add Non-Smiling Face Photo")}
                             </label>
                         </div> 
                     </div>
@@ -797,7 +797,8 @@ const CollectionApp = () => {
                                 id="front-teeth"
                                 className="image-input-label"
                                 htmlFor="home-file-input-frontTeeth"
-                            >{t("+ Front")}
+                            >
+                              {t("+ Click Here to Add Front Teeth Photo")}
                             </label>
                         </div>
                     </div>
@@ -823,7 +824,8 @@ const CollectionApp = () => {
                                 id="left"
                                 className="image-input-label"
                                 htmlFor="home-file-input-left"
-                            > {t("+ Left")}
+                            > 
+                            {t("+ Click Here to Add Left Teeth Bite Photo")}
                             </label>
                         </div>
                     </div>
@@ -849,7 +851,8 @@ const CollectionApp = () => {
                                 id="right"
                                 className="image-input-label"
                                 htmlFor="home-file-input-right"
-                            >{t("+ Right")}
+                            >
+                           {t("+ Click Here to Add Right Teeth Bite Photo")}
                             </label>
                         </div>
                     </div> 
@@ -876,7 +879,8 @@ const CollectionApp = () => {
                                 id="top"
                                 className="image-input-label"
                                 htmlFor="home-file-input-top"
-                            >{t("+ Top")}
+                            >
+                            {t("+ Click Here to Add Top Teeth Photo")}
                             </label>
                         </div>
                     </div>
@@ -903,7 +907,8 @@ const CollectionApp = () => {
                                 id="bottom"
                                 className="image-input-label"
                                 htmlFor="home-file-input-bottom"
-                            >{t("+ Bottom")}
+                            >
+                                {t("+ Click Here to Add Bottom Teeth Photo")}
                             </label>
                         </div>
                     </div>
