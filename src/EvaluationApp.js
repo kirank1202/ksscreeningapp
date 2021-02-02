@@ -358,6 +358,7 @@ const EvaluationApp = () => {
                   <th>District</th>
                   <th>School</th>
                   <th>Grade</th>
+                  <th>First Name</th>
                   <th>Code</th>
                   <th>Gender</th>
                   <th>Dental Insurance</th>
@@ -385,6 +386,7 @@ const EvaluationApp = () => {
                     <td>{student.district}</td>
                     <td>{student.school}</td>
                     <td>{student.grade}</td>
+                    <td>{student.firstname3letters}</td>
                     <td>{student.code}</td>
                     <td>{student.gender}</td>
                     <td>{student.haveDentalInsurance}</td>

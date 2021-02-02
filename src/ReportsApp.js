@@ -309,7 +309,7 @@ const ReportsApp = () => {
                 <th>Gender</th>
                 <th>Email Id</th>
               </tr>
-            {reportSummary[8].UCNTotalSummary.map((item, key) => (
+            {reportSummary[8].UCNTotalSummary && reportSummary[8].UCNTotalSummary.map((item, key) => (
               item.map((innerItem, key) => (
                 <tr>
                   <td>{innerItem.code}</td>
@@ -321,6 +321,11 @@ const ReportsApp = () => {
               ))
             ))
             }
+            {(!reportSummary[8].UCNTotalSummary) ? (
+              <tr>
+                  <td colspan="5">No records found.</td>
+              </tr>
+            ) : ""}
             </table>
             </div>
           ) : ""}
