@@ -217,7 +217,7 @@ const ReportsApp = () => {
           <div className={classes.root}>
             <AppBar position="fixed" color="#fff">
               <Toolbar className={classes.flexToolbar}>
-                <img class="logo_style" src={logo} alt="..." />
+                <img className="logo_style" src={logo} alt="..." />
                 <h5 className="logo-header" color="#fff">School Dental Screening - Reports</h5>
                 <nav role="navigation" class="desktop">
                   <ul id="d-menu">
@@ -306,7 +306,7 @@ const ReportsApp = () => {
                 </tr>
               </thead>
               <tr>
-                <th>Code</th>
+                <th>Student Id</th>
                 <th>First 3 Letters</th>
                 <th>Grade</th>
                 <th>Gender</th>
@@ -316,7 +316,7 @@ const ReportsApp = () => {
               item.map((innerItem, key) => (
                 <tr>
                   <td>{innerItem.code}</td>
-                  <td>{innerItem.firstname3letters}</td>
+                  <td>{innerItem.threeLetterList}</td>
                   <td>{innerItem.grade}</td>
                   <td>{innerItem.gender}</td>
                   <td>{innerItem.name}</td>
