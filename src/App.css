@@ -339,6 +339,10 @@ th {
   border-right: 1px solid #ffffff;
 }
 
+.main-th {
+  border-bottom: 1px solid #ffffff;
+}
+
 th:last-of-type {
   border-right: none;
 }

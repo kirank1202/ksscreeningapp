@@ -242,6 +242,9 @@ const ReportsApp = () => {
             <table>
               <thead>
                 <tr>
+                  <th class="main-th" colSpan="11">Hays Unified School District 489</th>
+                </tr>
+                <tr>
                   <th>Grade</th>
 
                   <th>UnTreated Decay <br/> Yes</th>
@@ -297,7 +300,7 @@ const ReportsApp = () => {
             <table>
               <thead>
                 <tr>
-                  <th colSpan="5">
+                  <th class="main-th" colSpan="5">
                     Urget Care Needed Students
                   </th>
                 </tr>
