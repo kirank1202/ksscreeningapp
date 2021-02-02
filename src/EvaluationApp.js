@@ -355,6 +355,7 @@ const EvaluationApp = () => {
             <table>
               <thead>
                 <tr>
+                  <th class="td-xsmall">#</th>
                   <th>District</th>
                   <th>School</th>
                   <th>Grade</th>
@@ -383,6 +384,7 @@ const EvaluationApp = () => {
                         : "table-row-page"
                     }
                   >
+                    <td class="td-xsmall">{key+1}</td>
                     <td>{student.district}</td>
                     <td>{student.school}</td>
                     <td>{student.grade}</td>
