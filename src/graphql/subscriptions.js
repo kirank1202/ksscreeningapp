@@ -30,6 +30,9 @@ export const onCreateStudent = /* GraphQL */ `
       evalcomments
       evalStatus
       virtualScreeningExperience
+      optout
+      dentalPain
+      screener
       createdAt
       updatedAt
     }
@@ -64,6 +67,9 @@ export const onUpdateStudent = /* GraphQL */ `
       evalcomments
       evalStatus
       virtualScreeningExperience
+      optout
+      dentalPain
+      screener
       createdAt
       updatedAt
     }
@@ -98,6 +104,9 @@ export const onDeleteStudent = /* GraphQL */ `
       evalcomments
       evalStatus
       virtualScreeningExperience
+      optout
+      dentalPain
+      screener
       createdAt
       updatedAt
     }

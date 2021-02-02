@@ -9,7 +9,7 @@
       "UnauthRoleName": "amplify-ksscreeningapp-dev-161006-unauthRole",
       "StackName": "amplify-ksscreeningapp-dev-161006",
       "StackId": "arn:aws:cloudformation:us-east-1:699887736378:stack/amplify-ksscreeningapp-dev-161006/005ecb30-f861-11ea-801a-0a803f1342f3",
-      "AmplifyAppId": "d2cgkd4u6vde6y"
+      "AmplifyAppId": "d15su9gmbqvqyz"
     },
     "categories": {
       "auth": {

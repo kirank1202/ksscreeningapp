@@ -38,7 +38,7 @@ const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/TopDemo.jpg";
 const DemoLeftImg = "https://screeningdemoimages.s3.amazonaws.com/LeftDemo.JPG";
 const DemoRightImg = "https://screeningdemoimages.s3.amazonaws.com/RightDemo.JPG";
 const DemoNonsmilingImg = "https://screeningdemoimages.s3.amazonaws.com/nonsmilingdemo.JPG";
-const DemoFrontTeethImg = "https://screeningdemoimages.s3.amazonaws.com/FrontDemo.JPG";
+const DemoFrontTeethImg = "https://screeningdemoimages.s3.amazonaws.com/FrontTeethDemo.JPG";
 
 const initialFormState = {
     code: "",
@@ -53,6 +53,8 @@ const initialFormState = {
     haveDentalInsurance: "Yes",
     okToReceiveMedicaidInfo: "No",
     evalStatus: "New",
+    optout: "No",
+    dentalPain: "No"
 };
 const initialExtraFormState = {
     dentalScreening: "No",
@@ -77,7 +79,7 @@ const schoolList = [
     {title: "O'Loughlin Elementary" },
     {title: "Roosevelt Elementary"},
     {title: "Wilson Elementary" },
-    {title: "Heys Middle School" },
+    {title: "Hays Middle School" },
     {title: "Westside School" }
 ]; 
 
@@ -363,6 +365,11 @@ const CollectionApp = () => {
         if (confirmToSubmit) {  
             createStudent(e);
         } else {return;} */
+        formData.optout = extraFormData.dentalScreening;
+        formData.dentalPain = extraFormData.dentalPain;
+        
+        console.log("FormData: ",formData);
+        
         createStudent(e);
     }
     async function createStudent(e) {
@@ -698,7 +705,7 @@ const CollectionApp = () => {
                                 </div>
                                 <div className="mb-3">
                                 <h6 className="BasicDetails">{t("OPT OUT")}</h6>
-                                    <p>{t("I would not like to participate in the school dental screening?")}</p>
+                                    <p>{t("Please select Yes from the dropdown if you would like to optout of school dental screening.")}</p>
                                     <Dropdown
                                         value={extraFormData.dentalScreening}
                                         onSelect={(e) => {
@@ -763,7 +770,7 @@ const CollectionApp = () => {
                                 className="image-input-label"
                                 htmlFor="home-file-input-nonSmiling"
                             >
-                                {t("+ No-Smile")}
+                                {t("+ Click Here to Add Non-Smiling Face Photo")}
                             </label>
                         </div> 
                     </div>
@@ -790,7 +797,8 @@ const CollectionApp = () => {
                                 id="front-teeth"
                                 className="image-input-label"
                                 htmlFor="home-file-input-frontTeeth"
-                            >{t("+ Front")}
+                            >
+                              {t("+ Click Here to Add Front Teeth Photo")}
                             </label>
                         </div>
                     </div>
@@ -816,7 +824,8 @@ const CollectionApp = () => {
                                 id="left"
                                 className="image-input-label"
                                 htmlFor="home-file-input-left"
-                            > {t("+ Left")}
+                            > 
+                            {t("+ Click Here to Add Left Teeth Bite Photo")}
                             </label>
                         </div>
                     </div>
@@ -842,7 +851,8 @@ const CollectionApp = () => {
                                 id="right"
                                 className="image-input-label"
                                 htmlFor="home-file-input-right"
-                            >{t("+ Right")}
+                            >
+                           {t("+ Click Here to Add Right Teeth Bite Photo")}
                             </label>
                         </div>
                     </div> 
@@ -869,7 +879,8 @@ const CollectionApp = () => {
                                 id="top"
                                 className="image-input-label"
                                 htmlFor="home-file-input-top"
-                            >{t("+ Top")}
+                            >
+                            {t("+ Click Here to Add Top Teeth Photo")}
                             </label>
                         </div>
                     </div>
@@ -896,7 +907,8 @@ const CollectionApp = () => {
                                 id="bottom"
                                 className="image-input-label"
                                 htmlFor="home-file-input-bottom"
-                            >{t("+ Bottom")}
+                            >
+                                {t("+ Click Here to Add Bottom Teeth Photo")}
                             </label>
                         </div>
                     </div>
