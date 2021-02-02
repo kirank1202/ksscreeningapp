@@ -354,15 +354,19 @@ const EvaluationApp = () => {
 
             <table>
               <thead>
+              <tr>
+                  <th class="main-th" colSpan="10">Hays Unified School District 489</th>
+                </tr>
                 <tr>
-                  <th>District</th>
+                  <th class="td-xsmall">#</th>
                   <th>School</th>
                   <th>Grade</th>
-                  <th>Code</th>
+                  <th>First Name</th>
+                  <th>Student Id</th>
                   <th>Gender</th>
                   <th>Dental Insurance</th>
                   <th>Date</th>
-                  <th>Optout</th>
+                  <th>Opt Out</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -382,9 +386,10 @@ const EvaluationApp = () => {
                         : "table-row-page"
                     }
                   >
-                    <td>{student.district}</td>
+                    <td class="td-xsmall">{key+1}</td>
                     <td>{student.school}</td>
                     <td>{student.grade}</td>
+                    <td>{student.firstname3letters}</td>
                     <td>{student.code}</td>
                     <td>{student.gender}</td>
                     <td>{student.haveDentalInsurance}</td>

@@ -27,7 +27,10 @@
 .summary td,
 .detailed-summary td,
 .table-row-page td {
-  padding: 7px; 
+  padding: 5px; 
+}
+.td-xsmall {
+  width: 20px;
 }
 .td-link {
   display: block;
@@ -337,6 +340,10 @@ th {
   background-color: #1473a2;
   color: white;
   border-right: 1px solid #ffffff;
+}
+
+.main-th {
+  border-bottom: 1px solid #ffffff;
 }
 
 th:last-of-type {

@@ -217,7 +217,7 @@ const ReportsApp = () => {
           <div className={classes.root}>
             <AppBar position="fixed" color="#fff">
               <Toolbar className={classes.flexToolbar}>
-                <img class="logo_style" src={logo} alt="..." />
+                <img className="logo_style" src={logo} alt="..." />
                 <h5 className="logo-header" color="#fff">School Dental Screening - Reports</h5>
                 <nav role="navigation" class="desktop">
                   <ul id="d-menu">
@@ -241,6 +241,9 @@ const ReportsApp = () => {
           <div className="content-container summary">
             <table>
               <thead>
+                <tr>
+                  <th class="main-th" colSpan="11">Hays Unified School District 489</th>
+                </tr>
                 <tr>
                   <th>Grade</th>
 
@@ -297,23 +300,23 @@ const ReportsApp = () => {
             <table>
               <thead>
                 <tr>
-                  <th colSpan="5">
+                  <th class="main-th" colSpan="5">
                     Urget Care Needed Students
                   </th>
                 </tr>
               </thead>
               <tr>
-                <th>Code</th>
+                <th>Student Id</th>
                 <th>First 3 Letters</th>
                 <th>Grade</th>
                 <th>Gender</th>
                 <th>Email Id</th>
               </tr>
-            {reportSummary[8].UCNTotalSummary.map((item, key) => (
+            {reportSummary[8].UCNTotalSummary && reportSummary[8].UCNTotalSummary.map((item, key) => (
               item.map((innerItem, key) => (
                 <tr>
                   <td>{innerItem.code}</td>
-                  <td>{innerItem.firstname3letters}</td>
+                  <td>{innerItem.threeLetterList}</td>
                   <td>{innerItem.grade}</td>
                   <td>{innerItem.gender}</td>
                   <td>{innerItem.name}</td>
@@ -321,6 +324,11 @@ const ReportsApp = () => {
               ))
             ))
             }
+            {(!reportSummary[8].UCNTotalSummary) ? (
+              <tr>
+                  <td colspan="5">No records found.</td>
+              </tr>
+            ) : ""}
             </table>
             </div>
           ) : ""}
