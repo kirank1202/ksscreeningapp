@@ -103,28 +103,32 @@ const EvaluationApp = () => {
 
   // set evaluation fields for new student selected i.e. new row. Initialize if null
   async function setNewStateForEvalFields(newStudent){
-    //assign values of new student to temp variables
-    let newUntreatedDecay = newStudent.untreatedDecay;
-    let newTreatedDecay = newStudent.treatedDecay ;
-    let newTreatmentRecommendationCode = newStudent.treatmentRecommendationCode;
-    let newSealantsPresent = newStudent.sealantsPresent;
-    let newCannotEvaluate = newStudent.cannotEvaluate;
-    let newEvalStatus = newStudent.evalStatus;
+    if (newStudent == null) {
+      return;
+    } else {
+      //assign values of new student to temp variables
+      let newUntreatedDecay = newStudent.untreatedDecay;
+      let newTreatedDecay = newStudent.treatedDecay ;
+      let newTreatmentRecommendationCode = newStudent.treatmentRecommendationCode;
+      let newSealantsPresent = newStudent.sealantsPresent;
+      let newCannotEvaluate = newStudent.cannotEvaluate;
+      let newEvalStatus = newStudent.evalStatus;
 
-    // set initial values if new student fields are not valid values
-    if (newUntreatedDecay == null | newUntreatedDecay == "") { newUntreatedDecay= "No"; } 
-    if (newTreatedDecay == null | newTreatedDecay == "") { newTreatedDecay = "No"; }
-    if (newSealantsPresent == null | newSealantsPresent == "") { newSealantsPresent = "No"; } 
-    if (newTreatmentRecommendationCode == null | newTreatmentRecommendationCode == "") { newTreatmentRecommendationCode = "No obvious problem"; } 
-    if (newCannotEvaluate == null | newCannotEvaluate == "") { newCannotEvaluate = "No"; } 
-    
-    //set new state with initiated or valid values
-    states.untreatedDecay = newUntreatedDecay;
-    states.treatedDecay = newTreatedDecay;
-    states.sealantsPresent = newSealantsPresent;
-    states.treatmentRecommendationCode = newTreatmentRecommendationCode;
-    states.cannotEvaluate = newCannotEvaluate;
-    states.evalStatus = newEvalStatus;
+      // set initial values if new student fields are not valid values
+      if (newUntreatedDecay == null | newUntreatedDecay == "") { newUntreatedDecay= "No"; } 
+      if (newTreatedDecay == null | newTreatedDecay == "") { newTreatedDecay = "No"; }
+      if (newSealantsPresent == null | newSealantsPresent == "") { newSealantsPresent = "No"; } 
+      if (newTreatmentRecommendationCode == null | newTreatmentRecommendationCode == "") { newTreatmentRecommendationCode = "No obvious problem"; } 
+      if (newCannotEvaluate == null | newCannotEvaluate == "") { newCannotEvaluate = "No"; } 
+      
+      //set new state with initiated or valid values
+      states.untreatedDecay = newUntreatedDecay;
+      states.treatedDecay = newTreatedDecay;
+      states.sealantsPresent = newSealantsPresent;
+      states.treatmentRecommendationCode = newTreatmentRecommendationCode;
+      states.cannotEvaluate = newCannotEvaluate;
+      states.evalStatus = newEvalStatus;
+    }
   }
 
   async function handleSubmit(e) {
@@ -358,6 +362,7 @@ const EvaluationApp = () => {
                   <th>Gender</th>
                   <th>Dental Insurance</th>
                   <th>Date</th>
+                  <th>Optout</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -391,8 +396,9 @@ const EvaluationApp = () => {
                         day: "numeric",
                       })}
                     </td>
-
+                    <td>{student.optout}</td>  
                     <td>{student.evalStatus}</td>
+                    
                   </tr>
                 ))}
               </tbody>
@@ -680,6 +686,12 @@ const EvaluationApp = () => {
                                 value="NotClear" 
                             >
                                 ONE OR MORE IMAGES NOT CLEAR
+                            </option>
+
+                            <option
+                                value="OptedOut" 
+                            >
+                                STUDENT OPTED OUT OF SCREENING
                             </option>
                             
                         </select>
