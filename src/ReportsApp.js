@@ -262,7 +262,8 @@ const ReportsApp = () => {
 
               <tbody >
                 {reportSummary.map((studentGrade, key) => (
-                  <tr class={studentGrade.grade.toLowerCase()}
+                  (studentGrade.grade)? (
+                  <tr class={studentGrade.grade && studentGrade.grade.toLowerCase()}
                     key={key}
                   >
                     <td>{studentGrade.grade}</td>
@@ -285,6 +286,7 @@ const ReportsApp = () => {
                       </a>
                     </td>
                   </tr>
+                  ): ""
                 ))}
                 {(!isLoaded)?(<tr><td colSpan="11"> Loading... </td></tr>) : ""}
               </tbody>
