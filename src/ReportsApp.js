@@ -106,6 +106,8 @@ const ReportsApp = () => {
         let filterByGrade = unFiltStudents.filter((student) => {
           return student.grade == gradeCodesList[i];
         });
+        console.log("All Student", unFiltStudents);
+        console.log("By Grade Student", filterByGrade);
         gradesSummary = filterByGrade.reduce((std, obj) => {
           // console.log("Student Info", std);
           // console.log("Student obj", obj);
@@ -115,7 +117,7 @@ const ReportsApp = () => {
           std["sealantsPresent_"+ obj.sealantsPresent] = (std["sealantsPresent_"+ obj.sealantsPresent] || 0) + 1;
           std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] = (std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] || 0) + 1;
           //  Details Object
-          if(obj.treatmentRecommendationCode == "Urgent care needed") {
+          if(obj.treatmentRecommendationCode == "Code 4") {
             let studentDataUNC = {
               name: obj.name,
               code: obj.code,
@@ -144,11 +146,15 @@ const ReportsApp = () => {
       
       grade['sealantsPresent_Yes'] = (grade['sealantsPresent_Yes'] ? grade['sealantsPresent_Yes'] : 0) + (wholeSummary[item]['sealantsPresent_Yes'] ? wholeSummary[item]['sealantsPresent_Yes'] : 0 );
       grade['sealantsPresent_No'] = (grade['sealantsPresent_No'] ? grade['sealantsPresent_No'] : 0) + (wholeSummary[item]['sealantsPresent_No'] ? wholeSummary[item]['sealantsPresent_No'] : 0 );
-
-      grade['treatmentRecommendationCode_No obvious problem'] = (grade['treatmentRecommendationCode_No obvious problem'] ? grade['treatmentRecommendationCode_No obvious problem'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_No obvious problem'] ? wholeSummary[item]['treatmentRecommendationCode_No obvious problem'] : 0 );
-      grade['treatmentRecommendationCode_Evaluate for preventive sealants'] = (grade['treatmentRecommendationCode_Evaluate for preventive sealants'] ? grade['treatmentRecommendationCode_Evaluate for preventive sealants'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Evaluate for preventive sealants'] ? wholeSummary[item]['treatmentRecommendationCode_Evaluate for preventive sealants'] : 0 );
-      grade['treatmentRecommendationCode_Evaluate for Restorative care'] = (grade['treatmentRecommendationCode_Evaluate for Restorative care'] ? grade['treatmentRecommendationCode_Evaluate for Restorative care'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Evaluate for Restorative care'] ? wholeSummary[item]['treatmentRecommendationCode_Evaluate for Restorative care'] : 0 );
-      grade['treatmentRecommendationCode_Urgent care needed'] = (grade['treatmentRecommendationCode_Urgent care needed'] ? grade['treatmentRecommendationCode_Urgent care needed'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Urgent care needed'] ? wholeSummary[item]['treatmentRecommendationCode_Urgent care needed'] : 0 );
+      grade['treatmentRecommendationCode_Code 1'] = (grade['treatmentRecommendationCode_Code 1'] ? grade['treatmentRecommendationCode_Code 1'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 1'] ? wholeSummary[item]['treatmentRecommendationCode_Code 1'] : 0 );
+      grade['treatmentRecommendationCode_Code 2'] = (grade['treatmentRecommendationCode_Code 2'] ? grade['treatmentRecommendationCode_Code 2'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 2'] ? wholeSummary[item]['treatmentRecommendationCode_Code 2'] : 0 );
+      grade['treatmentRecommendationCode_Code 3'] = (grade['treatmentRecommendationCode_Code 3'] ? grade['treatmentRecommendationCode_Code 3'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 3'] ? wholeSummary[item]['treatmentRecommendationCode_Code 3'] : 0 );
+      grade['treatmentRecommendationCode_Code 4'] = (grade['treatmentRecommendationCode_Code 4'] ? grade['treatmentRecommendationCode_Code 4'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 4'] ? wholeSummary[item]['treatmentRecommendationCode_Code 4'] : 0 );
+      
+      // grade['treatmentRecommendationCode_No obvious problem'] = (grade['treatmentRecommendationCode_No obvious problem'] ? grade['treatmentRecommendationCode_No obvious problem'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_No obvious problem'] ? wholeSummary[item]['treatmentRecommendationCode_No obvious problem'] : 0 );
+      // grade['treatmentRecommendationCode_Evaluate for preventive sealants'] = (grade['treatmentRecommendationCode_Evaluate for preventive sealants'] ? grade['treatmentRecommendationCode_Evaluate for preventive sealants'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Evaluate for preventive sealants'] ? wholeSummary[item]['treatmentRecommendationCode_Evaluate for preventive sealants'] : 0 );
+      // grade['treatmentRecommendationCode_Evaluate for Restorative care'] = (grade['treatmentRecommendationCode_Evaluate for Restorative care'] ? grade['treatmentRecommendationCode_Evaluate for Restorative care'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Evaluate for Restorative care'] ? wholeSummary[item]['treatmentRecommendationCode_Evaluate for Restorative care'] : 0 );
+      // grade['treatmentRecommendationCode_Urgent care needed'] = (grade['treatmentRecommendationCode_Urgent care needed'] ? grade['treatmentRecommendationCode_Urgent care needed'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Urgent care needed'] ? wholeSummary[item]['treatmentRecommendationCode_Urgent care needed'] : 0 );
       if(wholeSummary[item]['studentDataUNCList']) {
         ucnTotalSummary.push(wholeSummary[item]['studentDataUNCList']);
         grade["UCNTotalSummary"] = ucnTotalSummary;
@@ -263,7 +269,7 @@ const ReportsApp = () => {
                 </tr>
               </thead>
 
-              <tbody >
+              <tbody>
                 {reportSummary.map((studentGrade, key) => (
                   (studentGrade.grade)? (
                   <tr class={studentGrade.grade && studentGrade.grade.toLowerCase()}
@@ -279,13 +285,16 @@ const ReportsApp = () => {
                     
                     <td>{studentGrade.sealantsPresent_Yes ? studentGrade.sealantsPresent_Yes : "0"}</td>
                     <td>{studentGrade.sealantsPresent_No ? studentGrade.sealantsPresent_No: "0"}</td>
-                    
-                    <td>{studentGrade['treatmentRecommendationCode_No obvious problem'] ? studentGrade['treatmentRecommendationCode_No obvious problem']: "0"}</td>
+                    <td>{studentGrade['treatmentRecommendationCode_Code 1'] ? studentGrade['treatmentRecommendationCode_Code 1']: "0"}</td>
+                    <td>{studentGrade['treatmentRecommendationCode_Code 2'] ? studentGrade['treatmentRecommendationCode_Code 2'] : "0"}</td>
+                    <td>{studentGrade['treatmentRecommendationCode_Code 3'] ? studentGrade['treatmentRecommendationCode_Code 3'] : "0"}</td>
+
+                    {/* <td>{studentGrade['treatmentRecommendationCode_No obvious problem'] ? studentGrade['treatmentRecommendationCode_No obvious problem']: "0"}</td>
                     <td>{studentGrade['treatmentRecommendationCode_Evaluate for preventive sealants'] ? studentGrade['treatmentRecommendationCode_Evaluate for preventive sealants'] : "0"}</td>
-                    <td>{studentGrade['treatmentRecommendationCode_Evaluate for Restorative care'] ? studentGrade['treatmentRecommendationCode_Evaluate for Restorative care'] : "0"}</td>
+                    <td>{studentGrade['treatmentRecommendationCode_Evaluate for Restorative care'] ? studentGrade['treatmentRecommendationCode_Evaluate for Restorative care'] : "0"}</td> */}
                     <td>
                       <a class="td-link" onClick={showStudentInfo}>
-                        {studentGrade['treatmentRecommendationCode_Urgent care needed'] ? studentGrade['treatmentRecommendationCode_Urgent care needed'] : "0"}
+                        {studentGrade['treatmentRecommendationCode_Code 4'] ? studentGrade['treatmentRecommendationCode_Code 4'] : "0"}
                       </a>
                     </td>
                   </tr>
