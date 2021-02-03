@@ -54,12 +54,15 @@ const initialFormState = {
     okToReceiveMedicaidInfo: "No",
     evalStatus: "New",
     optout: "No",
-    dentalPain: "No"
+    dentalPain: "No",
+    optoutReason: "NA"
 };
+/*
 const initialExtraFormState = {
-    dentalScreening: "No",
+    optoutReason: "NA",
     dentalPain: "No"
-}
+} 
+*/
 
 // const schoolList = [
 //     {title: 'Olathe - North'},
@@ -136,7 +139,7 @@ function getModalStyle() {
 
 const CollectionApp = () => {
     const [formData, setFormData] = useState(initialFormState);
-    const [extraFormData, setExtraFormData] = useState(initialExtraFormState);
+  //  const [extraFormData, setExtraFormData] = useState(initialExtraFormState);
     const [lang, setLang] = React.useState('en');
     const [students, setStudents] = useState([]);
     const [modalStyle] = React.useState(getModalStyle);
@@ -365,8 +368,10 @@ const CollectionApp = () => {
         if (confirmToSubmit) {  
             createStudent(e);
         } else {return;} */
-        formData.optout = extraFormData.dentalScreening;
-        formData.dentalPain = extraFormData.dentalPain;
+        if(formData.optoutReason != "NA"){
+            formData.optout = "Yes";
+        }
+   //     formData.dentalPain = extraFormData.dentalPain;
         
         console.log("FormData: ",formData);
         
@@ -677,16 +682,16 @@ const CollectionApp = () => {
                                 <div className="mb-3">
                                     <p>{t("Are you currently experiencing any mouth pain?")}<span class="required">*</span></p>
                                     <Dropdown
-                                        value={extraFormData.dentalPain}
+                                        value={formData.dentalPain}
                                         onSelect={(e) => {
-                                            setExtraFormData({
-                                                ...extraFormData,
+                                            setFormData({
+                                                ...formData,
                                                 dentalPain: e,
                                             });
                                         }}
                                     >
                                         <Dropdown.Toggle id="dropdown-basic">
-                                            {extraFormData.dentalPain}
+                                            {formData.dentalPain}
                                         </Dropdown.Toggle>
 
                                         <Dropdown.Menu>
@@ -705,31 +710,49 @@ const CollectionApp = () => {
                                 </div>
                                 <div className="mb-3">
                                 <h6 className="BasicDetails">{t("OPT OUT")}</h6>
-                                    <p>{t("Please select Yes from the dropdown if you would like to optout of school dental screening.")}</p>
+                                    <p>{t("Please select a reason from the dropdown if you would like to optout of school dental screening.")}</p>
                                     <Dropdown
-                                        value={extraFormData.dentalScreening}
+                                        value={formData.optoutReason}
                                         onSelect={(e) => {
-                                            setExtraFormData({
-                                                ...extraFormData,
-                                                dentalScreening: e,
+                                            setFormData({
+                                                ...formData,
+                                                optoutReason: e,
                                             });
                                         }}
                                     >
                                         <Dropdown.Toggle id="dropdown-basic">
-                                            {extraFormData.dentalScreening}
+                                            {formData.optoutReason}
                                         </Dropdown.Toggle>
 
                                         <Dropdown.Menu>
                                             <Dropdown.Item
-                                                eventKey="Yes"
+                                                eventKey="NA"
                                             >
-                                                {t("Yes")}
+                                                {t("NA")}
+                                            </Dropdown.Item>
+                                        
+                                            <Dropdown.Item
+                                                eventKey="Visited Dentist in last 6 months"
+                                            >
+                                                {t("Visited Dentist in last 6 months")}
+                                            </Dropdown.Item>
+
+                                            <Dropdown.Item
+                                                eventKey="Do not have a smart phone"
+                                            >
+                                                {t("Do not have a smart phone")}
                                             </Dropdown.Item>
                                             <Dropdown.Item
-                                                eventKey="No"
+                                                eventKey="Need technical help"
                                             >
-                                                {t("No")}
+                                                {t("Need technical help")}
                                             </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey="Concerned about student's privacy"
+                                            >
+                                                {t("Concerned about student's privacy")}
+                                            </Dropdown.Item>
+
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
@@ -738,7 +761,7 @@ const CollectionApp = () => {
                             <div className="rightArea"></div>
                         </div>
                     </div>
-                    { (extraFormData.dentalScreening == "No") ? (
+                    { (formData.optoutReason === "NA") ? (
                     <div className="photos-section">
                     <h6 className="BasicDetails">{t("PHOTOS")}</h6>
                     <h6 align="left" className="PhotosHeading">
@@ -914,7 +937,7 @@ const CollectionApp = () => {
                     </div>
                 </div>
                     ): "" }
-                   { (extraFormData.dentalScreening === "No")? (
+                   { (formData.optoutReason === "NA")? (
                        <h4>
                         <span class="required"> {t("*Please select all the required fields")}</span>
                         <button

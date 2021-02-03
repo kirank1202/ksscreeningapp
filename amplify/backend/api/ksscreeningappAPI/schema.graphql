@@ -28,6 +28,7 @@ type Student @model {
   optout: String
   dentalPain: String
   screener: String
+  optoutReason: String
 }
 
 type School @model {

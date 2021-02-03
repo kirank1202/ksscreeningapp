@@ -33,6 +33,7 @@ export const getStudent = /* GraphQL */ `
       optout
       dentalPain
       screener
+      optoutReason
       createdAt
       updatedAt
     }
@@ -75,6 +76,7 @@ export const listStudents = /* GraphQL */ `
         optout
         dentalPain
         screener
+        optoutReason
         createdAt
         updatedAt
       }

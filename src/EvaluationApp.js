@@ -98,7 +98,9 @@ const EvaluationApp = () => {
   }
 
   function handleCannotEvaluate(event){
-    alert("Please make sure you are not able to evaluated based on the images before you select this reason");
+
+    // Do nothing for now. In future we may activate this alert.
+   // alert("Please make sure you are not able to evaluated based on the images before you select this reason");
   }
 
   // set evaluation fields for new student selected i.e. new row. Initialize if null
@@ -113,13 +115,14 @@ const EvaluationApp = () => {
       let newSealantsPresent = newStudent.sealantsPresent;
       let newCannotEvaluate = newStudent.cannotEvaluate;
       let newEvalStatus = newStudent.evalStatus;
+      
 
       // set initial values if new student fields are not valid values
       if (newUntreatedDecay == null | newUntreatedDecay == "") { newUntreatedDecay= "No"; } 
       if (newTreatedDecay == null | newTreatedDecay == "") { newTreatedDecay = "No"; }
       if (newSealantsPresent == null | newSealantsPresent == "") { newSealantsPresent = "No"; } 
       if (newTreatmentRecommendationCode == null | newTreatmentRecommendationCode == "") { newTreatmentRecommendationCode = "No obvious problem"; } 
-      if (newCannotEvaluate == null | newCannotEvaluate == "") { newCannotEvaluate = "No"; } 
+      if (newCannotEvaluate == null | newCannotEvaluate == "") { newCannotEvaluate = "NA"; } 
       
       //set new state with initiated or valid values
       states.untreatedDecay = newUntreatedDecay;
@@ -361,8 +364,8 @@ const EvaluationApp = () => {
                   <th class="td-xsmall">#</th>
                   <th>School</th>
                   <th>Grade</th>
-                  <th>First Name</th>
                   <th>Student Id</th>
+                  <th>First Name</th>
                   <th>Gender</th>
                   <th>Dental Insurance</th>
                   <th>Date</th>
@@ -389,8 +392,8 @@ const EvaluationApp = () => {
                     <td class="td-xsmall">{key+1}</td>
                     <td>{student.school}</td>
                     <td>{student.grade}</td>
-                    <td>{student.firstname3letters}</td>
                     <td>{student.code}</td>
+                    <td>{student.firstname3letters}</td>
                     <td>{student.gender}</td>
                     <td>{student.haveDentalInsurance}</td>
 
@@ -448,6 +451,16 @@ const EvaluationApp = () => {
                     </b>
 
                     {students[imageData].grade}
+                  </p>
+                  <p>
+                    <b
+                      style={{
+                        fontSize: "18px",
+                      }}
+                    >
+                      Opt out Reason:{" "}
+                    </b>
+                    {students[imageData].optoutReason}
                   </p>
                 </div>
 
@@ -636,25 +649,29 @@ const EvaluationApp = () => {
                                 //value={students[imageData].treatmentRecommendationCode}
                                 >
                                 <option
-                                    value="No obvious problem"
+                                    //value="No obvious problem"
+                                    value = "Code 1"
                                 >
-                                    No obvious problem
+                                    Code 1
                                 </option>
 
                                 <option
-                                    value="Evaluate for preventive sealants" 
+                                    // value="Evaluate for preventive sealants" 
+                                    value = "Code 2"
                                 >
-                                    Evaluate for preventive sealants
+                                    Code 2
                                 </option>
                                 <option
-                                    value="Evaluate for Restorative care" 
+                                    // value="Evaluate for Restorative care" 
+                                    value = "Code 3"
                                 >
-                                    Evaluate for Restorative care
+                                    Code 3
                                 </option>
                                 <option
-                                    value="Urgent care needed" 
+                                   // value="Urgent care needed" 
+                                    value = "Code 4"
                                 >
-                                    Urgent care needed
+                                    Code 4
                                 </option>
                                 </select>
                             </div>
@@ -688,15 +705,15 @@ const EvaluationApp = () => {
                             </option>
 
                             <option
-                                value="NotClear" 
+                                value="One or More Images Not Clear" 
                             >
-                                ONE OR MORE IMAGES NOT CLEAR
+                                One or More Images Not Clear
                             </option>
 
                             <option
-                                value="OptedOut" 
+                                value="Student Opted Out of Screening" 
                             >
-                                STUDENT OPTED OUT OF SCREENING
+                                Student Opted Out of Screening
                             </option>
                             
                         </select>
