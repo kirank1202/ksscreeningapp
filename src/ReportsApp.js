@@ -117,7 +117,7 @@ const ReportsApp = () => {
           std["sealantsPresent_"+ obj.sealantsPresent] = (std["sealantsPresent_"+ obj.sealantsPresent] || 0) + 1;
           std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] = (std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] || 0) + 1;
           //  Details Object
-          if(obj.treatmentRecommendationCode == "Code 2") {
+          if(obj.treatmentRecommendationCode == "Code 4") {
             let studentDataUNC = {
               name: obj.name,
               code: obj.code,
