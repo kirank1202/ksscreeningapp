@@ -256,10 +256,10 @@ const ReportsApp = () => {
                   <th>Sealants Present <br/> Yes</th>
                   <th>Sealants Present <br/> No</th>
 
-                  <th>Treatment Code <br/> No obvious problem</th>
-                  <th>Treatment Code <br/> Evaluate for Preventive Sealants</th>
-                  <th>Treatment Code <br/> Evaluate for Restorative Care</th>
-                  <th>Treatment Code <br/> Urgent care needed</th>
+                  <th>Treatment Needs <br/> Code 1 <br/> No decay/ problems</th>
+                  <th>Treatment Needs <br/> Code 2 <br/> Sealants needed</th>
+                  <th>Treatment Needs <br/> Code 3 <br/> DDS exam suggested</th>
+                  <th>Treatment Needs <br/> Code 4 <br/> Urgent care needs</th>
                 </tr>
               </thead>
 

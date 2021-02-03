@@ -36,6 +36,7 @@ export const createStudent = /* GraphQL */ `
       optout
       dentalPain
       screener
+      optoutReason
       createdAt
       updatedAt
     }
@@ -76,6 +77,7 @@ export const updateStudent = /* GraphQL */ `
       optout
       dentalPain
       screener
+      optoutReason
       createdAt
       updatedAt
     }
@@ -116,6 +118,7 @@ export const deleteStudent = /* GraphQL */ `
       optout
       dentalPain
       screener
+      optoutReason
       createdAt
       updatedAt
     }
