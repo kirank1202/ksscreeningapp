@@ -14,15 +14,13 @@ import Modal from "@material-ui/core/Modal";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import logo from "./TeledentalSolutionLogo13.png";
-
+import { Auth } from "aws-amplify";
 import { useHistory } from "react-router-dom";
-import { AlertTitle } from "@material-ui/lab";
-
 
 const EvaluationApp = () => {
   const [students, setStudents] = useState([]);
   const [imageData, setImageData] = useState();
-  const [dummyState, setDummyState] = useState();
+  const [screenerName, setscreenerName] = useState("");
   const initialState = {
     untreatedDecay: "No",
     treatedDecay: "No",
@@ -32,18 +30,24 @@ const EvaluationApp = () => {
   };
   const [states, setState] = React.useState(initialState); // const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-  window.$stateChanged = false;
+  const imageSection = useRef(null);
   const [imageLink, setImageLink] = React.useState("");
   let history = useHistory();
-  const imageSection = useRef(null);
+  window.$stateChanged = false;
+
+  const func = async() => {
+    let user = await Auth.currentAuthenticatedUser();
+    setscreenerName(user.username); //all attributes exist in the attributes field 
+  }
+  func();
 
   const handleOpen = () => {
-            setOpen(!open);
-          };
-          console.log("ABC", states); // function getModalStyle() { // const top = 15; // const left = 15; // return { // top: `${top}%`, // left: `${left}%`, // transform: `translate(-${top}%, -${left}%)`, // }; // }
-          useEffect(() => {
-            fetchAllStudents();
-          }, []); /* retrieve all students from DynamoDB using graphql API interace */
+    setOpen(!open);
+  };
+  //console.log("ABC", states); // function getModalStyle() { // const top = 15; // const left = 15; // return { // top: `${top}%`, // left: `${left}%`, // transform: `translate(-${top}%, -${left}%)`, // }; // }
+  useEffect(() => {
+    fetchAllStudents();
+  }, []); /* retrieve all students from DynamoDB using graphql API interace */
 
   async function fetchAllStudents() {
     const apiData = await API.graphql({ query: listStudents });
@@ -184,7 +188,6 @@ const EvaluationApp = () => {
         },
       }); // setState(initialState);
       // //setImageData(imageData);
-      // setDummyState("re-render-component");
 
       alert("Evaluation Recorded Successfully for student " + students[imageData].code);
     } catch (error) {
@@ -407,7 +410,6 @@ const EvaluationApp = () => {
                     </td>
                     <td>{student.optout}</td>  
                     <td>{student.evalStatus}</td>
-                    
                   </tr>
                 ))}
               </tbody>
@@ -452,6 +454,16 @@ const EvaluationApp = () => {
                     </b>
 
                     {students[imageData].grade}
+                  </p>
+                  <p>
+                    <b
+                      style={{
+                        fontSize: "18px",
+                      }}
+                    >
+                      Screener Name:{" "}
+                    </b>
+                    {screenerName}
                   </p>
                   <p>
                     <b
