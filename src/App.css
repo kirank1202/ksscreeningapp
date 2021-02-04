@@ -408,7 +408,20 @@ tr {
   display: flex;
   justify-content: space-around;
 }
-
+.image-container {
+  width: 15%;
+  border: solid 1px #ccc;
+  padding: 4px;
+} 
+.image-container label {
+  background: #1473a2;
+  color: #fff;
+  padding: 5px 10px;
+  width: 100%;
+}
+.image-container > img {
+  width: 100%;
+}
 .teeth-image-container > img {
   width: 13%;
 }

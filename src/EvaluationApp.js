@@ -221,7 +221,8 @@ const EvaluationApp = () => {
     },
     paper: {
       position: "absolute",
-      width: "70%",
+      width: "550px !important",
+      height: "auto !important",
       backgroundColor: theme.palette.background.paper,
       border: "5px solid #000",
       boxShadow: theme.shadows[5],
@@ -460,66 +461,79 @@ const EvaluationApp = () => {
                     >
                       Opt out Reason:{" "}
                     </b>
-                    {students[imageData].optoutReason}
                   </p>
                 </div>
 
-                <div
+                {(students[imageData].optout == "No") ? (
+                  <div
                   style={{
                     marginBottom: "20px",
                     marginTop: "20px",
                   }}
                   className="teeth-image-container"
-                >
-                  Nonsmiling
-                  <img
-                    src={students[imageData].nonsmilingface}
-                    onClick={() =>
-                      handleImageLink(students[imageData].nonsmilingface)
-                    }
-                    alt="..."
-                  />
-                  Front
-                  <img
-                    src={students[imageData].frontTeeth}
-                    onClick={() =>
-                      handleImageLink(students[imageData].frontTeeth)
-                    }
-                    alt="..."
-                  />
-                  Left
-                  <img
-                    src={students[imageData].leftimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].leftimage)
-                    }
-                    alt="..."
-                  />
-                  Right
-                  <img
-                    src={students[imageData].rightimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].rightimage)
-                    }
-                    alt="..."
-                  />
-                  Top
-                  <img
-                    src={students[imageData].topimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].topimage)
-                    }
-                    alt="..."
-                  />
-                  Bottom
-                  <img
-                    src={students[imageData].bottomimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].bottomimage)
-                    }
-                    alt="..."
-                  />
+                > 
+                  <div class="image-container">               
+                    <label>Nonsmiling</label>
+                    <img
+                      src={students[imageData].nonsmilingface}
+                      onClick={() =>
+                        handleImageLink(students[imageData].nonsmilingface)
+                      }
+                      alt="..."
+                    />
+                  </div> 
+                  <div class="image-container"> 
+                    <label>Front</label>
+                    <img
+                      src={students[imageData].frontTeeth}
+                      onClick={() =>
+                        handleImageLink(students[imageData].frontTeeth)
+                      }
+                      alt="..."
+                    />
+                  </div>
+                  <div class="image-container"> 
+                    <label>Left</label>
+                    <img
+                      src={students[imageData].leftimage}
+                      onClick={() =>
+                        handleImageLink(students[imageData].leftimage)
+                      }
+                      alt="..."
+                    />
+                  </div>
+                  <div class="image-container"> 
+                    <label>Right</label>
+                    <img
+                      src={students[imageData].rightimage}
+                      onClick={() =>
+                        handleImageLink(students[imageData].rightimage)
+                      }
+                      alt="..."
+                    />
+                  </div>
+                  <div class="image-container"> 
+                    <label>Top</label>
+                    <img
+                      src={students[imageData].topimage}
+                      onClick={() =>
+                        handleImageLink(students[imageData].topimage)
+                      }
+                      alt="..."
+                    />
+                  </div>
+                  <div class="image-container"> 
+                    <label>Bottom</label>
+                    <img
+                      src={students[imageData].bottomimage}
+                      onClick={() =>
+                        handleImageLink(students[imageData].bottomimage)
+                      }
+                      alt="..."
+                    />
+                  </div>
                 </div>
+                ) : ""}
                 <div className="inputs-container">
                 <table className = "evaltable">
                     <tr className="evaltr"> 
