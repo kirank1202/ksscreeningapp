@@ -362,7 +362,7 @@ const EvaluationApp = () => {
             <table>
               <thead>
               <tr>
-                  <th class="main-th" colSpan="10">Hays Unified School District 489</th>
+                  <th class="main-th" colSpan="11">Hays Unified School District 489</th>
                 </tr>
                 <tr>
                   <th class="td-xsmall">#</th>
@@ -374,6 +374,7 @@ const EvaluationApp = () => {
                   <th>Dental Insurance</th>
                   <th>Date</th>
                   <th>Opt Out</th>
+                  <th>Opt Out Reason</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -409,6 +410,7 @@ const EvaluationApp = () => {
                       })}
                     </td>
                     <td>{student.optout}</td>  
+                    <td>{student.optoutReason}</td>
                     <td>{student.evalStatus}</td>
                   </tr>
                 ))}
@@ -455,7 +457,7 @@ const EvaluationApp = () => {
 
                     {students[imageData].grade}
                   </p>
-                  <p>
+                  {/* <p>
                     <b
                       style={{
                         fontSize: "18px",
@@ -464,7 +466,7 @@ const EvaluationApp = () => {
                       Screener Name:{" "}
                     </b>
                     {screenerName}
-                  </p>
+                  </p> */}
                   <p>
                     <b
                       style={{
@@ -473,6 +475,7 @@ const EvaluationApp = () => {
                     >
                       Opt out Reason:{" "}
                     </b>
+                    {students[imageData].optoutReason}
                   </p>
                 </div>
 
