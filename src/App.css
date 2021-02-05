@@ -29,8 +29,13 @@
 .table-row-page td {
   padding: 5px; 
 }
+.td-xsmall-common,
 .td-xsmall {
   width: 20px;
+}
+.td-xsmall-common {
+  border-right: 0;
+  border-bottom: solid 1px #fff;
 }
 .td-link {
   display: block;
@@ -309,18 +314,14 @@ table {
   width: 100%;
 }
 .noevaltr {
-  border-bottom: 0px solid grey;
+  border-bottom: 0 solid grey;
 }
 
 .bordertable {
-  table-layout: fixed;
-  align-self: center;
-  align-items: center;
-  border-collapse: collapse;
-  border: 4px solid  #1473a2;
-  border-bottom: 0px;
   background-color: #1473a2;
   width: 100%;
+  color: #fff;
+  border: 0;
 }
 
 .evaltable {

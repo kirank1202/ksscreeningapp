@@ -30,7 +30,7 @@ const EvaluationApp = () => {
   };
   const [states, setState] = React.useState(initialState); // const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-  const imageSection = useRef(null);
+  const evaluationSection = useRef(null);
   const [imageLink, setImageLink] = React.useState("");
   let history = useHistory();
   window.$stateChanged = false;
@@ -233,9 +233,9 @@ const EvaluationApp = () => {
     },
   }));
   
-  function focusOnImages() {
-    if (imageSection.current) {
-      imageSection.current.focus();
+  function focusOnEvaluate() {
+    if (evaluationSection.current) {
+      evaluationSection.current.scrollIntoView({behavior: 'smooth'}); 
     }
   }
   const handleFormState = (key) => {
@@ -362,7 +362,8 @@ const EvaluationApp = () => {
             <table>
               <thead>
               <tr>
-                  <th class="main-th" colSpan="11">Hays Unified School District 489</th>
+                  <th class="td-xsmall-common"></th>
+                  <th class="main-th" colSpan="10">Hays Unified School District 489</th>
                 </tr>
                 <tr>
                   <th class="td-xsmall">#</th>
@@ -386,7 +387,7 @@ const EvaluationApp = () => {
                     onClick={() => {
                       setImageData(key); // setEvalData(key);
                       handleFormState(key);
-                      focusOnImages();
+                      focusOnEvaluate();
                     }}
                     className={
                       key === imageData
@@ -420,7 +421,7 @@ const EvaluationApp = () => {
 
 
           {students[imageData] ? (
-            <div ref={imageSection}>
+            <div>
               <form onSubmit={handleSubmit}>
                 <table className = "bordertable">
                   <tr className="evaltr"> 
@@ -728,7 +729,7 @@ const EvaluationApp = () => {
                   </div>
                 ) : ""}
 
-                  <div>
+                  <div ref={evaluationSection}>
                     <table className = "bordertable">
                       <tr className="evaltr"> 
             
