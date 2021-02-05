@@ -14,15 +14,13 @@ import Modal from "@material-ui/core/Modal";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import logo from "./TeledentalSolutionLogo13.png";
-
+import { Auth } from "aws-amplify";
 import { useHistory } from "react-router-dom";
-import { AlertTitle } from "@material-ui/lab";
-
 
 const EvaluationApp = () => {
   const [students, setStudents] = useState([]);
   const [imageData, setImageData] = useState();
-  const [dummyState, setDummyState] = useState();
+  const [screenerName, setscreenerName] = useState("");
   const initialState = {
     untreatedDecay: "No",
     treatedDecay: "No",
@@ -32,18 +30,24 @@ const EvaluationApp = () => {
   };
   const [states, setState] = React.useState(initialState); // const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
-  window.$stateChanged = false;
+  const imageSection = useRef(null);
   const [imageLink, setImageLink] = React.useState("");
   let history = useHistory();
-  const imageSection = useRef(null);
+  window.$stateChanged = false;
+
+  const func = async() => {
+    let user = await Auth.currentAuthenticatedUser();
+    setscreenerName(user.username); //all attributes exist in the attributes field 
+  }
+  func();
 
   const handleOpen = () => {
-            setOpen(!open);
-          };
-          console.log("ABC", states); // function getModalStyle() { // const top = 15; // const left = 15; // return { // top: `${top}%`, // left: `${left}%`, // transform: `translate(-${top}%, -${left}%)`, // }; // }
-          useEffect(() => {
-            fetchAllStudents();
-          }, []); /* retrieve all students from DynamoDB using graphql API interace */
+    setOpen(!open);
+  };
+  //console.log("ABC", states); // function getModalStyle() { // const top = 15; // const left = 15; // return { // top: `${top}%`, // left: `${left}%`, // transform: `translate(-${top}%, -${left}%)`, // }; // }
+  useEffect(() => {
+    fetchAllStudents();
+  }, []); /* retrieve all students from DynamoDB using graphql API interace */
 
   async function fetchAllStudents() {
     const apiData = await API.graphql({ query: listStudents });
@@ -184,7 +188,6 @@ const EvaluationApp = () => {
         },
       }); // setState(initialState);
       // //setImageData(imageData);
-      // setDummyState("re-render-component");
 
       alert("Evaluation Recorded Successfully for student " + students[imageData].code);
     } catch (error) {
@@ -221,7 +224,8 @@ const EvaluationApp = () => {
     },
     paper: {
       position: "absolute",
-      width: "70%",
+      width: "550px !important",
+      height: "auto !important",
       backgroundColor: theme.palette.background.paper,
       border: "5px solid #000",
       boxShadow: theme.shadows[5],
@@ -358,7 +362,7 @@ const EvaluationApp = () => {
             <table>
               <thead>
               <tr>
-                  <th class="main-th" colSpan="10">Hays Unified School District 489</th>
+                  <th class="main-th" colSpan="11">Hays Unified School District 489</th>
                 </tr>
                 <tr>
                   <th class="td-xsmall">#</th>
@@ -370,6 +374,7 @@ const EvaluationApp = () => {
                   <th>Dental Insurance</th>
                   <th>Date</th>
                   <th>Opt Out</th>
+                  <th>Opt Out Reason</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -405,8 +410,8 @@ const EvaluationApp = () => {
                       })}
                     </td>
                     <td>{student.optout}</td>  
+                    <td>{student.optoutReason}</td>
                     <td>{student.evalStatus}</td>
-                    
                   </tr>
                 ))}
               </tbody>
@@ -452,6 +457,16 @@ const EvaluationApp = () => {
 
                     {students[imageData].grade}
                   </p>
+                  {/* <p>
+                    <b
+                      style={{
+                        fontSize: "18px",
+                      }}
+                    >
+                      Screener Name:{" "}
+                    </b>
+                    {screenerName}
+                  </p> */}
                   <p>
                     <b
                       style={{
@@ -464,62 +479,76 @@ const EvaluationApp = () => {
                   </p>
                 </div>
 
-                <div
+                {(students[imageData].optout == "No") ? (
+                  <div
                   style={{
                     marginBottom: "20px",
                     marginTop: "20px",
                   }}
                   className="teeth-image-container"
-                >
-                  Nonsmiling
-                  <img
-                    src={students[imageData].nonsmilingface}
-                    onClick={() =>
-                      handleImageLink(students[imageData].nonsmilingface)
-                    }
-                    alt="..."
-                  />
-                  Front
-                  <img
-                    src={students[imageData].frontTeeth}
-                    onClick={() =>
-                      handleImageLink(students[imageData].frontTeeth)
-                    }
-                    alt="..."
-                  />
-                  Left
-                  <img
-                    src={students[imageData].leftimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].leftimage)
-                    }
-                    alt="..."
-                  />
-                  Right
-                  <img
-                    src={students[imageData].rightimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].rightimage)
-                    }
-                    alt="..."
-                  />
-                  Top
-                  <img
-                    src={students[imageData].topimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].topimage)
-                    }
-                    alt="..."
-                  />
-                  Bottom
-                  <img
-                    src={students[imageData].bottomimage}
-                    onClick={() =>
-                      handleImageLink(students[imageData].bottomimage)
-                    }
-                    alt="..."
-                  />
+                > 
+                  <div class="image-container">               
+                    <label>Nonsmiling</label>
+                    <img
+                      src={students[imageData].nonsmilingface}
+                      onClick={() =>
+                        handleImageLink(students[imageData].nonsmilingface)
+                      }
+                      alt="..."
+                    />
+                  </div> 
+                  <div class="image-container"> 
+                    <label>Front</label>
+                    <img
+                      src={students[imageData].frontTeeth}
+                      onClick={() =>
+                        handleImageLink(students[imageData].frontTeeth)
+                      }
+                      alt="..."
+                    />
+                  </div>
+                  <div class="image-container"> 
+                    <label>Left</label>
+                    <img
+                      src={students[imageData].leftimage}
+                      onClick={() =>
+                        handleImageLink(students[imageData].leftimage)
+                      }
+                      alt="..."
+                    />
+                  </div>
+                  <div class="image-container"> 
+                    <label>Right</label>
+                    <img
+                      src={students[imageData].rightimage}
+                      onClick={() =>
+                        handleImageLink(students[imageData].rightimage)
+                      }
+                      alt="..."
+                    />
+                  </div>
+                  <div class="image-container"> 
+                    <label>Top</label>
+                    <img
+                      src={students[imageData].topimage}
+                      onClick={() =>
+                        handleImageLink(students[imageData].topimage)
+                      }
+                      alt="..."
+                    />
+                  </div>
+                  <div class="image-container"> 
+                    <label>Bottom</label>
+                    <img
+                      src={students[imageData].bottomimage}
+                      onClick={() =>
+                        handleImageLink(students[imageData].bottomimage)
+                      }
+                      alt="..."
+                    />
+                  </div>
                 </div>
+                ) : ""}
                 <div className="inputs-container">
                 <table className = "evaltable">
                     <tr className="evaltr"> 
