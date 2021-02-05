@@ -708,8 +708,9 @@ const CollectionApp = () => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
+                                {/* HIDE OPT OUT OPTION
                                 <div className="mb-3">
-                                <h6 className="BasicDetails">{t("OPT OUT")}</h6>
+                                    <h6 className="BasicDetails">{t("OPT OUT")}</h6>
                                     <p>{t("Please select a reason from the dropdown if you would like to optout of school dental screening.")}</p>
                                     <Dropdown
                                         value={formData.optoutReason}
@@ -756,6 +757,7 @@ const CollectionApp = () => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
+                                */ }
                             </div>
                             
                             <div className="rightArea"></div>
