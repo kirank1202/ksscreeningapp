@@ -422,71 +422,78 @@ const EvaluationApp = () => {
           {students[imageData] ? (
             <div ref={imageSection}>
               <form onSubmit={handleSubmit}>
-                <div className="image-info-container">
-                  <p>
-                    <b
-                      style={{
-                        fontSize: "18px",
-                      }}
-                    >
-                      ID:{" "}
-                    </b>
+                <table className = "bordertable">
+                  <tr className="evaltr"> 
+                    <td>
 
-                    {students[imageData].code}
-                  </p>
+                      <div className="image-info-container">
+                        <p>
+                          <b
+                            style={{
+                              fontSize: "18px",
+                            }}
+                          >
+                            ID:{" "}
+                          </b>
 
-                  <p>
-                    <b
-                      style={{
-                        fontSize: "18px",
-                      }}
-                    >
-                      School:{" "}
-                    </b>{" "}
-                    {students[imageData].school}
-                  </p>
+                          {students[imageData].code}
+                        </p>
 
-                  <p>
-                    <b
-                      style={{
-                        fontSize: "18px",
-                      }}
-                    >
-                      Grade:{" "}
-                    </b>
+                        <p>
+                          <b
+                            style={{
+                              fontSize: "18px",
+                            }}
+                          >
+                            School:{" "}
+                          </b>{" "}
+                          {students[imageData].school}
+                        </p>
 
-                    {students[imageData].grade}
-                  </p>
-                  {/* <p>
-                    <b
-                      style={{
-                        fontSize: "18px",
-                      }}
-                    >
-                      Screener Name:{" "}
-                    </b>
-                    {screenerName}
-                  </p> */}
-                  <p>
-                    <b
-                      style={{
-                        fontSize: "18px",
-                      }}
-                    >
-                      Opt out Reason:{" "}
-                    </b>
-                    {students[imageData].optoutReason}
-                  </p>
-                </div>
+                        <p>
+                          <b
+                            style={{
+                              fontSize: "18px",
+                            }}
+                          >
+                            Grade:{" "}
+                          </b>
+
+                          {students[imageData].grade}
+                        </p>
+                        {/* <p>
+                          <b
+                            style={{
+                              fontSize: "18px",
+                            }}
+                          >
+                            Screener Name:{" "}
+                          </b>
+                          {screenerName}
+                        </p> */}
+                        <p>
+                          <b
+                            style={{
+                              fontSize: "18px",
+                            }}
+                          >
+                            Opt out Reason:{" "}
+                          </b>
+                          {students[imageData].optoutReason}
+                        </p>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
 
                 {(students[imageData].optout == "No") ? (
                   <div
-                  style={{
-                    marginBottom: "20px",
-                    marginTop: "20px",
-                  }}
-                  className="teeth-image-container"
-                > 
+                    style={{
+                      marginBottom: "20px",
+                      marginTop: "20px",
+                    }}
+                    className="teeth-image-container"
+                  > 
                   <div class="image-container">               
                     <label>Nonsmiling</label>
                     <img
@@ -549,207 +556,224 @@ const EvaluationApp = () => {
                   </div>
                 </div>
                 ) : ""}
-                <div className="inputs-container">
-                <table className = "evaltable">
-                    <tr className="evaltr"> 
-                        <td>
-                            <div className="inputs-container">
-                            <label>1. Untreated Decay:</label>
-                         
-                            <div>
-                                <select
-                                name="untreated-decay" // onChange={handleDropdownChange()}
-                                onChange={(event) => {
-                                    event.preventDefault();
-                                    setState({
-                                    ...states,
-                                    untreatedDecay: event.target.value,
-                                    });
-                                }}
-                                //value={students[imageData].untreatedDecay}
-                                value={selectDDValue(imageData, "untreatedDecay")}
-                                
-                                >
-                                <option
-                                    value="Yes"
-                                >
-                                    Yes
-                                </option>
 
-                                <option
-                                    value="No" 
-                                >
-                                    No
-                                </option>
-                                </select>
-                            </div>
-                            </div>
-                        </td>
+              {(students[imageData].optout == "No") ? (
+                    <div
+                      style={{
+                        marginBottom: "20px",
+                        marginTop: "20px",
+                      }}
+                      className="teeth-image-container"
+                    >     
+                  <div className="inputs-container">
+                  <table className = "evaltable">
+                      <tr className="evaltr"> 
+                          <td>
+                              <div className="inputs-container">
+                              <label>1. Untreated Decay:</label>
+                          
+                              <div>
+                                  <select
+                                  name="untreated-decay" // onChange={handleDropdownChange()}
+                                  onChange={(event) => {
+                                      event.preventDefault();
+                                      setState({
+                                      ...states,
+                                      untreatedDecay: event.target.value,
+                                      });
+                                  }}
+                                  //value={students[imageData].untreatedDecay}
+                                  value={selectDDValue(imageData, "untreatedDecay")}
+                                  
+                                  >
+                                  <option
+                                      value="Yes"
+                                  >
+                                      Yes
+                                  </option>
 
-                        <td>
-                            <div className="inputs-container">
-                            <label>2. Treated Decay:</label>
-                         
+                                  <option
+                                      value="No" 
+                                  >
+                                      No
+                                  </option>
+                                  </select>
+                              </div>
+                              </div>
+                          </td>
+
+                          <td>
+                              <div className="inputs-container">
+                              <label>2. Treated Decay:</label>
+                          
+                              <select
+                                  name="treated-decay" // onChange={handleDropdownChange()}
+                                  onChange={(event) => {
+                                      event.preventDefault();
+                                      setState({
+                                      ...states,
+                                      treatedDecay: event.target.value,
+                                      });
+                                      // console.log("selected event", event.target.value);
+                                      // students[imageData].treatedDecay = event.target.value;
+                                      // setStudents(students);
+                                      // console.log("selected state", states.treatedDecay);
+                                      // console.log(
+                                      // "selected student",
+                                      // students[imageData].treatedDecay
+                                      // );
+                                  }}
+                                  value={selectDDValue(imageData, "treatedDecay")}
+                                  >
+                                  <option
+                                      value="Yes"
+                                  >
+                                      Yes
+                                  </option>
+
+                                  <option
+                                      value="No" 
+                                  >
+                                      No
+                                  </option>
+                                  </select>
+                              </div>
+                          </td>
+                      </tr>
+                      <tr className = "evaltr"> 
+                          <td>
+                              <div className="inputs-container">
+                              <label>3. Sealants Present:</label>
+                          
+                              <select
+                                  name="sealants-present" // onChange={handleDropdownChange()}
+                                  onChange={(event) => {
+                                      event.preventDefault();
+                                      setState({
+                                      ...states,
+                                      sealantsPresent: event.target.value,
+                                      });
+                                  }}
+                                  //value={students[imageData].sealantsPresent}
+                                  value={selectDDValue(imageData, "sealantsPresent")}
+                                  >
+                                  <option
+                                      value="Yes"
+                                  >
+                                      Yes
+                                  </option>
+
+                                  <option
+                                      value="No" 
+                                  >
+                                      No
+                                  </option>
+                                  </select>
+                              </div>
+
+                          </td>
+                          <td>
+                              <div>
+                              <label>4. Treatment Recomendation codes: </label>
+                              <select
+                                  name="treatment-recommendation-code" // onChange={handleDropdownChange()}
+                                  onChange={(event) => {
+                                      event.preventDefault();
+                                      setState({
+                                      ...states,
+                                      treatmentRecommendationCode: event.target.value,
+                                      });
+                                      //window.$stateChanged = true;
+                                      //console.log("selected event", event.target.value);
+                                      //students[imageData].treatmentRecommendationCode = event.target.value;
+                                      //setStudents(students);
+                                    // console.log("selected state", states.treatmentRecommendationCode);
+                                      //console.log("selected student",students[imageData].treatmentRecommendationCode);
+                                  }}
+                                  value={selectDDValue(imageData, "treatmentRecommendationCode")} 
+                                  //value={students[imageData].treatmentRecommendationCode}
+                                  >
+                                  <option
+                                      //value="No obvious problem"
+                                      value = "Code 1"
+                                  >
+                                      Code 1
+                                  </option>
+
+                                  <option
+                                      // value="Evaluate for preventive sealants" 
+                                      value = "Code 2"
+                                  >
+                                      Code 2
+                                  </option>
+                                  <option
+                                      // value="Evaluate for Restorative care" 
+                                      value = "Code 3"
+                                  >
+                                      Code 3
+                                  </option>
+                                  <option
+                                    // value="Urgent care needed" 
+                                      value = "Code 4"
+                                  >
+                                      Code 4
+                                  </option>
+                                  </select>
+                              </div>
+                          </td>
+                      </tr>
+                    </table>
+                  </div>
+                  
+                  </div>
+                ) : ""}
+
+                  <div>
+                    <table className = "bordertable">
+                      <tr className="evaltr"> 
+            
+                        <td align="center"> 
+                             <b>Please select a reason only if you cannot evaluate the images: </b>
+                      
+                      
+              
                             <select
-                                name="treated-decay" // onChange={handleDropdownChange()}
+                                name="cannot-evaluate"  // onChange={handleCannotEvaluate()}
                                 onChange={(event) => {
                                     event.preventDefault();
-                                    setState({
-                                    ...states,
-                                    treatedDecay: event.target.value,
-                                    });
-                                    // console.log("selected event", event.target.value);
-                                    // students[imageData].treatedDecay = event.target.value;
-                                    // setStudents(students);
-                                    // console.log("selected state", states.treatedDecay);
-                                    // console.log(
-                                    // "selected student",
-                                    // students[imageData].treatedDecay
-                                    // );
-                                }}
-                                value={selectDDValue(imageData, "treatedDecay")}
-                                >
-                                <option
-                                    value="Yes"
-                                >
-                                    Yes
-                                </option>
-
-                                <option
-                                    value="No" 
-                                >
-                                    No
-                                </option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr className = "evaltr"> 
-                        <td>
-                            <div className="inputs-container">
-                            <label>3. Sealants Present:</label>
-                        
-                            <select
-                                name="sealants-present" // onChange={handleDropdownChange()}
-                                onChange={(event) => {
-                                    event.preventDefault();
-                                    setState({
-                                    ...states,
-                                    sealantsPresent: event.target.value,
-                                    });
+                                      setState({
+                                        ...states,
+                                        cannotEvaluate: event.target.value,
+                                      // evalStatus: "Incomplete"
+                                        });
+                                    handleCannotEvaluate(event)
                                 }}
                                 //value={students[imageData].sealantsPresent}
-                                value={selectDDValue(imageData, "sealantsPresent")}
+                                value={selectDDValue(imageData, "cannotEvaluate")} 
                                 >
                                 <option
-                                    value="Yes"
+                                    value="NA"
                                 >
-                                    Yes
+                                    NA
                                 </option>
 
                                 <option
-                                    value="No" 
+                                    value="One or More Images Not Clear" 
                                 >
-                                    No
+                                    One or More Images Not Clear
                                 </option>
-                                </select>
-                            </div>
 
+                                <option
+                                    value="Student Opted Out of Screening" 
+                                >
+                                    Student Opted Out of Screening
+                                </option>
+                                
+                            </select>
+                          
                         </td>
-                        <td>
-                            <div>
-                            <label>4. Treatment Recomendation codes: </label>
-                            <select
-                                name="treatment-recommendation-code" // onChange={handleDropdownChange()}
-                                onChange={(event) => {
-                                    event.preventDefault();
-                                    setState({
-                                    ...states,
-                                    treatmentRecommendationCode: event.target.value,
-                                    });
-                                    //window.$stateChanged = true;
-                                    //console.log("selected event", event.target.value);
-                                    //students[imageData].treatmentRecommendationCode = event.target.value;
-                                    //setStudents(students);
-                                   // console.log("selected state", states.treatmentRecommendationCode);
-                                    //console.log("selected student",students[imageData].treatmentRecommendationCode);
-                                }}
-                                value={selectDDValue(imageData, "treatmentRecommendationCode")} 
-                                //value={students[imageData].treatmentRecommendationCode}
-                                >
-                                <option
-                                    //value="No obvious problem"
-                                    value = "Code 1"
-                                >
-                                    Code 1
-                                </option>
-
-                                <option
-                                    // value="Evaluate for preventive sealants" 
-                                    value = "Code 2"
-                                >
-                                    Code 2
-                                </option>
-                                <option
-                                    // value="Evaluate for Restorative care" 
-                                    value = "Code 3"
-                                >
-                                    Code 3
-                                </option>
-                                <option
-                                   // value="Urgent care needed" 
-                                    value = "Code 4"
-                                >
-                                    Code 4
-                                </option>
-                                </select>
-                            </div>
-                        </td>
-                    </tr>
-     
-                <tr>
-                  <td align="right"> 
-                      <h5>  <b>Please select a reason only if you cannot evaluate the images: </b> </h5>
-                  </td>
-                  <td align="left">
-                    <div>
-                        <select
-                            name="cannot-evaluate"  // onChange={handleCannotEvaluate()}
-                            onChange={(event) => {
-                                event.preventDefault();
-                                  setState({
-                                    ...states,
-                                    cannotEvaluate: event.target.value,
-                                   // evalStatus: "Incomplete"
-                                    });
-                                handleCannotEvaluate(event)
-                            }}
-                            //value={students[imageData].sealantsPresent}
-                            value={selectDDValue(imageData, "cannotEvaluate")} 
-                            >
-                            <option
-                                value="NA"
-                            >
-                                NA
-                            </option>
-
-                            <option
-                                value="One or More Images Not Clear" 
-                            >
-                                One or More Images Not Clear
-                            </option>
-
-                            <option
-                                value="Student Opted Out of Screening" 
-                            >
-                                Student Opted Out of Screening
-                            </option>
-                            
-                        </select>
-                      </div>
-                  </td>
-                </tr>
-                </table>
+                      </tr>
+                    </table>
                 </div>
                 <p></p>
       

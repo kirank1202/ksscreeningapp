@@ -312,12 +312,22 @@ table {
   border-bottom: 0px solid grey;
 }
 
+.bordertable {
+  table-layout: fixed;
+  align-self: center;
+  align-items: center;
+  border-collapse: collapse;
+  border: 4px solid  #1473a2;
+  border-bottom: 0px;
+  background-color: #1473a2;
+  width: 100%;
+}
 
 .evaltable {
   table-layout: fixed;
   align-items: center;
   border-collapse: collapse;
-  border: 4px solid #1e08e4;
+  border: 4px solid  #1473a2;
   width: 100%;
 }
 .evaltr {
