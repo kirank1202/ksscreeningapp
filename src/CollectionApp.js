@@ -40,6 +40,13 @@ const DemoRightImg = "https://screeningdemoimages.s3.amazonaws.com/RightDemo.JPG
 const DemoNonsmilingImg = "https://screeningdemoimages.s3.amazonaws.com/nonsmilingdemo.JPG";
 const DemoFrontTeethImg = "https://screeningdemoimages.s3.amazonaws.com/FrontTeethDemo.JPG";
 
+let selectedNonSmilingImage; 
+let selectedFrontImage; 
+let selectedLeftImage; 
+let selectedRightImage;
+let selectedTopImage; 
+let selectedBottomImage;
+
 const initialFormState = {
     code: "",
     name: "",
@@ -208,12 +215,11 @@ const CollectionApp = () => {
 
     const generateImageFileName = (fileName) => {
         return `${formData.code}-${fileName}`;
-    };
+    };  
 
     /* Store leftimage if a file is selected */
     async function onChangeleftimage(e) {
         if (!e.target.files[0]) return;
-        const file = e.target.files[0];
         var reader = new FileReader();
 
         reader.onload = function (e) {
@@ -227,12 +233,14 @@ const CollectionApp = () => {
             el.innerHTML = "";
         };
 
-        reader.readAsDataURL(file);
+        // const file = e.target.files[0];
+        selectedLeftImage = e.target.files[0];
+        reader.readAsDataURL(selectedLeftImage);
         setFormData({
             ...formData,
             leftimage: generateImageFileName("left"),
         });
-        await Storage.put(generateImageFileName("left"), file);
+     //   await Storage.put(generateImageFileName("left"), file);
     }
 
     async function onChangerightimage(e) {
@@ -250,19 +258,19 @@ const CollectionApp = () => {
             el.innerHTML = "";
         };
 
-        const file = e.target.files[0];
-        reader.readAsDataURL(file);
+        // const file = e.target.files[0];
+        selectedRightImage = e.target.files[0];
+        reader.readAsDataURL(selectedRightImage);
 
         setFormData({
             ...formData,
             rightimage: generateImageFileName("right"),
         });
-        await Storage.put(generateImageFileName("right"), file);
+      //  await Storage.put(generateImageFileName("right"), file);
     }
 
     async function onChangetopimage(e) {
         if (!e.target.files[0]) return;
-        const file = e.target.files[0];
         var reader = new FileReader();
 
         reader.onload = function (e) {
@@ -276,13 +284,16 @@ const CollectionApp = () => {
             el.innerHTML = "";
         };
 
-        reader.readAsDataURL(file);
+       // const file = e.target.files[0];
+
+        selectedTopImage = e.target.files[0];
+        reader.readAsDataURL(selectedTopImage);
 
         setFormData({
             ...formData,
             topimage: generateImageFileName("top"),
         });
-        await Storage.put(generateImageFileName("top"), file);
+        //await Storage.put(generateImageFileName("top"), file);
         // alert("top image changes");
     }
 
@@ -301,13 +312,16 @@ const CollectionApp = () => {
             el.innerHTML = "";
         };
 
-        const file = e.target.files[0];
-        reader.readAsDataURL(file);
+      //  const file = e.target.files[0];
+        selectedBottomImage = e.target.files[0];
+        reader.readAsDataURL(selectedBottomImage);
         setFormData({
             ...formData,
             bottomimage: generateImageFileName("bottom"),
         });
-        await Storage.put(generateImageFileName("bottom"), file);
+        
+
+        //await Storage.put(generateImageFileName("bottom"), file);
         // alert("left image changes");
         // alert("bottom image changes");
     }
@@ -327,13 +341,14 @@ const CollectionApp = () => {
             el.innerHTML = "";
         };
 
-        const file = e.target.files[0];
-        reader.readAsDataURL(file);
+        // const file = e.target.files[0];
+        selectedNonSmilingImage = e.target.files[0];
+        reader.readAsDataURL(selectedNonSmilingImage);
         setFormData({
             ...formData,
             nonsmilingface: generateImageFileName("nonsmiling"),
         });
-        await Storage.put(generateImageFileName("nonsmiling"), file);
+       // await Storage.put(generateImageFileName("nonsmiling"), file);
        //  alert("nonsmiling-face image changes");
     }
 
@@ -352,13 +367,17 @@ const CollectionApp = () => {
             el.innerHTML = "";
         };
 
-        const file = e.target.files[0];
-        reader.readAsDataURL(file);
+       // const file = e.target.files[0];
+        selectedFrontImage = e.target.files[0];
+        reader.readAsDataURL(selectedFrontImage);
+
+     
         setFormData({
             ...formData,
             frontTeeth: generateImageFileName("front"),
         });
-        await Storage.put(generateImageFileName("front"), file);
+
+        // await Storage.put(generateImageFileName("front"), file);
         //alert("Front-Teeth image changes");
     }
 
@@ -371,12 +390,14 @@ const CollectionApp = () => {
         if(formData.optoutReason != "NA"){
             formData.optout = "Yes";
         }
-   //     formData.dentalPain = extraFormData.dentalPain;
+        //formData.dentalPain = extraFormData.dentalPain;
         
         console.log("FormData: ",formData);
         
         createStudent(e);
+
     }
+
     async function createStudent(e) {
         e.preventDefault();
         if (!formData.code || !formData.gender) return;
@@ -388,6 +409,15 @@ const CollectionApp = () => {
             const image = await Storage.get(formData.leftimage);
             formData.leftimage = image;
         }
+        
+        if (formData.optout === "No") {
+            await Storage.put(generateImageFileName("nonsmiling"), selectedNonSmilingImage);
+            await Storage.put(generateImageFileName("front"), selectedFrontImage);
+            await Storage.put(generateImageFileName("left"), selectedLeftImage);
+            await Storage.put(generateImageFileName("right"), selectedRightImage);
+            await Storage.put(generateImageFileName("top"), selectedTopImage);
+            await Storage.put(generateImageFileName("bottom"), selectedBottomImage);
+        }
         // handleConfirmSubmitModel();
         alert(`Student ${formData.code} Uploaded Successfully.\n\nThank You for participating in Hays (USD 489) 2021 Dental Screening Program.`);
         if(formData.okToReceiveMedicaidInfo === "Yes" ) {
@@ -398,6 +428,15 @@ const CollectionApp = () => {
         }
 
     }
+
+   function handleOptoutReasonChange() {
+    // const el = document.getElementById("non-smiling");
+    // el.style.background = `url(${e.target.result})`;
+    
+    // console.log(formData.nonsmilingface);
+    
+    }
+
 
     
     return (
@@ -708,56 +747,7 @@ const CollectionApp = () => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
-                                <div className="mb-3">
-                                <h6 className="BasicDetails">{t("OPT OUT")}</h6>
-                                    <p>{t("Please select a reason from the dropdown if you would like to optout of school dental screening.")}</p>
-                                    <Dropdown
-                                        value={formData.optoutReason}
-                                        onSelect={(e) => {
-                                            setFormData({
-                                                ...formData,
-                                                optoutReason: e,
-                                            });
-                                        }}
-                                    >
-                                        <Dropdown.Toggle id="dropdown-basic">
-                                            {formData.optoutReason}
-                                        </Dropdown.Toggle>
-
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item
-                                                eventKey="NA"
-                                            >
-                                                {t("NA")}
-                                            </Dropdown.Item>
-                                        
-                                            <Dropdown.Item
-                                                eventKey="Visited Dentist in last 6 months"
-                                            >
-                                                {t("Visited Dentist in last 6 months")}
-                                            </Dropdown.Item>
-
-                                            <Dropdown.Item
-                                                eventKey="Do not have a smart phone"
-                                            >
-                                                {t("Do not have a smart phone")}
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey="Need technical help"
-                                            >
-                                                {t("Need technical help")}
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey="Concerned about student's privacy"
-                                            >
-                                                {t("Concerned about student's privacy")}
-                                            </Dropdown.Item>
-
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </div>
-                            </div>
-                            
+                               
                             <div className="rightArea"></div>
                         </div>
                     </div>
@@ -787,6 +777,7 @@ const CollectionApp = () => {
                                 type="file"
                                 class="input-file"
                                 onChange={onChangeNonSmilingimage}
+                                disabled = {!formData.code}
                             />
                             <label
                                 id="non-smiling"
@@ -815,6 +806,7 @@ const CollectionApp = () => {
                                 type="file"
                                 className="input-file"
                                 onChange={onChangeFrontTeethimage}
+                                disabled = {!formData.code}
                             />
                             <label
                                 id="front-teeth"
@@ -842,6 +834,7 @@ const CollectionApp = () => {
                                 type="file"
                                 class="input-file"
                                 onChange={onChangeleftimage}
+                                disabled = {!formData.code}
                             />
                             <label
                                 id="left"
@@ -869,6 +862,7 @@ const CollectionApp = () => {
                                 type="file"
                                 class="input-file"
                                 onChange={onChangerightimage}
+                                disabled = {!formData.code}
                             />
                             <label
                                 id="right"
@@ -897,6 +891,7 @@ const CollectionApp = () => {
                                 type="file"
                                 class="input-file"
                                 onChange={onChangetopimage}
+                                disabled = {!formData.code}
                             />
                             <label
                                 id="top"
@@ -925,6 +920,7 @@ const CollectionApp = () => {
                                 type="file"
                                 class="input-file"
                                 onChange={onChangebottomimage}
+                                disabled = {!formData.code}
                             />
                             <label
                                 id="bottom"
@@ -987,6 +983,64 @@ const CollectionApp = () => {
                         {t("* By submiting, you authorize dental professionals to review the submitted data for screening purposes.")}
                     </h6>
                     <br/>
+                     {/* HIDE OPT OUT OPTION */}
+                                <div className="mb-3">
+                                <h6 className="BasicDetails">{t("OPT OUT OPTION")}</h6>
+                                   
+
+                                   <h9>
+                                    <p>{t("Select a reason from the dropdown if you would like to optout of school dental screening and then clieck on Submit Student button above")}</p>
+                                    </h9>
+                                    <Dropdown
+                                        value={formData.optoutReason}
+                                        onSelect={(e) => {
+                                            setFormData({
+                                                ...formData,
+                                                optoutReason: e,
+                                            });
+                                        // handleOptoutReasonChange();
+                                        }}
+                                    >
+                                        <Dropdown.Toggle id="dropdown-basic">
+                                            {formData.optoutReason}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                eventKey="NA"
+                                            >
+                                                {t("NA")}
+                                            </Dropdown.Item>
+                                        
+                                            <Dropdown.Item
+                                                eventKey="Visited Dentist in last 6 months"
+                                            >
+                                                {t("Visited Dentist in last 6 months")}
+                                            </Dropdown.Item>
+
+                                            <Dropdown.Item
+                                                eventKey="Do not have a smart phone"
+                                            >
+                                                {t("Do not have a smart phone")}
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey="Need technical help"
+                                            >
+                                                {t("Need technical help")}
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey="Concerned about student's privacy"
+                                            >
+                                                {t("Concerned about student's privacy")}
+                                            </Dropdown.Item>
+
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                    <h5></h5>
+                                </div>
+                               { /* */ }
+                            </div>
+                            
                 </div>
             </form>
             <Modal
