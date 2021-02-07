@@ -153,6 +153,8 @@ const CollectionApp = () => {
     const [open, setOpen] = React.useState(false);
     const [confirmSubmitModel, setConfirmSubmitModel] = React.useState(false);
     const { t } = useTranslation();
+    const [isLoaded, setIsLoaded] = useState(true);
+
     let history = useHistory();
 
     const handleLanguage = (lang) => {
@@ -382,6 +384,7 @@ const CollectionApp = () => {
     }
 
     async function handleSubmit(e) {
+        setIsLoaded(false);
         /*
         let confirmToSubmit =  window.confirm(`Please verify that all images are in focus before submitting`); 
         if (confirmToSubmit) {  
@@ -420,6 +423,8 @@ const CollectionApp = () => {
         }
         // handleConfirmSubmitModel();
         alert(`Student ${formData.code} Uploaded Successfully.\n\nThank You for participating in Hays (USD 489) 2021 Dental Screening Program.`);
+        setIsLoaded(true);
+
         if(formData.okToReceiveMedicaidInfo === "Yes" ) {
             window.location.href = "https://www.kdheks.gov/hcf/Medicaid/eligibility_guidelines.html"; 
         } else {
@@ -936,6 +941,7 @@ const CollectionApp = () => {
                    { (formData.optoutReason === "NA")? (
                        <h4>
                         <span class="required"> {t("*Please select all the required fields")}</span>
+                      {(isLoaded) ? ( 
                         <button
                             className="SubmitButton"
                             type="submit"
@@ -958,7 +964,19 @@ const CollectionApp = () => {
                             }
                         >
                             {t("Submit Student*")}
+
                         </button>
+                      ):
+                      <button
+                            className="SubmitButton"
+                            type="button"
+                            disabled
+                        >
+                            {t("Please wait....")}
+
+                       </button> 
+                    }                        
+
                     </h4>)
                     : <h4>
                         <span class="required"> {t("*Please select all the required fields")}</span>
