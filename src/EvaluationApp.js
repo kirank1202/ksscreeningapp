@@ -387,7 +387,7 @@ const EvaluationApp = () => {
                     onClick={() => {
                       setImageData(key); // setEvalData(key);
                       handleFormState(key);
-                      focusOnEvaluate();
+                     // focusOnEvaluate();
                     }}
                     className={
                       key === imageData
