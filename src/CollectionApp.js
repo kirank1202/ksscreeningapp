@@ -708,58 +708,7 @@ const CollectionApp = () => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
-                                {/* HIDE OPT OUT OPTION
-                                <div className="mb-3">
-                                    <h6 className="BasicDetails">{t("OPT OUT")}</h6>
-                                    <p>{t("Please select a reason from the dropdown if you would like to optout of school dental screening.")}</p>
-                                    <Dropdown
-                                        value={formData.optoutReason}
-                                        onSelect={(e) => {
-                                            setFormData({
-                                                ...formData,
-                                                optoutReason: e,
-                                            });
-                                        }}
-                                    >
-                                        <Dropdown.Toggle id="dropdown-basic">
-                                            {formData.optoutReason}
-                                        </Dropdown.Toggle>
-
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item
-                                                eventKey="NA"
-                                            >
-                                                {t("NA")}
-                                            </Dropdown.Item>
-                                        
-                                            <Dropdown.Item
-                                                eventKey="Visited Dentist in last 6 months"
-                                            >
-                                                {t("Visited Dentist in last 6 months")}
-                                            </Dropdown.Item>
-
-                                            <Dropdown.Item
-                                                eventKey="Do not have a smart phone"
-                                            >
-                                                {t("Do not have a smart phone")}
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey="Need technical help"
-                                            >
-                                                {t("Need technical help")}
-                                            </Dropdown.Item>
-                                            <Dropdown.Item
-                                                eventKey="Concerned about student's privacy"
-                                            >
-                                                {t("Concerned about student's privacy")}
-                                            </Dropdown.Item>
-
-                                        </Dropdown.Menu>
-                                    </Dropdown>
-                                </div>
-                                */ }
-                            </div>
-                            
+                               
                             <div className="rightArea"></div>
                         </div>
                     </div>
@@ -989,6 +938,63 @@ const CollectionApp = () => {
                         {t("* By submiting, you authorize dental professionals to review the submitted data for screening purposes.")}
                     </h6>
                     <br/>
+                     {/* HIDE OPT OUT OPTION */}
+                                <div className="mb-3">
+                                <h6 className="BasicDetails">{t("OPT OUT OPTION")}</h6>
+                                   
+
+                                   <h9>
+                                    <p>{t("Select a reason from the dropdown if you would like to optout of school dental screening and then clieck on Submit Student button above")}</p>
+                                    </h9>
+                                    <Dropdown
+                                        value={formData.optoutReason}
+                                        onSelect={(e) => {
+                                            setFormData({
+                                                ...formData,
+                                                optoutReason: e,
+                                            });
+                                        }}
+                                    >
+                                        <Dropdown.Toggle id="dropdown-basic">
+                                            {formData.optoutReason}
+                                        </Dropdown.Toggle>
+
+                                        <Dropdown.Menu>
+                                            <Dropdown.Item
+                                                eventKey="NA"
+                                            >
+                                                {t("NA")}
+                                            </Dropdown.Item>
+                                        
+                                            <Dropdown.Item
+                                                eventKey="Visited Dentist in last 6 months"
+                                            >
+                                                {t("Visited Dentist in last 6 months")}
+                                            </Dropdown.Item>
+
+                                            <Dropdown.Item
+                                                eventKey="Do not have a smart phone"
+                                            >
+                                                {t("Do not have a smart phone")}
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey="Need technical help"
+                                            >
+                                                {t("Need technical help")}
+                                            </Dropdown.Item>
+                                            <Dropdown.Item
+                                                eventKey="Concerned about student's privacy"
+                                            >
+                                                {t("Concerned about student's privacy")}
+                                            </Dropdown.Item>
+
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+                                    <h5></h5>
+                                </div>
+                               { /* */ }
+                            </div>
+                            
                 </div>
             </form>
             <Modal
