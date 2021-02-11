@@ -437,17 +437,16 @@ const CollectionApp = () => {
    function handleOptoutReasonChange() {
     // const el = document.getElementById("non-smiling");
     // el.style.background = `url(${e.target.result})`;
-    
     // console.log(formData.nonsmilingface);
-    
     }
-     // Similar to componentDidMount and componentDidUpdate:
+
+    // Show initial welcome popup message (only once for login).
+    // Similar to componentDidMount and componentDidUpdate:
     useEffect(() => {
-        // Update the document title using the browser API
         console.log('SST', sessionStorage.getItem("hideInfo"));
         if(sessionStorage && sessionStorage.getItem("hideInfo")  !== "yes") {
             sessionStorage.setItem("hideInfo", "yes")
-            alert(`Welcome to the Dental Screening program 2021.Please note that this screening does not sign your student up for any dental care.Your participation in these screenings allows us to potentially receive funding from the state for the health of our children.`);
+            alert(`Welcome to the Dental Screening program 2021. Your participation in these screenings allows us to potentially receive funding from the state for the health of our children. Please note that this screening does not sign your student up for any dental care. Thank you for your participation.`);
         }
     });
     
