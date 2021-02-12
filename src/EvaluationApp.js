@@ -7,8 +7,8 @@ import {
   updateStudent as updateStudentMutation,
 } from "./graphql/mutations";
 import "./App.css";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import AppBar from "@material-ui/core/AppBar";
@@ -20,7 +20,9 @@ import { useHistory } from "react-router-dom";
 const EvaluationApp = () => {
   const [students, setStudents] = useState([]);
   const [imageData, setImageData] = useState();
+  const [schoolList, setSchoolList] = useState([]);
   const [screenerName, setscreenerName] = useState("");
+  const [unFilteredStudentsList, setUnFilteredStudentsList] = useState([]);
   const initialState = {
     untreatedDecay: "No",
     treatedDecay: "No",
@@ -85,7 +87,27 @@ const EvaluationApp = () => {
       (a, b) =>
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     ); // setStudents(apiData.data.listStudents.items);
+    studentsFromAPI.forEach(student => {
+      if(!schoolList.some( e => e.title == student.school)) {
+        schoolList.push({title: student.school});
+      }
+    });
+    setSchoolList(schoolList);
+    setUnFilteredStudentsList(sortedArr);
     setStudents(sortedArr);
+  }
+
+  let handleSchoolListFilter = (e, val) => {
+    let schoolName = val != null ? val.title : null;
+    console.log("School name:", val);
+    var filterdStudents = unFilteredStudentsList.filter((student) => {
+      if(val !== null) {
+        return student.school == val.title;
+      } else {
+        return student.school;
+      }
+    });
+    setStudents(filterdStudents);
   }
   async function deleteStudent({ id }) {
     const student = students.find((student) => student.id === id);
@@ -368,6 +390,27 @@ const EvaluationApp = () => {
                 <tr>
                   <th class="td-xsmall">#</th>
                   <th>School</th>
+                  <th>Grade</th>
+                  <th>Student Id</th>
+                  <th>First Name</th>
+                  <th>Gender</th>
+                  <th>Dental Insurance</th>
+                  <th>Date</th>
+                  <th>Opt Out</th>
+                  <th>Opt Out Reason</th>
+                  <th>Status</th>
+                </tr>
+                <tr class="tr-filter">
+                  <th class="td-xsmall"></th>
+                  <th>
+                    <Autocomplete
+                    id="combo-box-demo"
+                    options={schoolList}
+                    onChange={(event, newValue) => handleSchoolListFilter(event, newValue)}
+                    getOptionLabel={(option) => option.title}
+                    renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                  />
+                </th>
                   <th>Grade</th>
                   <th>Student Id</th>
                   <th>First Name</th>

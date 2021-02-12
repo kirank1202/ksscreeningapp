@@ -43,6 +43,10 @@
   pointer-events: none;
   color:#000;
 }
+.tr-filter th {
+  background-color: #fff;
+  padding: 5px;
+}
 .total .td-link {
   display: block;
   cursor: pointer;
