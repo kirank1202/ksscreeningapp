@@ -34,8 +34,8 @@ const EvaluationApp = () => {
     cannotEvaluate: "NA",
   };
   const initialGenderList = [
-    { title : "Male"},
-    { title : "Female"}
+    { title : "Female"},
+    { title : "Male"}
   ]
   const initialYesNoList = [
     { title : "Yes"},
@@ -140,12 +140,18 @@ const EvaluationApp = () => {
     upsert({name: selectedFilter, value: val && val.title});
     console.log("Before null: ",filters);
     // filter all null and empty values items from filter array.
-    filters = filters.filter(ele  => ele.value !== null);
-    filters = filters.filter(ele  => ele.value !== "");
-    console.log("After null: ",filters);
+    filters = filters.filter(ele  => ele.value !== null && ele.value !== "");
     var filterdStudents = unFilteredStudentsList.filter((student) => {
-      return filters.every(filter  => student[filter.name] && student[filter.name].toString().toLowerCase().indexOf(filter.value.toString().toLowerCase()) > -1 )
+      return filters.every(filter  => { 
+       // console.log(`${student[filter.name]} == ${filter.value}`, student[filter.name].toUpperCase().indexOf(filter.value.toUpperCase()));
+       if(filter.name === "gender") {
+          return student[filter.name] && student[filter.name].toString().match(filter.value.toString())  
+       } else {
+          return student[filter.name] && student[filter.name].toString().toUpperCase().match(filter.value.toString().toUpperCase())
+       }
+      })
     });
+    // console.log("Filtered students: ",filterdStudents);
     setStudents(filterdStudents);
   }
 
