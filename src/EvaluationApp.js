@@ -142,8 +142,9 @@ const EvaluationApp = () => {
     // filter all null and empty values items from filter array.
     filters = filters.filter(ele  => ele.value !== null);
     filters = filters.filter(ele  => ele.value !== "");
+    console.log("After null: ",filters);
     var filterdStudents = unFilteredStudentsList.filter((student) => {
-      return filters.every(filter  => student[filter.name].toString().toLowerCase().indexOf(filter.value) > -1 )
+      return filters.every(filter  => student[filter.name] && student[filter.name].toString().toLowerCase().indexOf(filter.value.toString().toLowerCase()) > -1 )
     });
     setStudents(filterdStudents);
   }
