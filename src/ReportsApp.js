@@ -15,8 +15,10 @@ const ReportsApp = () => {
   const [students, setStudents] = useState([]);
   const [unFilteredStudentsList, setUnFilteredStudentsList] = useState([]);
   const [schoolList, setSchoolList] = useState([]);
+  const [selectedSchool, setSelectedSchool] = useState(null);
   const [districtList, setDistrictlist] = useState([]);
   const [reportSummary, setReportSummary] = useState([]);
+  const [reportSummaryBySchool, setReportSummaryBySchool] = useState([]);
   const [reRunState, setReRunState] = useState("");
   const [showStudentDetails, setShowStudentDetails] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
@@ -74,22 +76,33 @@ const ReportsApp = () => {
       if(!schoolList.some( e => e.title == student.school)) {
         schoolList.push({title: student.school});
       }
-      if(!districtList.some(e => e.title == student.district)) {
-        districtList.push({title: student.district});
-      }
     });
     setSchoolList(schoolList);
-    setDistrictlist(districtList);
     //generateSummary(sortedArr);
-    handleGradeFilter(sortedArr);
+    handleGradeFilter(sortedArr, "school");
     setUnFilteredStudentsList(sortedArr);
     setStudents(sortedArr);
   //  handleGradeFilter();
   }
+  let handleSchoolListFilter = (e, val) => {
+    let schoolName = val != null ? val.title : null;
+    setSelectedSchool(schoolName);
+    console.log("School name:", val);
+    var filterdStudents = unFilteredStudentsList.filter((student) => {
+      if(val !== null) {
+        return student.school == val.title;
+      } else {
+        return student.school;
+      }
+    });
+    //generateSummary(filterdStudents);
+    handleGradeFilter(filterdStudents);
+    setStudents(filterdStudents);
+  }
   let showStudentInfo = () => {
     setShowStudentDetails(true);
   }
-  let handleGradeFilter = (unFiltStudents) => {
+  let handleGradeFilter = (unFiltStudents, filteredBy) => {
     var wholeSummary = [];
     var gradeCodesList = ['K','1', '2', '3', '4', '5', '6', '7', 'Total'];
     let gradesSummary = [];
@@ -97,12 +110,6 @@ const ReportsApp = () => {
     for (let i = 0; i < gradeCodesList.length; i++) {
       if(gradeCodesList[i] !== "Total") {
         let studentDataUNCList = [];
-        let codeList = [];
-        let genderList = [];
-        let gradeList = [];
-        let threeLetterList = [];
-        let nameList = [];
-
         let filterByGrade = unFiltStudents.filter((student) => {
           return student.grade == gradeCodesList[i];
         });
@@ -133,7 +140,7 @@ const ReportsApp = () => {
           wholeSummary.push(gradesSummary);
       }      
     }
-    console.log("TEST", wholeSummary);
+    // console.log("TEST", wholeSummary);
     let grade= {};
     let ucnTotalSummary = [];
     for(var item in wholeSummary) {
@@ -163,6 +170,10 @@ const ReportsApp = () => {
     wholeSummary.push(grade);
     console.log("Whole Summary", wholeSummary);
     setReportSummary(wholeSummary);
+    setReportSummaryBySchool([]);
+    if(filteredBy === "school") {
+      setReportSummaryBySchool(wholeSummary);
+    }
     setIsLoaded(true);
     setReRunState("return"); // This is just to reset the state value
   }
@@ -245,6 +256,23 @@ const ReportsApp = () => {
             </AppBar>
           </div>
           <div className="content-container summary">
+            <div className="leftArea">
+              <div className="mb-3">
+                <p>School Name</p>
+                <Autocomplete
+                  id="combo-box-demo"
+                  options={schoolList}
+                  onChange={(event, newValue) => handleSchoolListFilter(event, newValue)}
+                  getOptionLabel={(option) => option.title}
+                  renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                />
+              </div>
+             {(selectedSchool) ? (
+              <div className="mb-3">
+                <p>Results by School Name: {selectedSchool}</p>
+              </div>
+             ) : ""}
+            </div>
             <table>
               <thead>
                 <tr>
