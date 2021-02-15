@@ -481,6 +481,7 @@ const EvaluationApp = () => {
                       aria-label="createdAt"
                       aria-describedby="Student createdAt"
                       onChange={(event) => handleFilter(event, {title: event.target.value}, 'createdAt')}
+                      disabled
                     />
                   </th>
                   </th>
