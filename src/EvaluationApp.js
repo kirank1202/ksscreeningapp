@@ -143,12 +143,8 @@ const EvaluationApp = () => {
     filters = filters.filter(ele  => ele.value !== null && ele.value !== "");
     var filterdStudents = unFilteredStudentsList.filter((student) => {
       return filters.every(filter  => { 
-       // console.log(`${student[filter.name]} == ${filter.value}`, student[filter.name].toUpperCase().indexOf(filter.value.toUpperCase()));
-       if(filter.name === "gender") {
-          return student[filter.name] && student[filter.name].toString().match(filter.value.toString())  
-       } else {
-          return student[filter.name] && student[filter.name].toString().toUpperCase().match(filter.value.toString().toUpperCase())
-       }
+        // console.log(`${student[filter.name]} == ${filter.value}`, student[filter.name].toUpperCase().indexOf(filter.value.toUpperCase()));
+        return student[filter.name] && student[filter.name].toString().toUpperCase().startsWith(filter.value.toString().toUpperCase())
       })
     });
     // console.log("Filtered students: ",filterdStudents);
