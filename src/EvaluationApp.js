@@ -7,8 +7,10 @@ import {
   updateStudent as updateStudentMutation,
 } from "./graphql/mutations";
 import "./App.css";
+import TextField from '@material-ui/core/TextField';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
+import FormCntrl from "react-bootstrap/FormControl";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import AppBar from "@material-ui/core/AppBar";
@@ -20,7 +22,10 @@ import { useHistory } from "react-router-dom";
 const EvaluationApp = () => {
   const [students, setStudents] = useState([]);
   const [imageData, setImageData] = useState();
+  const [schoolList, setSchoolList] = useState([]);
+  const [gradeList, setGradeList] = useState([]);
   const [screenerName, setscreenerName] = useState("");
+  const [unFilteredStudentsList, setUnFilteredStudentsList] = useState([]);
   const initialState = {
     untreatedDecay: "No",
     treatedDecay: "No",
@@ -28,10 +33,30 @@ const EvaluationApp = () => {
     treatmentRecommendationCode: "No obvious problem",
     cannotEvaluate: "NA",
   };
+  const initialGenderList = [
+    { title : "Female"},
+    { title : "Male"}
+  ]
+  const initialYesNoList = [
+    { title : "Yes"},
+    { title : "No"}
+  ]
+  const initialevalStatusList = [
+    { title : "Completed"},
+    { title : "New"}
+  ]
+  
+  const [genderList, setGenderList] = useState(initialGenderList);
+  const [haveDentalInsuranceList, setHaveDentalInsuranceList] = useState(initialYesNoList);
+  const [optoutList, setOptoutList] = useState(initialYesNoList);
+  const [optoutReasonList, setOptoutReasonList] = useState([]); 
+  const [evalStatusList, setevalStatusList] = useState(initialevalStatusList); 
+
   const [states, setState] = React.useState(initialState); // const [modalStyle] = React.useState(getModalStyle);
   const [open, setOpen] = React.useState(false);
   const evaluationSection = useRef(null);
   const [imageLink, setImageLink] = React.useState("");
+  let [filters, setfilters] = useState([]);
   let history = useHistory();
   window.$stateChanged = false;
 
@@ -85,8 +110,47 @@ const EvaluationApp = () => {
       (a, b) =>
         new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
     ); // setStudents(apiData.data.listStudents.items);
+    studentsFromAPI.forEach(student => {
+      if(!schoolList.some( e => e.title == student.school)) {
+        schoolList.push({title: student.school});
+      }
+      if(!gradeList.some(e => e.title == student.grade)) {
+        gradeList.push({title: student.grade});
+      }
+      if(!optoutReasonList.some(e => e.title == student.optoutReason)) {
+        if (student.optoutReason !== null) {
+          optoutReasonList.push({title: student.optoutReason});
+        }
+      }
+    });
+    setSchoolList(schoolList);
+    setGradeList(gradeList);
+    setOptoutReasonList(optoutReasonList);
+    setUnFilteredStudentsList(sortedArr);
     setStudents(sortedArr);
   }
+  function upsert(item) {
+    const i = filters.findIndex(_item => _item.name === item.name);
+    if (i > -1) filters[i] = item;
+    else filters.push(item);
+    setfilters(filters);
+  }
+
+  let handleFilter = (e, val, selectedFilter) => {
+    upsert({name: selectedFilter, value: val && val.title});
+    console.log("Before null: ",filters);
+    // filter all null and empty values items from filter array.
+    filters = filters.filter(ele  => ele.value !== null && ele.value !== "");
+    var filterdStudents = unFilteredStudentsList.filter((student) => {
+      return filters.every(filter  => { 
+        // console.log(`${student[filter.name]} == ${filter.value}`, student[filter.name].toUpperCase().indexOf(filter.value.toUpperCase()));
+        return student[filter.name] && student[filter.name].toString().toUpperCase().startsWith(filter.value.toString().toUpperCase())
+      })
+    });
+    // console.log("Filtered students: ",filterdStudents);
+    setStudents(filterdStudents);
+  }
+
   async function deleteStudent({ id }) {
     const student = students.find((student) => student.id === id);
     const newStudentArray = students.filter((student) => student.id !== id);
@@ -100,7 +164,7 @@ const EvaluationApp = () => {
     await Storage.remove(student.topimage);
     await Storage.remove(student.bottomimage);
   }
-
+ 
   function handleCannotEvaluate(event){
 
     // Do nothing for now. In future we may activate this alert.
@@ -307,20 +371,7 @@ const EvaluationApp = () => {
 
   const classes = useStyles();
   return (
-    /* if user.group = "datacollector"
- {
- } */
     <div className="App">
-      {/* {students.length === 0 && (
- <>
- <h2>Screening Evaluation App</h2>
- <h4>
- <button onClick={fetchAllStudents}>Fetch All Students</button>
- </h4>
- </>
- )} */}
-
-      {students.length > 1 && (
         <>
           <div className={classes.root}>
             <AppBar position="fixed" color="#fff">
@@ -330,9 +381,6 @@ const EvaluationApp = () => {
                 <nav role="navigation" class="desktop">
                   <ul id="d-menu">
                       <li> <a onClick={() => history.push('reports') }><h5> Reports</h5> </a> </li>
-                      {/* <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
-                      <li> <a onClick={() => history.push('reports') }>Communication</a> </li>          
-                      <li> <a href="https://www.teledentalsolutions.com/" target="_blank">Other</a></li> */}
                   </ul>
                 </nav>
                 <nav role="navigation" class="mobile">
@@ -351,14 +399,6 @@ const EvaluationApp = () => {
           </div>
 
           <div className="content-container table-scroll">
-            {/* <InputGroup className="mb-3">
- <FormControl
- placeholder="Search Student ID # Or School ID #"
- aria-label="Username"
- aria-describedby="basic-addon1"
- />
- </InputGroup> */}
-
             <table>
               <thead>
               <tr>
@@ -377,6 +417,97 @@ const EvaluationApp = () => {
                   <th>Opt Out</th>
                   <th>Opt Out Reason</th>
                   <th>Status</th>
+                </tr>
+                <tr class="tr-filter">
+                  <th class="td-xsmall"></th>
+                  <th>
+                    <Autocomplete
+                    id="school"
+                    options={schoolList}
+                    onChange={(event, newValue) => handleFilter(event, newValue, 'school')}
+                    getOptionLabel={(option) => option.title}
+                    renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                  />
+                </th>
+                  <th>
+                    <Autocomplete
+                      id="grade"
+                      options={gradeList}
+                      onChange={(event, newValue) => handleFilter(event, newValue, 'grade')}
+                      getOptionLabel={(option) => option.title}
+                      renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                    />
+                  </th>
+                  <th> 
+                    <FormCntrl
+                      type="text"
+                      aria-label="code"
+                      aria-describedby="Student Name"
+                      onChange={(event) => handleFilter(event, {title: event.target.value}, 'code')}
+                    />
+                  </th>
+                  <th>
+                    <FormCntrl
+                      type="text"
+                      aria-label="firstname3letters"
+                      aria-describedby="Student firstname3letters"
+                      onChange={(event) => handleFilter(event, {title: event.target.value}, 'firstname3letters')}
+                    />
+                  </th>
+                  <th>
+                    <Autocomplete
+                      id="gender"
+                      options={genderList}
+                      onChange={(event, newValue) => handleFilter(event, newValue, 'gender')}
+                      getOptionLabel={(option) => option.title}
+                      renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                    />
+                  </th>
+                  <th><Autocomplete
+                      id="haveDentalInsurance"
+                      options={haveDentalInsuranceList}
+                      onChange={(event, newValue) => handleFilter(event, newValue, 'haveDentalInsurance')}
+                      getOptionLabel={(option) => option.title}
+                      renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                    /></th>
+                  <th>
+                  <th>
+                    <FormCntrl
+                      type="text"
+                      aria-label="createdAt"
+                      aria-describedby="Student createdAt"
+                      onChange={(event) => handleFilter(event, {title: event.target.value}, 'createdAt')}
+                      disabled
+                    />
+                  </th>
+                  </th>
+                  <th>
+                    <Autocomplete
+                      id="optout"
+                      options={optoutList}
+                      onChange={(event, newValue) => handleFilter(event, newValue, 'optout')}
+                      getOptionLabel={(option) => option.title}
+                      renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                    />
+                    </th>
+                  <th>
+                    <Autocomplete
+                      id="optoutReason"
+                      options={optoutReasonList}
+                      onChange={(event, newValue) => handleFilter(event, newValue, 'optoutReason')}
+                      getOptionLabel={(option) => option.title}
+                      renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                    />
+                    </th>
+                  <th>
+                    <Autocomplete
+                      id="evalStatus"
+                      options={evalStatusList}
+                      onChange={(event, newValue) => handleFilter(event, newValue, 'evalStatus')}
+                      getOptionLabel={(option) => option.title}
+                      renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
+                    />
+                  </th>
                 </tr>
               </thead>
 
@@ -818,7 +949,6 @@ const EvaluationApp = () => {
             </div>
           ) : null}
         </>
-      )}
     </div>
   );
 };
