@@ -20,8 +20,7 @@ const ReportsApp = () => {
   const [reportSummary, setReportSummary] = useState([]);
   const [reportSummaryBySchool, setReportSummaryBySchool] = useState([]);
   const [reRunState, setReRunState] = useState("");
-  const [showStudentDetails, setShowStudentDetails] = useState(false);
-  const [studentCode, setStudentCode] = useState("");
+  const [showStudentDetails, setShowStudentDetails] = useState([]);
   const [isLoaded, setIsLoaded] = useState(false);
 
   window.$stateChanged = false;
@@ -101,8 +100,7 @@ const ReportsApp = () => {
     setStudents(filterdStudents);
   }
   let showStudentInfo = (code) => {
-    setShowStudentDetails(true);
-    setStudentCode(code);
+    setShowStudentDetails(code);
   }
   let handleGradeFilter = (unFiltStudents, filteredBy) => {
     var wholeSummary = [];
@@ -116,7 +114,7 @@ const ReportsApp = () => {
         let studentDataCode3List = [];
         let studentDataCode4List = [];
         let filterByGrade = unFiltStudents.filter((student) => {
-          return student.grade == gradeCodesList[i] && student.optout == "No";
+          return student.grade == gradeCodesList[i];
         });
         console.log("All Student", unFiltStudents);
         console.log("By Grade Student", filterByGrade);
@@ -200,19 +198,19 @@ const ReportsApp = () => {
       grade['treatmentRecommendationCode_Code 4'] = (grade['treatmentRecommendationCode_Code 4'] ? grade['treatmentRecommendationCode_Code 4'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 4'] ? wholeSummary[item]['treatmentRecommendationCode_Code 4'] : 0 );
       if(wholeSummary[item]['studentDataCode1List']) {
         code1TotalSummary.push(wholeSummary[item]['studentDataCode1List']);
-        grade["Treatment Needs Code 1"] = code1TotalSummary;
+        grade["code1TotalSummary"] = code1TotalSummary;
       }
       if(wholeSummary[item]['studentDataCode2List']) {
         code2TotalSummary.push(wholeSummary[item]['studentDataCode2List']);
-        grade["Treatment Needs Code 2"] = code2TotalSummary;
+        grade["code2TotalSummary"] = code2TotalSummary;
       }
       if(wholeSummary[item]['studentDataCode3List']) {
         code3TotalSummary.push(wholeSummary[item]['studentDataCode3List']);
-        grade["Treatment Needs Code 3"] = code3TotalSummary;
+        grade["code3TotalSummary"] = code3TotalSummary;
       }
       if(wholeSummary[item]['studentDataCode4List']) {
         code4TotalSummary.push(wholeSummary[item]['studentDataCode4List']);
-        grade["Treatment Needs Code 4"] = code4TotalSummary;
+        grade["code4TotalSummary"] = code4TotalSummary;
       }
     }
     wholeSummary.push(grade);
@@ -362,22 +360,22 @@ const ReportsApp = () => {
                     <td>{studentGrade.sealantsPresent_Yes ? studentGrade.sealantsPresent_Yes : "0"}</td>
                     <td>{studentGrade.sealantsPresent_No ? studentGrade.sealantsPresent_No: "0"}</td>
                     <td>
-                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs Code 1"])}>
+                      <a class="td-link" onClick={showStudentInfo(["code1TotalSummary"])}>
                         {studentGrade['treatmentRecommendationCode_Code 1'] ? studentGrade['treatmentRecommendationCode_Code 1'] : "0"}
                       </a>
                     </td>
                     <td>
-                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs Code 2"])}>
+                      <a class="td-link" onClick={showStudentInfo(["code2TotalSummary"])}>
                         {studentGrade['treatmentRecommendationCode_Code 2'] ? studentGrade['treatmentRecommendationCode_Code 2'] : "0"}
                       </a>
                     </td>
                     <td>
-                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs Code 3"])}>
+                      <a class="td-link" onClick={showStudentInfo(["code3TotalSummary"])}>
                         {studentGrade['treatmentRecommendationCode_Code 3'] ? studentGrade['treatmentRecommendationCode_Code 3'] : "0"}
                       </a>
                     </td>
                     <td>
-                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs Code 4"])}>
+                      <a class="td-link" onClick={showStudentInfo(["code4TotalSummary"])}>
                         {studentGrade['treatmentRecommendationCode_Code 4'] ? studentGrade['treatmentRecommendationCode_Code 4'] : "0"}
                       </a>
                     </td>
@@ -394,7 +392,7 @@ const ReportsApp = () => {
               <thead>
                 <tr>
                   <th class="main-th" colSpan="5">
-                   {studentCode} Students
+                    Urget Care Needed Students
                   </th>
                 </tr>
               </thead>
@@ -405,7 +403,7 @@ const ReportsApp = () => {
                 <th>Gender</th>
                 <th>Email Id</th>
               </tr>
-            {reportSummary[8][studentCode] && reportSummary[8][studentCode].map((item, key) => (
+            {reportSummary[8][showStudentDetails] && reportSummary[8][showStudentDetails].map((item, key) => (
               item.map((innerItem, key) => (
                 <tr>
                   <td>{innerItem.code}</td>
@@ -417,7 +415,7 @@ const ReportsApp = () => {
               ))
             ))
             }
-            {(!reportSummary[8][studentCode]) ? (
+            {(!reportSummary[8].code4TotalSummary) ? (
               <tr>
                   <td colspan="5">No records found.</td>
               </tr>
