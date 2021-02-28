@@ -116,7 +116,7 @@ const ReportsApp = () => {
         let studentDataCode3List = [];
         let studentDataCode4List = [];
         let filterByGrade = unFiltStudents.filter((student) => {
-          return student.grade == gradeCodesList[i];
+          return student.grade == gradeCodesList[i] && student.optout == "No";
         });
         console.log("All Student", unFiltStudents);
         console.log("By Grade Student", filterByGrade);
