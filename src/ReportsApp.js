@@ -315,16 +315,15 @@ const ReportsApp = () => {
                   renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
                 />
               </div>
-             {(selectedSchool) ? (
-              <div className="mb-3">
-                <p>Results by School Name: {selectedSchool}</p>
-              </div>
-             ) : ""}
             </div>
             <table>
               <thead>
                 <tr>
-                  <th class="main-th" colSpan="11">Hays Unified School District 489</th>
+                  <th class="main-th" colSpan="11">Hays Unified School District 489
+                  {(selectedSchool) ? (
+                      <div>School Name: {selectedSchool}</div>
+                  ) : ""}
+                </th>
                 </tr>
                 <tr>
                   <th>Grade</th>
@@ -395,6 +394,9 @@ const ReportsApp = () => {
                 <tr>
                   <th class="main-th" colSpan="5">
                    {studentCode} Students
+                   {(selectedSchool) ? (
+                     <div>School Name: {selectedSchool}</div>
+                  ) : ""}
                   </th>
                 </tr>
               </thead>
