@@ -30,7 +30,7 @@ const EvaluationApp = () => {
     untreatedDecay: "No",
     treatedDecay: "No",
     sealantsPresent: "Sealants Not Present",
-    treatmentRecommendationCode: "No obvious problem",
+    treatmentRecommendationCode: "Code 1",
     cannotEvaluate: "NA",
   };
   const initialGenderList = [
@@ -189,7 +189,7 @@ const EvaluationApp = () => {
       if (newUntreatedDecay == null | newUntreatedDecay == "") { newUntreatedDecay= "No"; } 
       if (newTreatedDecay == null | newTreatedDecay == "") { newTreatedDecay = "No"; }
       if (newSealantsPresent == null | newSealantsPresent == "") { newSealantsPresent = "No"; } 
-      if (newTreatmentRecommendationCode == null | newTreatmentRecommendationCode == "") { newTreatmentRecommendationCode = "No obvious problem"; } 
+      if (newTreatmentRecommendationCode == null | newTreatmentRecommendationCode == "") { newTreatmentRecommendationCode = "Code 1"; } 
       if (newCannotEvaluate == null | newCannotEvaluate == "") { newCannotEvaluate = "NA"; } 
       
       //set new state with initiated or valid values
