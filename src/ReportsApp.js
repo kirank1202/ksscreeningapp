@@ -21,6 +21,7 @@ const ReportsApp = () => {
   const [reportSummaryBySchool, setReportSummaryBySchool] = useState([]);
   const [reRunState, setReRunState] = useState("");
   const [showStudentDetails, setShowStudentDetails] = useState(false);
+  const [studentCode, setStudentCode] = useState("");
   const [isLoaded, setIsLoaded] = useState(false);
 
   window.$stateChanged = false;
@@ -99,8 +100,9 @@ const ReportsApp = () => {
     handleGradeFilter(filterdStudents);
     setStudents(filterdStudents);
   }
-  let showStudentInfo = () => {
+  let showStudentInfo = (code) => {
     setShowStudentDetails(true);
+    setStudentCode(code);
   }
   let handleGradeFilter = (unFiltStudents, filteredBy) => {
     var wholeSummary = [];
@@ -109,7 +111,10 @@ const ReportsApp = () => {
 
     for (let i = 0; i < gradeCodesList.length; i++) {
       if(gradeCodesList[i] !== "Total") {
-        let studentDataUNCList = [];
+        let studentDataCode1List = [];
+        let studentDataCode2List = [];
+        let studentDataCode3List = [];
+        let studentDataCode4List = [];
         let filterByGrade = unFiltStudents.filter((student) => {
           return student.grade == gradeCodesList[i];
         });
@@ -124,16 +129,49 @@ const ReportsApp = () => {
           std["sealantsPresent_"+ obj.sealantsPresent] = (std["sealantsPresent_"+ obj.sealantsPresent] || 0) + 1;
           std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] = (std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] || 0) + 1;
           //  Details Object
-          if(obj.treatmentRecommendationCode == "Code 4") {
-            let studentDataUNC = {
+          if(obj.treatmentRecommendationCode == "Code 1") {
+            let studentData = {
               name: obj.name,
               code: obj.code,
               gender: obj.gender,
               grade: obj.grade,
               threeLetterList: obj.firstname3letters
             }
-            studentDataUNCList.push(studentDataUNC);
-            std["studentDataUNCList"] = studentDataUNCList;
+            studentDataCode1List.push(studentData);
+            std["studentDataCode1List"] = studentDataCode1List;
+          }
+          if(obj.treatmentRecommendationCode == "Code 2") {
+            let studentData = {
+              name: obj.name,
+              code: obj.code,
+              gender: obj.gender,
+              grade: obj.grade,
+              threeLetterList: obj.firstname3letters
+            }
+            studentDataCode2List.push(studentData);
+            std["studentDataCode2List"] = studentDataCode2List;
+          }
+          if(obj.treatmentRecommendationCode == "Code 3") {
+            let studentData = {
+              name: obj.name,
+              code: obj.code,
+              gender: obj.gender,
+              grade: obj.grade,
+              threeLetterList: obj.firstname3letters
+            }
+            studentDataCode3List.push(studentData);
+            std["studentDataCode3List"] = studentDataCode3List;
+          }
+          if(obj.treatmentRecommendationCode == "Code 4") {
+            let studentData = {
+              name: obj.name,
+              code: obj.code,
+              gender: obj.gender,
+              grade: obj.grade,
+              threeLetterList: obj.firstname3letters
+            }
+            studentDataCode4List.push(studentData);
+            std["studentDataCode4List"] = studentDataCode4List;
           }
           return std;
           }, {});
@@ -142,7 +180,10 @@ const ReportsApp = () => {
     }
     // console.log("TEST", wholeSummary);
     let grade= {};
-    let ucnTotalSummary = [];
+    let code1TotalSummary = [];
+    let code2TotalSummary = [];
+    let code3TotalSummary = [];
+    let code4TotalSummary = [];
     for(var item in wholeSummary) {
       grade["grade"] = 'Total';
       grade['untreatedDecay_Yes'] = (grade['untreatedDecay_Yes'] ? grade['untreatedDecay_Yes'] : 0) + (wholeSummary[item]['untreatedDecay_Yes'] ? wholeSummary[item]['untreatedDecay_Yes'] : 0 );
@@ -157,14 +198,21 @@ const ReportsApp = () => {
       grade['treatmentRecommendationCode_Code 2'] = (grade['treatmentRecommendationCode_Code 2'] ? grade['treatmentRecommendationCode_Code 2'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 2'] ? wholeSummary[item]['treatmentRecommendationCode_Code 2'] : 0 );
       grade['treatmentRecommendationCode_Code 3'] = (grade['treatmentRecommendationCode_Code 3'] ? grade['treatmentRecommendationCode_Code 3'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 3'] ? wholeSummary[item]['treatmentRecommendationCode_Code 3'] : 0 );
       grade['treatmentRecommendationCode_Code 4'] = (grade['treatmentRecommendationCode_Code 4'] ? grade['treatmentRecommendationCode_Code 4'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 4'] ? wholeSummary[item]['treatmentRecommendationCode_Code 4'] : 0 );
-      
-      // grade['treatmentRecommendationCode_No obvious problem'] = (grade['treatmentRecommendationCode_No obvious problem'] ? grade['treatmentRecommendationCode_No obvious problem'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_No obvious problem'] ? wholeSummary[item]['treatmentRecommendationCode_No obvious problem'] : 0 );
-      // grade['treatmentRecommendationCode_Evaluate for preventive sealants'] = (grade['treatmentRecommendationCode_Evaluate for preventive sealants'] ? grade['treatmentRecommendationCode_Evaluate for preventive sealants'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Evaluate for preventive sealants'] ? wholeSummary[item]['treatmentRecommendationCode_Evaluate for preventive sealants'] : 0 );
-      // grade['treatmentRecommendationCode_Evaluate for Restorative care'] = (grade['treatmentRecommendationCode_Evaluate for Restorative care'] ? grade['treatmentRecommendationCode_Evaluate for Restorative care'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Evaluate for Restorative care'] ? wholeSummary[item]['treatmentRecommendationCode_Evaluate for Restorative care'] : 0 );
-      // grade['treatmentRecommendationCode_Urgent care needed'] = (grade['treatmentRecommendationCode_Urgent care needed'] ? grade['treatmentRecommendationCode_Urgent care needed'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Urgent care needed'] ? wholeSummary[item]['treatmentRecommendationCode_Urgent care needed'] : 0 );
-      if(wholeSummary[item]['studentDataUNCList']) {
-        ucnTotalSummary.push(wholeSummary[item]['studentDataUNCList']);
-        grade["UCNTotalSummary"] = ucnTotalSummary;
+      if(wholeSummary[item]['studentDataCode1List']) {
+        code1TotalSummary.push(wholeSummary[item]['studentDataCode1List']);
+        grade["code1TotalSummary"] = code1TotalSummary;
+      }
+      if(wholeSummary[item]['studentDataCode2List']) {
+        code2TotalSummary.push(wholeSummary[item]['studentDataCode2List']);
+        grade["code2TotalSummary"] = code2TotalSummary;
+      }
+      if(wholeSummary[item]['studentDataCode3List']) {
+        code3TotalSummary.push(wholeSummary[item]['studentDataCode3List']);
+        grade["code3TotalSummary"] = code3TotalSummary;
+      }
+      if(wholeSummary[item]['studentDataCode4List']) {
+        code4TotalSummary.push(wholeSummary[item]['studentDataCode4List']);
+        grade["code4TotalSummary"] = code4TotalSummary;
       }
     }
     wholeSummary.push(grade);
@@ -313,15 +361,23 @@ const ReportsApp = () => {
                     
                     <td>{studentGrade.sealantsPresent_Yes ? studentGrade.sealantsPresent_Yes : "0"}</td>
                     <td>{studentGrade.sealantsPresent_No ? studentGrade.sealantsPresent_No: "0"}</td>
-                    <td>{studentGrade['treatmentRecommendationCode_Code 1'] ? studentGrade['treatmentRecommendationCode_Code 1']: "0"}</td>
-                    <td>{studentGrade['treatmentRecommendationCode_Code 2'] ? studentGrade['treatmentRecommendationCode_Code 2'] : "0"}</td>
-                    <td>{studentGrade['treatmentRecommendationCode_Code 3'] ? studentGrade['treatmentRecommendationCode_Code 3'] : "0"}</td>
-
-                    {/* <td>{studentGrade['treatmentRecommendationCode_No obvious problem'] ? studentGrade['treatmentRecommendationCode_No obvious problem']: "0"}</td>
-                    <td>{studentGrade['treatmentRecommendationCode_Evaluate for preventive sealants'] ? studentGrade['treatmentRecommendationCode_Evaluate for preventive sealants'] : "0"}</td>
-                    <td>{studentGrade['treatmentRecommendationCode_Evaluate for Restorative care'] ? studentGrade['treatmentRecommendationCode_Evaluate for Restorative care'] : "0"}</td> */}
                     <td>
-                      <a class="td-link" onClick={showStudentInfo}>
+                      <a class="td-link" onClick={() => showStudentInfo(["code1TotalSummary"])}>
+                        {studentGrade['treatmentRecommendationCode_Code 1'] ? studentGrade['treatmentRecommendationCode_Code 1'] : "0"}
+                      </a>
+                    </td>
+                    <td>
+                      <a class="td-link" onClick={() => showStudentInfo(["code2TotalSummary"])}>
+                        {studentGrade['treatmentRecommendationCode_Code 2'] ? studentGrade['treatmentRecommendationCode_Code 2'] : "0"}
+                      </a>
+                    </td>
+                    <td>
+                      <a class="td-link" onClick={() => showStudentInfo(["code3TotalSummary"])}>
+                        {studentGrade['treatmentRecommendationCode_Code 3'] ? studentGrade['treatmentRecommendationCode_Code 3'] : "0"}
+                      </a>
+                    </td>
+                    <td>
+                      <a class="td-link" onClick={() => showStudentInfo(["code4TotalSummary"])}>
                         {studentGrade['treatmentRecommendationCode_Code 4'] ? studentGrade['treatmentRecommendationCode_Code 4'] : "0"}
                       </a>
                     </td>
@@ -349,7 +405,7 @@ const ReportsApp = () => {
                 <th>Gender</th>
                 <th>Email Id</th>
               </tr>
-            {reportSummary[8].UCNTotalSummary && reportSummary[8].UCNTotalSummary.map((item, key) => (
+            {reportSummary[8][studentCode] && reportSummary[8][studentCode].map((item, key) => (
               item.map((innerItem, key) => (
                 <tr>
                   <td>{innerItem.code}</td>
@@ -361,7 +417,7 @@ const ReportsApp = () => {
               ))
             ))
             }
-            {(!reportSummary[8].UCNTotalSummary) ? (
+            {(!reportSummary[8][studentCode]) ? (
               <tr>
                   <td colspan="5">No records found.</td>
               </tr>
