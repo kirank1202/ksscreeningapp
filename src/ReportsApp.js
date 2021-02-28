@@ -191,28 +191,31 @@ const ReportsApp = () => {
       
       grade['treatedDecay_Yes'] = (grade['treatedDecay_Yes'] ? grade['treatedDecay_Yes'] : 0) + (wholeSummary[item]['treatedDecay_Yes'] ? wholeSummary[item]['treatedDecay_Yes'] : 0 );
       grade['treatedDecay_No'] = (grade['treatedDecay_No'] ? grade['treatedDecay_No'] : 0) + (wholeSummary[item]['treatedDecay_No'] ? wholeSummary[item]['treatedDecay_No'] : 0 );
-      
+     // optout
       grade['sealantsPresent_Yes'] = (grade['sealantsPresent_Yes'] ? grade['sealantsPresent_Yes'] : 0) + (wholeSummary[item]['sealantsPresent_Yes'] ? wholeSummary[item]['sealantsPresent_Yes'] : 0 );
       grade['sealantsPresent_No'] = (grade['sealantsPresent_No'] ? grade['sealantsPresent_No'] : 0) + (wholeSummary[item]['sealantsPresent_No'] ? wholeSummary[item]['sealantsPresent_No'] : 0 );
       grade['treatmentRecommendationCode_Code 1'] = (grade['treatmentRecommendationCode_Code 1'] ? grade['treatmentRecommendationCode_Code 1'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 1'] ? wholeSummary[item]['treatmentRecommendationCode_Code 1'] : 0 );
       grade['treatmentRecommendationCode_Code 2'] = (grade['treatmentRecommendationCode_Code 2'] ? grade['treatmentRecommendationCode_Code 2'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 2'] ? wholeSummary[item]['treatmentRecommendationCode_Code 2'] : 0 );
       grade['treatmentRecommendationCode_Code 3'] = (grade['treatmentRecommendationCode_Code 3'] ? grade['treatmentRecommendationCode_Code 3'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 3'] ? wholeSummary[item]['treatmentRecommendationCode_Code 3'] : 0 );
       grade['treatmentRecommendationCode_Code 4'] = (grade['treatmentRecommendationCode_Code 4'] ? grade['treatmentRecommendationCode_Code 4'] : 0) + (wholeSummary[item]['treatmentRecommendationCode_Code 4'] ? wholeSummary[item]['treatmentRecommendationCode_Code 4'] : 0 );
+      grade['optout_Yes'] = (grade['optout_Yes'] ? grade['optout_Yes'] : 0) + (wholeSummary[item]['optout_Yes'] ? wholeSummary[item]['optout_Yes'] : 0 );
+      grade['optout_No'] = (grade['optout_No'] ? grade['optout_No'] : 0) + (wholeSummary[item]['optout_No'] ? wholeSummary[item]['optout_No'] : 0 );
+     
       if(wholeSummary[item]['studentDataCode1List']) {
         code1TotalSummary.push(wholeSummary[item]['studentDataCode1List']);
-        grade["Treatment Needs Code 1"] = code1TotalSummary;
+        grade["Treatment Needs: Code 1"] = code1TotalSummary;
       }
       if(wholeSummary[item]['studentDataCode2List']) {
         code2TotalSummary.push(wholeSummary[item]['studentDataCode2List']);
-        grade["Treatment Needs Code 2"] = code2TotalSummary;
+        grade["Treatment Needs: Code 2"] = code2TotalSummary;
       }
       if(wholeSummary[item]['studentDataCode3List']) {
         code3TotalSummary.push(wholeSummary[item]['studentDataCode3List']);
-        grade["Treatment Needs Code 3"] = code3TotalSummary;
+        grade["Treatment Needs: Code 3"] = code3TotalSummary;
       }
       if(wholeSummary[item]['studentDataCode4List']) {
         code4TotalSummary.push(wholeSummary[item]['studentDataCode4List']);
-        grade["Treatment Needs Code 4"] = code4TotalSummary;
+        grade["Treatment Needs: Code 4"] = code4TotalSummary;
       }
     }
     wholeSummary.push(grade);
@@ -233,6 +236,7 @@ const ReportsApp = () => {
       std["treatedDecay_"+ obj.treatedDecay] = (std["treatedDecay_"+ obj.treatedDecay] || 0) + 1;
       std["sealantsPresent_"+ obj.sealantsPresent] = (std["sealantsPresent_"+ obj.sealantsPresent] || 0) + 1;
       std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] = (std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] || 0) + 1;
+      std["optout_"+ obj.optout] = (std["optout_"+ obj.optout] || 0) + 1;
       return std;
       }, {});
       console.log(gradeCode, summary);
@@ -321,7 +325,7 @@ const ReportsApp = () => {
                 <tr>
                   <th class="main-th" colSpan="11">Hays Unified School District 489
                   {(selectedSchool) ? (
-                      <div>School Name: {selectedSchool}</div>
+                      <div>{selectedSchool}</div>
                   ) : ""}
                 </th>
                 </tr>
@@ -337,10 +341,11 @@ const ReportsApp = () => {
                   <th>Sealants Present <br/> Yes</th>
                   <th>Sealants Present <br/> No</th>
 
-                  <th>Treatment Needs <br/> Code 1 <br/> No decay/ problems</th>
-                  <th>Treatment Needs <br/> Code 2 <br/> Sealants needed</th>
-                  <th>Treatment Needs <br/> Code 3 <br/> DDS exam suggested</th>
-                  <th>Treatment Needs <br/> Code 4 <br/> Urgent care needs</th>
+                  <th>Treatment Needs: <br/> Code 1 <br/> No decay/ problems</th>
+                  <th>Treatment Needs: <br/> Code 2 <br/> Sealants needed</th>
+                  <th>Treatment Needs: <br/> Code 3 <br/> DDS exam suggested</th>
+                  <th>Treatment Needs: <br/> Code 4 <br/> Urgent care needs</th>
+                  {/* <th>OptOut <br/> Yes</th> */}
                 </tr>
               </thead>
 
@@ -361,25 +366,26 @@ const ReportsApp = () => {
                     <td>{studentGrade.sealantsPresent_Yes ? studentGrade.sealantsPresent_Yes : "0"}</td>
                     <td>{studentGrade.sealantsPresent_No ? studentGrade.sealantsPresent_No: "0"}</td>
                     <td>
-                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs Code 1"])}>
+                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs: Code 1"])}>
                         {studentGrade['treatmentRecommendationCode_Code 1'] ? studentGrade['treatmentRecommendationCode_Code 1'] : "0"}
                       </a>
                     </td>
                     <td>
-                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs Code 2"])}>
+                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs: Code 2"])}>
                         {studentGrade['treatmentRecommendationCode_Code 2'] ? studentGrade['treatmentRecommendationCode_Code 2'] : "0"}
                       </a>
                     </td>
                     <td>
-                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs Code 3"])}>
+                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs: Code 3"])}>
                         {studentGrade['treatmentRecommendationCode_Code 3'] ? studentGrade['treatmentRecommendationCode_Code 3'] : "0"}
                       </a>
                     </td>
                     <td>
-                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs Code 4"])}>
+                      <a class="td-link" onClick={() => showStudentInfo(["Treatment Needs: Code 4"])}>
                         {studentGrade['treatmentRecommendationCode_Code 4'] ? studentGrade['treatmentRecommendationCode_Code 4'] : "0"}
                       </a>
                     </td>
+                    {/* <td>{studentGrade.optout_Yes ? studentGrade.optout_Yes : "0"}</td> */}
                   </tr>
                   ): ""
                 ))}
@@ -395,7 +401,7 @@ const ReportsApp = () => {
                   <th class="main-th" colSpan="5">
                    {studentCode} Students
                    {(selectedSchool) ? (
-                     <div>School Name: {selectedSchool}</div>
+                     <div>{selectedSchool}</div>
                   ) : ""}
                   </th>
                 </tr>
