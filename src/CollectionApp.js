@@ -1128,7 +1128,7 @@ const CollectionApp = () => {
                 </div>
             </Modal>
             <div id="overlay" class="desktop-message">
-              <div id="text">This app can only be used using a tablet or smart phone</div>
+              <div id="text">{t("This app can only be used using a tablet or smart phone")}</div>
             </div>
         </div>
 
