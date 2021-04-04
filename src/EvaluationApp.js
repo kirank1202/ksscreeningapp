@@ -24,7 +24,7 @@ const EvaluationApp = () => {
   const [imageData, setImageData] = useState();
   const [schoolList, setSchoolList] = useState([]);
   const [gradeList, setGradeList] = useState([]);
-  const [screenerName, setscreenerName] = useState("");
+ // const [screenerName, setscreenerName] = useState("");
   const [unFilteredStudentsList, setUnFilteredStudentsList] = useState([]);
   const initialState = {
     untreatedDecay: "No",
@@ -60,11 +60,13 @@ const EvaluationApp = () => {
   let history = useHistory();
   window.$stateChanged = false;
 
+ /* This needs to be changed to Evaluator later
   const func = async() => {
     let user = await Auth.currentAuthenticatedUser();
     setscreenerName(user.username); //all attributes exist in the attributes field 
   }
   func();
+  */
 
   const handleOpen = () => {
     setOpen(!open);
@@ -593,16 +595,7 @@ const EvaluationApp = () => {
 
                           {students[imageData].grade}
                         </p>
-                        {/* <p>
-                          <b
-                            style={{
-                              fontSize: "18px",
-                            }}
-                          >
-                            Screener Name:{" "}
-                          </b>
-                          {screenerName}
-                        </p> */}
+                        
                         <p>
                           <b
                             style={{
@@ -613,6 +606,18 @@ const EvaluationApp = () => {
                           </b>
                           {students[imageData].optoutReason}
                         </p>
+
+                        <p>
+                          <b
+                            style={{
+                              fontSize: "18px",
+                            }}
+                          >
+                            Screener:{" "}
+                          </b>
+                           {students[imageData].screener}
+                        </p>
+
                       </div>
                     </td>
                   </tr>
