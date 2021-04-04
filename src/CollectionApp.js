@@ -56,13 +56,14 @@ const initialFormState = {
     grade: "1",
     leftimage: "",
     rightimage: "",
-    location: "Home",
+    location: "School",
     haveDentalInsurance: "Yes",
     okToReceiveMedicaidInfo: "No",
     evalStatus: "New",
     optout: "No",
     dentalPain: "No",
-    optoutReason: "NA"
+    optoutReason: "NA",
+    screener: ""
 };
 /*
 const initialExtraFormState = {
@@ -85,12 +86,13 @@ const initialExtraFormState = {
 // ]; 
 
 const schoolList = [
-    {title: "Lincoln Elementary"},
-    {title: "O'Loughlin Elementary" },
-    {title: "Roosevelt Elementary"},
     {title: "Wilson Elementary" },
-    {title: "Hays Middle School" },
-    {title: "Westside School" }
+    {title: "O'Loughlin Elementary" },
+    {title: "Hays Middle School" }
+ // April 4 2021 (kk) temporarily use only 3 schools for screening for Trip to Hays
+   // {title: "Roosevelt Elementary"},
+   // {title: "Lincoln Elementary"},
+   // {title: "Westside School" }
 ]; 
 
 const locationList = [
@@ -113,6 +115,7 @@ const gradelist = [
 const resetStudentState = {
     code: "",
     gender: "Male",
+    location: "School",
     leftimageselection: "",
     rightimageselection: "",
 };
@@ -148,6 +151,8 @@ const CollectionApp = () => {
     const [formData, setFormData] = useState(initialFormState);
   //  const [extraFormData, setExtraFormData] = useState(initialExtraFormState);
     const [lang, setLang] = React.useState('en');
+    //Access screener name to update automatically 
+    const [screener, setscreenerName] = useState("");
     const [students, setStudents] = useState([]);
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
@@ -169,6 +174,13 @@ const CollectionApp = () => {
     const handleConfirmSubmitModel = () => {
         setConfirmSubmitModel(!confirmSubmitModel);
     };
+
+    //Set the login user as the Student.screener 
+    const func = async() => {
+        let user = await Auth.currentAuthenticatedUser();
+        setscreenerName(user.username); //all attributes exist in the attributes field 
+      }
+      func();
 
     const handleConfirmSubmitModelClose = () => {
         setFormData(initialFormState);
@@ -393,6 +405,7 @@ const CollectionApp = () => {
         if(formData.optoutReason != "NA"){
             formData.optout = "Yes";
         }
+       formData.screener = screener; 
         //formData.dentalPain = extraFormData.dentalPain;
         
         console.log("FormData: ",formData);
@@ -492,23 +505,67 @@ const CollectionApp = () => {
                     <div className="form">
                         <div className="formContainer">
                             <div className="leftArea">
+                              
+                                {/* Show Screener Name */}
+                                <div>
+                                    <p>{t("Screener")}<span class="required">*</span></p>
+                                    <InputGroup className="mb-3">
+                                        <FormCntrl
+                                           // value={formData.screener}
+                                           value = {screener}
+                                            aria-label="screener"
+                                            aria-describedby="basic-addon1"
+                                            readOnly
+                                            onChange={(e) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    screener: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </InputGroup>
+                                </div>
+                              
+                                {/* temporarily change this to default text field 
                                 <div className="mb-3">
                                     <p>{t("Screening Location")}<span class="required">*</span></p>
                                     <Autocomplete
                                         id="combo-box-demo"
                                         options={locationList}
                                         getOptionLabel={(option) => option.title}
-                                        //style={{ height: 5 }}
+                                        //style={{ height: 5 }}                                   
                                         onChange={(event, newValue) => {
                                             setFormData({
                                                 ...formData,
                                                 location: newValue.title,
                                             });
+
                                         }}
                                         renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
                                     />
                                 </div>
-                                
+                                    */}
+
+                                {/* Temporariliy default location to School */}
+                                <div>
+                                <p>{t("Screening Location")}<span class="required">*</span></p>
+                                    <InputGroup className="mb-3">
+                                        <FormCntrl
+                                            value={formData.location}
+                                            aria-label="location"
+                                            aria-describedby="basic-addon1"
+                                            readOnly
+                                            onChange={(e) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    location: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </InputGroup>
+                                </div>
+
+
                                 <div>
                                     <p>{t("School District")}<span class="required">*</span></p>
                                     <InputGroup className="mb-3">
@@ -771,34 +828,7 @@ const CollectionApp = () => {
                         {t(" Video")}
                         </a>{" "} {t("on how to take the best photos for screening.")}
                     </h6> <p></p>
-                    <div className="uploadPictures">
-                        <div class= "up-title"> 
-                        {t("Non Smiling Demo Image")} {" "}
-                        </div>
-                        <div class="up-image">
-                        <img
-                            className="image-placeholder"
-                            src={DemoNonsmilingImg}
-                            alt="..."
-                        />
-                        </div> 
-                        <div class="up-info">
-                            <input
-                                id="home-file-input-nonSmiling"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangeNonSmilingimage}
-                                disabled = {!formData.code}
-                            />
-                            <label
-                                id="non-smiling"
-                                className="image-input-label"
-                                htmlFor="home-file-input-nonSmiling"
-                            >
-                                {t("+ Click Here to Add Non-Smiling Face Photo")}
-                            </label>
-                        </div> 
-                    </div>
+                    
                      <div className="uploadPictures">
                         <div class= "up-title"> 
                             {t("Front Teeth Demo Image")} {" "}
@@ -828,62 +858,8 @@ const CollectionApp = () => {
                             </label>
                         </div>
                     </div>
-                    <div className="uploadPictures">
-                        <div class= "up-title"> 
-                        {t("Left Bite Demo Image")}{"    "}
-                        </div>
-                        <div class="up-image">
-                            <img
-                                className="image-placeholder"
-                                src={DemoLeftImg}
-                                alt="..."
-                            />
-                        </div> 
-                        <div class="up-info">
-                            <input
-                                id="home-file-input-left"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangeleftimage}
-                                disabled = {!formData.code}
-                            />
-                            <label
-                                id="left"
-                                className="image-input-label"
-                                htmlFor="home-file-input-left"
-                            > 
-                            {t("+ Click Here to Add Left Teeth Bite Photo")}
-                            </label>
-                        </div>
-                    </div>
-                    <div className="uploadPictures">
-                        <div class= "up-title"> 
-                        {t("Right Bite Demo Image")}{" "}
-                        </div>
-                        <div class="up-image">
-                            <img
-                                className="image-placeholder"
-                                src={DemoRightImg}
-                                alt="..."
-                            />
-                        </div>
-                        <div class="up-info">
-                            <input
-                                id="home-file-input-right"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangerightimage}
-                                disabled = {!formData.code}
-                            />
-                            <label
-                                id="right"
-                                className="image-input-label"
-                                htmlFor="home-file-input-right"
-                            >
-                           {t("+ Click Here to Add Right Teeth Bite Photo")}
-                            </label>
-                        </div>
-                    </div> 
+                    
+
                         
                     <div className="uploadPictures">
                         <div class= "up-title"> 
@@ -942,6 +918,94 @@ const CollectionApp = () => {
                             </label>
                         </div>
                     </div>
+
+                    <div className="uploadPictures">
+                        <div class= "up-title"> 
+                        {t("Non Smiling Demo Image")} {" "}
+                        </div>
+                        <div class="up-image">
+                        <img
+                            className="image-placeholder"
+                            src={DemoNonsmilingImg}
+                            alt="..."
+                        />
+                        </div> 
+                        <div class="up-info">
+                            <input
+                                id="home-file-input-nonSmiling"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangeNonSmilingimage}
+                                disabled = {!formData.code}
+                            />
+                            <label
+                                id="non-smiling"
+                                className="image-input-label"
+                                htmlFor="home-file-input-nonSmiling"
+                            >
+                                {t("+ Click Here to Add Non-Smiling Face Photo")}
+                            </label>
+                        </div> 
+                    </div>
+                    
+                    <div className="uploadPictures">
+                        <div class= "up-title"> 
+                        {t("Left Bite Demo Image")}{"    "}
+                        </div>
+                        <div class="up-image">
+                            <img
+                                className="image-placeholder"
+                                src={DemoLeftImg}
+                                alt="..."
+                            />
+                        </div> 
+                        <div class="up-info">
+                            <input
+                                id="home-file-input-left"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangeleftimage}
+                                disabled = {!formData.code}
+                            />
+                            <label
+                                id="left"
+                                className="image-input-label"
+                                htmlFor="home-file-input-left"
+                            > 
+                            {t("+ Click Here to Add Left Teeth Bite Photo")}
+                            </label>
+                        </div>
+                    </div>
+
+                    <div className="uploadPictures">
+                        <div class= "up-title"> 
+                        {t("Right Bite Demo Image")}{" "}
+                        </div>
+                        <div class="up-image">
+                            <img
+                                className="image-placeholder"
+                                src={DemoRightImg}
+                                alt="..."
+                            />
+                        </div>
+                        <div class="up-info">
+                            <input
+                                id="home-file-input-right"
+                                type="file"
+                                class="input-file"
+                                onChange={onChangerightimage}
+                                disabled = {!formData.code}
+                            />
+                            <label
+                                id="right"
+                                className="image-input-label"
+                                htmlFor="home-file-input-right"
+                            >
+                           {t("+ Click Here to Add Right Teeth Bite Photo")}
+                            </label>
+                        </div>
+                    </div> 
+                
                 </div>
                     ): "" }
                    { (formData.optoutReason === "NA")? (
@@ -960,12 +1024,12 @@ const CollectionApp = () => {
                                     formData.grade &&
                                     formData.gender &&
                                     formData.haveDentalInsurance &&
-                                    formData.nonsmilingface &&
                                     formData.frontTeeth &&
                                     formData.topimage &&
-                                    formData.bottomimage &&
-                                    formData.leftimage &&
-                                    formData.rightimage
+                                    formData.bottomimage
+                                //    formData.nonsmilingface &&
+                                //    formData.leftimage &&
+                                //    formData.rightimage
                                 )
                             }
                         >
@@ -1127,9 +1191,11 @@ const CollectionApp = () => {
                    
                 </div>
             </Modal>
+         {/*
             <div id="overlay" class="desktop-message">
               <div id="text">{t("This app can only be used using a tablet or smart phone")}</div>
             </div>
+         */}
         </div>
 
     );
