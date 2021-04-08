@@ -44,7 +44,7 @@ export const listStudents = /* GraphQL */ `
     $filter: ModelStudentFilterInput
     $nextToken: String
   ) {
-    listStudents(filter: $filter, limit: 500, nextToken: $nextToken) {
+    listStudents(filter: $filter, limit: 1000, nextToken: $nextToken) {
       items {
         id
         code
