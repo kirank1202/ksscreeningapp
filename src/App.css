@@ -190,6 +190,17 @@ body {
 .form-control {
   border-radius: 0 !important;
 }
+.manualFormContainer {
+  display: flex;
+  justify-content: space-between;
+  padding:00px;
+  height: 80vh;
+}
+#dropdown-basic,
+.MuiOutlinedInput-root,
+.form-control {
+  border-radius: 0 !important;
+}
 
 .leftArea {
   width: 100%;
@@ -222,7 +233,7 @@ body {
   color: #000;
   width: 100%;
   text-align: left;
-  height: calc(1.5em + .75rem + 2px);
+  height: calc(1.5em + .75rem + 1px);
 }
 
 #dropdown-basic::after {
