@@ -12,6 +12,7 @@ import EvaluationApp from "./EvaluationApp";
 import CollectionApp from "./CollectionApp";
 import ReportsApp from './ReportsApp';
 import HelpVideoApp from './HelpVideoApp';
+import ManualScreeningApp from './ManualScreeningApp';
 
 /*
 import { DataGrid } from '@material-ui/data-grid';
@@ -36,6 +37,7 @@ function App() {
   const DATA_COLLECTION_GROUP = "DataCollection";
   const DATA_EVALUATOR_GROUP = "DataEvaluator";
   const [userType, setUserType] = useState("");
+  const DATA_MANUALSCREENING_GROUP = "ManualScreening";
 
   let currentUserGroup = ``;
 
@@ -99,15 +101,20 @@ function App() {
           <Route path="/evaluation" component={EvaluationApp} />
           <Route path="/reports" component={ReportsApp} />
           <Route path="/help-video" component={HelpVideoApp} />
+          <Route path="/manualscreening" component={ManualScreeningApp} />
           {fetchCurrentUserGroup}
           {
             userType === "DataCollection" ? (
               <Redirect to="/collection" />
             ) : ( 
-              userType === "DataEvaluator" ? (
-                <Redirect to="/evaluation" />
-              ): ( <Redirect to="/reports" /> )
-            )
+                  userType == "ManualScreening" ? (
+                    <Redirect to="/manualscreening" />
+                  ) : ( 
+                        userType === "DataEvaluator" ? (
+                          <Redirect to="/evaluation" />
+                        ): ( <Redirect to="/reports" /> )
+                      )
+                )
           }
           <AmplifySignOut />
       </Router>

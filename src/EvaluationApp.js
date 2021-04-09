@@ -382,7 +382,8 @@ const EvaluationApp = () => {
                 <h5 className="logo-header" color="#fff">School Dental Screening - Evaluation</h5>
                 <nav role="navigation" class="desktop">
                   <ul id="d-menu">
-                      <li> <a onClick={() => history.push('reports') }><h5> Reports</h5> </a> </li>
+                      <li> <a onClick={() => history.push('reports') }>Reports</a> </li>
+                      <li> <a onClick={() => history.push('manualscreening') }>Manual-Screening</a> </li>
                   </ul>
                 </nav>
                 <nav role="navigation" class="mobile">
@@ -393,6 +394,7 @@ const EvaluationApp = () => {
                       <span></span>
                       <ul id="menu">
                         <li> <a onClick={() => history.push('reports') }>Reports</a> </li>
+                        <li> <a onClick={() => history.push('manualscreening') }>Manual-Screening</a> </li>
                       </ul>
                   </div>
                 </nav>
@@ -703,7 +705,7 @@ const EvaluationApp = () => {
                       className="teeth-image-container"
                     >     
                   <div className="inputs-container">
-                  <table className = "evaltable">
+                    <table className = "evaltable">
                       <tr className="evaltr"> 
                           <td>
                               <div className="inputs-container">

@@ -25,28 +25,6 @@ import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
 
-// const DemoBottomImg = "https://screeningdemoimages.s3.amazonaws.com/mandibular.PNG";
-//const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/maxillary.PNG";
-// const DemoLeftImg = "https://screeningdemoimages.s3.amazonaws.com/left.PNG";
-// const DemoRightImg = "https://screeningdemoimages.s3.amazonaws.com/right.PNG";
-// const DemoNonsmilingImg = "https://screeningdemoimages.s3.amazonaws.com/nonsmiling.JPG";
-// const DemoFrontTeethImg = "https://screeningdemoimages.s3.amazonaws.com/frontteeth.jpeg";
-
-
-const DemoBottomImg = "https://screeningdemoimages.s3.amazonaws.com/BottomDemo.JPG"; 
-const DemoTopImg = "https://screeningdemoimages.s3.amazonaws.com/TopDemo.jpg";
-const DemoLeftImg = "https://screeningdemoimages.s3.amazonaws.com/LeftDemo.JPG";
-const DemoRightImg = "https://screeningdemoimages.s3.amazonaws.com/RightDemo.JPG";
-const DemoNonsmilingImg = "https://screeningdemoimages.s3.amazonaws.com/nonsmilingdemo.JPG";
-const DemoFrontTeethImg = "https://screeningdemoimages.s3.amazonaws.com/FrontTeethDemo.JPG";
-
-let selectedNonSmilingImage; 
-let selectedFrontImage; 
-let selectedLeftImage; 
-let selectedRightImage;
-let selectedTopImage; 
-let selectedBottomImage;
-
 const initialFormState = {
     code: "",
     name: "",
@@ -54,8 +32,6 @@ const initialFormState = {
     district: "Hays USD 489",
     school: "",
     grade: "1",
-    leftimage: "",
-    rightimage: "",
     location: "School",
     haveDentalInsurance: "Yes",
     okToReceiveMedicaidInfo: "No",
@@ -63,7 +39,31 @@ const initialFormState = {
     optout: "No",
     dentalPain: "No",
     optoutReason: "NA",
-    screener: ""
+    screener: "",
+    untreatedDecay: "No",
+    treatedDecay: "No",
+    sealantsPresent: "No",
+    treatmentRecommendationCode: "Code 1",
+    cannotEvaluate: "NA"
+};
+
+const resetFormState = {
+    code: "",
+    name: "",
+    gender: "Male",
+    firstname3letters: "",
+    
+    haveDentalInsurance: "Yes",
+    okToReceiveMedicaidInfo: "No",
+    evalStatus: "New",
+    optout: "No",
+    dentalPain: "No",
+    optoutReason: "NA",
+    untreatedDecay: "No",
+    treatedDecay: "No",
+    sealantsPresent: "No",
+    treatmentRecommendationCode: "Code 1",
+    cannotEvaluate: "NA"
 };
 /*
 const initialExtraFormState = {
@@ -115,9 +115,7 @@ const gradelist = [
 const resetStudentState = {
     code: "",
     gender: "Male",
-    location: "School",
-    leftimageselection: "",
-    rightimageselection: "",
+    location: "School"
 };
 
 async function fetchAllSchools() {
@@ -147,7 +145,7 @@ function getModalStyle() {
     };
 }
 
-const CollectionApp = () => {
+const ManualScreeningApp = () => {
     const [formData, setFormData] = useState(initialFormState);
   //  const [extraFormData, setExtraFormData] = useState(initialExtraFormState);
     const [lang, setLang] = React.useState('en');
@@ -227,181 +225,10 @@ const CollectionApp = () => {
 
     const classes = useStyles();
 
-    const generateImageFileName = (fileName) => {
-        return `${formData.code}-${fileName}`;
-    };  
-
-    /* Store leftimage if a file is selected */
-    async function onChangeleftimage(e) {
-        if (!e.target.files[0]) return;
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            const el = document.getElementById("left");
-            el.style.display = "block";
-            el.style.background = `url(${e.target.result})`;
-            el.style.backgroundRepeat = "no-repeat";
-            el.style.backgroundSize = "cover";
-            el.style.width = "149.7px";
-            el.style.height = "142px";
-            el.innerHTML = "";
-        };
-
-        // const file = e.target.files[0];
-        selectedLeftImage = e.target.files[0];
-        reader.readAsDataURL(selectedLeftImage);
-        setFormData({
-            ...formData,
-            leftimage: generateImageFileName("left"),
-        });
-     //   await Storage.put(generateImageFileName("left"), file);
-    }
-
-    async function onChangerightimage(e) {
-        if (!e.target.files[0]) return;
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            const el = document.getElementById("right");
-            el.style.display = "block";
-            el.style.background = `url(${e.target.result})`;
-            el.style.backgroundRepeat = "no-repeat";
-            el.style.backgroundSize = "cover";
-            el.style.width = "149.7px";
-            el.style.height = "142px";
-            el.innerHTML = "";
-        };
-
-        // const file = e.target.files[0];
-        selectedRightImage = e.target.files[0];
-        reader.readAsDataURL(selectedRightImage);
-
-        setFormData({
-            ...formData,
-            rightimage: generateImageFileName("right"),
-        });
-      //  await Storage.put(generateImageFileName("right"), file);
-    }
-
-    async function onChangetopimage(e) {
-        if (!e.target.files[0]) return;
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            const el = document.getElementById("top");
-            el.style.display = "block";
-            el.style.background = `url(${e.target.result})`;
-            el.style.backgroundRepeat = "no-repeat";
-            el.style.backgroundSize = "cover";
-            el.style.width = "149.7px";
-            el.style.height = "142px";
-            el.innerHTML = "";
-        };
-
-       // const file = e.target.files[0];
-
-        selectedTopImage = e.target.files[0];
-        reader.readAsDataURL(selectedTopImage);
-
-        setFormData({
-            ...formData,
-            topimage: generateImageFileName("top"),
-        });
-        //await Storage.put(generateImageFileName("top"), file);
-        // alert("top image changes");
-    }
-
-    async function onChangebottomimage(e) {
-        if (!e.target.files[0]) return;
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            const el = document.getElementById("bottom");
-            el.style.display = "block";
-            el.style.background = `url(${e.target.result})`;
-            el.style.backgroundRepeat = "no-repeat";
-            el.style.backgroundSize = "cover";
-            el.style.width = "149.7px";
-            el.style.height = "142px";
-            el.innerHTML = "";
-        };
-
-      //  const file = e.target.files[0];
-        selectedBottomImage = e.target.files[0];
-        reader.readAsDataURL(selectedBottomImage);
-        setFormData({
-            ...formData,
-            bottomimage: generateImageFileName("bottom"),
-        });
-        
-
-        //await Storage.put(generateImageFileName("bottom"), file);
-        // alert("left image changes");
-        // alert("bottom image changes");
-    }
-
-    async function onChangeNonSmilingimage(e) {
-        if (!e.target.files[0]) return;
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            const el = document.getElementById("non-smiling");
-            el.style.display = "block";
-            el.style.background = `url(${e.target.result})`;
-            el.style.backgroundRepeat = "no-repeat";
-            el.style.backgroundSize = "cover";
-            el.style.width = "149.7px";
-            el.style.height = "142px";
-            el.innerHTML = "";
-        };
-
-        // const file = e.target.files[0];
-        selectedNonSmilingImage = e.target.files[0];
-        reader.readAsDataURL(selectedNonSmilingImage);
-        setFormData({
-            ...formData,
-            nonsmilingface: generateImageFileName("nonsmiling"),
-        });
-       // await Storage.put(generateImageFileName("nonsmiling"), file);
-       //  alert("nonsmiling-face image changes");
-    }
-
-    async function onChangeFrontTeethimage(e) {
-        if (!e.target.files[0]) return;
-        var reader = new FileReader();
-
-        reader.onload = function (e) {
-            const el = document.getElementById("front-teeth");
-            el.style.display = "block";
-            el.style.background = `url(${e.target.result})`;
-            el.style.backgroundRepeat = "no-repeat";
-            el.style.backgroundSize = "cover";
-            el.style.width = "149.7px";
-            el.style.height = "142px";
-            el.innerHTML = "";
-        };
-
-       // const file = e.target.files[0];
-        selectedFrontImage = e.target.files[0];
-        reader.readAsDataURL(selectedFrontImage);
-
-     
-        setFormData({
-            ...formData,
-            frontTeeth: generateImageFileName("front"),
-        });
-
-        // await Storage.put(generateImageFileName("front"), file);
-        //alert("Front-Teeth image changes");
-    }
-
+    
     async function handleSubmit(e) {
         setIsLoaded(false);
-        /*
-        let confirmToSubmit =  window.confirm(`Please verify that all images are in focus before submitting`); 
-        if (confirmToSubmit) {  
-            createStudent(e);
-        } else {return;} */
+
         if(formData.optoutReason != "NA"){
             formData.optout = "Yes";
         }
@@ -421,19 +248,7 @@ const CollectionApp = () => {
             query: createStudentMutation,
             variables: { input: formData },
         });
-        if (formData.leftimage) {
-            const image = await Storage.get(formData.leftimage);
-            formData.leftimage = image;
-        }
         
-        if (formData.optout === "No") {
-            await Storage.put(generateImageFileName("nonsmiling"), selectedNonSmilingImage);
-            await Storage.put(generateImageFileName("front"), selectedFrontImage);
-            await Storage.put(generateImageFileName("left"), selectedLeftImage);
-            await Storage.put(generateImageFileName("right"), selectedRightImage);
-            await Storage.put(generateImageFileName("top"), selectedTopImage);
-            await Storage.put(generateImageFileName("bottom"), selectedBottomImage);
-        }
         // handleConfirmSubmitModel();
         alert(`Student ${formData.code} Uploaded Successfully.\n\nThank You for participating in Hays (USD 489) 2021 Dental Screening Program.`);
         setIsLoaded(true);
@@ -441,8 +256,8 @@ const CollectionApp = () => {
         if(formData.okToReceiveMedicaidInfo === "Yes" ) {
             window.location.href = "https://www.kdheks.gov/hcf/Medicaid/eligibility_guidelines.html"; 
         } else {
-            //setFormData(initialFormState);
-            window.location.reload(); 
+            setFormData(resetFormState);
+           // window.location.reload(); 
         }
 
     }
@@ -464,7 +279,7 @@ const CollectionApp = () => {
     });
     
     return (
-        <div className="CollectionApp" className={lang}>
+        <div className="ManaulScreeningApp" className={lang}>
             <div className={classes.root}>
                 <AppBar position="fixed" color="#fff">
                     <Toolbar className={classes.flexToolbar}>
@@ -475,6 +290,7 @@ const CollectionApp = () => {
                                 <li><a onClick={() => history.push('help-video') }>{t('Help')}</a> </li>
                                 <li className="es"><a onClick={() => handleLanguage("es")}>{t('Spanish')}</a> </li>
                                 <li className="en"><a onClick={() => handleLanguage("en")}>{t('English')}</a> </li>
+                                <li> <a onClick={() => history.push('evaluation') }>Evaluation </a> </li>
                                 {/* <li>  <a onClick={() => history.push('collection') }>collection</a> </li>
                                 <li> <a onClick={() => history.push('reports') }>Reports</a> </li>
                                 <li> <a onClick={() => history.push('reports') }>Communication</a> </li>          
@@ -491,6 +307,7 @@ const CollectionApp = () => {
                                     <li><a onClick={() => history.push('help-video') }>{t('Help')}</a> </li>
                                     <li className="es"><a onClick={() => handleLanguage("es")}>{t('Spanish')}</a> </li>
                                     <li className="en"><a onClick={() => handleLanguage("en")}>{t('English')}</a> </li>
+                                    <li> <a onClick={() => history.push('evaluation') }> Evaluation </a> </li>
                                 </ul>
                             </div>
                         </nav>
@@ -503,11 +320,14 @@ const CollectionApp = () => {
                         <h4 class="heading-font">{t("Welcome to Hays (USD 489) 2021 Dental Screening Program ")} </h4>  
                     </div>
                     <div className="form">
-                        <div className="formContainer">
+                        <div className="manualFormContainer">
                             <div className="leftArea">
                               
+                              <table> 
+                              <tr> 
+                              <td>   
                                 {/* Show Screener Name */}
-                                <div>
+                                <div align="left">
                                     <p>{t("Screener")}<span class="required">*</span></p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
@@ -525,7 +345,7 @@ const CollectionApp = () => {
                                         />
                                     </InputGroup>
                                 </div>
-                              
+                            
                                 {/* temporarily change this to default text field 
                                 <div className="mb-3">
                                     <p>{t("Screening Location")}<span class="required">*</span></p>
@@ -547,7 +367,7 @@ const CollectionApp = () => {
                                     */}
 
                                 {/* Temporariliy default location to School */}
-                                <div>
+                                <div align="left">
                                 <p>{t("Screening Location")}<span class="required">*</span></p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
@@ -564,9 +384,9 @@ const CollectionApp = () => {
                                         />
                                     </InputGroup>
                                 </div>
+                                
 
-
-                                <div>
+                                <div align="left">
                                     <p>{t("School District")}<span class="required">*</span></p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
@@ -584,8 +404,8 @@ const CollectionApp = () => {
                                     </InputGroup>
                                 </div>
                             
-                                
-                                <div className="mb-3">
+                            
+                                <div align="left" className="mb-3">
                                     <p>{t("School Name")}<span class="required">*</span></p>
                                     <Autocomplete
                                         id="combo-box-demo"
@@ -601,40 +421,10 @@ const CollectionApp = () => {
                                         renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
                                     />
                                 </div>
-                                <div>
-                                    <p>{t("Student ID")}<span class="required">*</span></p>
-                                    <InputGroup className="mb-3">
-                                        <FormCntrl
-                                            value={formData.code}
-                                            aria-label="code"
-                                            aria-describedby="basic-addon1"
-                                            onChange={(e) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    code: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    </InputGroup>
-                                </div>
-                                <div>
-                                    <p>{t("First 3 Letters of Student's Legal First Name")}<span class="required">*</span></p>
-                                    <InputGroup className="mb-3">
-                                        <FormCntrl
-                                            value={formData.firstname3letters}
-                                            aria-label="firstname3letters"
-                                            aria-describedby="basic-addon1"
-                                            maxlength="3"
-                                            onChange={(e) =>
-                                                setFormData({
-                                                    ...formData,
-                                                    firstname3letters: e.target.value,
-                                                })
-                                            }
-                                        />
-                                    </InputGroup>
-                                </div>
-                                <div className="mb-3">
+                                </td>
+                                <td> 
+
+                                <div align="left" className="mb-3">
                                     <p>{t("Grade")}<span class="required">*</span> </p>
                                     <Autocomplete
                                         id="combo-box-demo"
@@ -650,7 +440,43 @@ const CollectionApp = () => {
                                         renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
                                     />
                                 </div>
-                                <div className="mb-3">
+                               
+                                <div align="left" className="mb-3">
+                                    <p>{t("Student ID")}<span class="required">*</span></p>
+                                    <InputGroup className="mb-3">
+                                        <FormCntrl
+                                            value={formData.code}
+                                            aria-label="code"
+                                            aria-describedby="basic-addon1"
+                                            onChange={(e) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    code: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </InputGroup>
+                                </div>
+                              
+                                <div align="left" className="mb-3">
+                                    <p>{t("First 3 Letters of Legal First Name")}<span class="required">*</span></p>
+                                    <InputGroup className="mb-3">
+                                        <FormCntrl
+                                            value={formData.firstname3letters}
+                                            aria-label="firstname3letters"
+                                            aria-describedby="basic-addon1"
+                                            maxlength="3"
+                                            onChange={(e) =>
+                                                setFormData({
+                                                    ...formData,
+                                                    firstname3letters: e.target.value,
+                                                })
+                                            }
+                                        />
+                                    </InputGroup>
+                                </div>
+                               
+                                <div align="left" className="mb-3">
                                     <p>{t("Gender")}<span class="required">*</span></p>
                                     <Dropdown
                                         value={formData.gender}
@@ -683,7 +509,9 @@ const CollectionApp = () => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
-                                <div className="mb-3">
+                                </td>
+                                <td> 
+                                <div align="left" className="mb-3">
                                     <p>{t("Does student have dental insurance?")}<span class="required">*</span></p>
                                     <Dropdown
                                         value={formData.haveDentalInsurance}
@@ -718,10 +546,12 @@ const CollectionApp = () => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
-                            {(formData.haveDentalInsurance == "No") ? (
-                                <div className="mb-3">
-                                    <p>{t("Would you like to receive information on Kansas Medicaid?")} &nbsp;
-                                    <input
+                                
+                         {/*}   {(formData.haveDentalInsurance == "No") ? ( */ }
+                                <div align="left" className="mb-3">
+                                    <p>{t("Would you like to receive information on Kansas Medicaid?")} &nbsp; 
+                                   <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                       <input
                                         onClick={() => {
                                             setFormData({
                                                 ...formData,
@@ -740,6 +570,7 @@ const CollectionApp = () => {
                                             )
                                         }
                                     />
+                                    
                                     {t(`Yes`)} {"   "}
                                     <input
                                         onClick={() => {
@@ -759,12 +590,16 @@ const CollectionApp = () => {
                                             )
                                         }    
                                     />
-                                    {t("No")}
-                                    </p>
+                                   
+                                    {t("No")}   </p>
+                                    </p><p> </p><p></p>
                                 </div>  
-                            ): "" }
-                                <div>
-                                    <p>{t("Parent/Guardian Email")}<sup>1</sup></p>
+                          
+                          {/*}  ): "" } */} 
+                          
+                          <div align="left" className="mb-3">
+                                
+                                    <p>{t("Parent/Guardian Email")}</p>
                                     <InputGroup className="mb-3">
                                         <FormCntrl
                                             placeholder="Email"
@@ -781,13 +616,11 @@ const CollectionApp = () => {
                                         />
                                     </InputGroup>
                                 </div>
-                                <div className="econsentmsg"> 
-                                    <span align="left">
-                                    <sup>1</sup>{t("By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material")}
-                                    </span>
-                                </div>
-                                <div className="mb-3">
+                                
+                                
+                                <div align="left" className="mb-3">
                                     <p>{t("Are you currently experiencing any mouth pain?")}<span class="required">*</span></p>
+                                    <p></p>
                                     <Dropdown
                                         value={formData.dentalPain}
                                         onSelect={(e) => {
@@ -815,269 +648,25 @@ const CollectionApp = () => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                 </div>
+                                </td> 
+                                </tr> </table>
+                              {/* }  <table>
+                                <tr align="left"> <td>
+                                <div className="econsentmsg"> 
+                                    <span align="left">
+                                    <sup>1</sup> {t("By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material")} 
+                                    </span>
+                                </div>
+                                </td>
+                                    </tr></table> */}
+                                
+                                <table><tr> <td> 
                                
-                            <div className="rightArea"></div>
-                        </div>
-                    </div>
-                    { (formData.optoutReason === "NA") ? (
-                    <div className="photos-section">
-                    <h6 className="BasicDetails">{t("PHOTOS")}</h6>
-                    <h6 align="left" className="PhotosHeading">
-                    {t("Please have your student in good lighting and take the pictures as shown. You can refer to this")}
-                        <a href="https://www.youtube.com/watch?v=ZRb-4HpAE9Y" target= "_blank">
-                        {t(" Video")}
-                        </a>{" "} {t("on how to take the best photos for screening.")}
-                    </h6> <p></p>
-                    
-                     <div className="uploadPictures">
-                        <div class= "up-title"> 
-                            {t("Front Teeth Demo Image")} {" "}
-                        </div>
-                        <div class="up-image">
-                            <img
-                                className="image-placeholder"
-                                src={DemoFrontTeethImg}
-                                alt="..."
-                            />
-                        </div> 
-                        
-                        <div class="up-info">
-                            <input
-                                id="home-file-input-frontTeeth"
-                                type="file"
-                                className="input-file"
-                                onChange={onChangeFrontTeethimage}
-                                disabled = {!formData.code}
-                            />
-                            <label
-                                id="front-teeth"
-                                className="image-input-label"
-                                htmlFor="home-file-input-frontTeeth"
-                            >
-                              {t("+ Click Here to Add Front Teeth Photo")}
-                            </label>
-                        </div>
-                    </div>
-                    
-
-                        
-                    <div className="uploadPictures">
-                        <div class= "up-title"> 
-                        {t("Top Teeth Demo Image")}{" "}
-                        </div>
-                        <div class="up-image">
-                            <img
-                                className="image-placeholder"
-                                src={DemoTopImg}
-                                alt="..."
-                            />
-                        </div>
-                        <div class="up-info">
-                            <input
-                                id="home-file-input-top"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangetopimage}
-                                disabled = {!formData.code}
-                            />
-                            <label
-                                id="top"
-                                className="image-input-label"
-                                htmlFor="home-file-input-top"
-                            >
-                            {t("+ Click Here to Add Top Teeth Photo")}
-                            </label>
-                        </div>
-                    </div>
-                       
-                    <div className="uploadPictures">
-                        <div class= "up-title"> 
-                        {t("Bottom Teeth Demo Image")} {"  "}
-                        </div>
-                        <div class="up-image">
-                            <img
-                                className="image-placeholder"
-                                src={DemoBottomImg}
-                                alt="..."
-                            />
-                        </div>
-                        <div class="up-info">
-                            <input
-                                id="home-file-input-bottom"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangebottomimage}
-                                disabled = {!formData.code}
-                            />
-                            <label
-                                id="bottom"
-                                className="image-input-label"
-                                htmlFor="home-file-input-bottom"
-                            >
-                                {t("+ Click Here to Add Bottom Teeth Photo")}
-                            </label>
-                        </div>
-                    </div>
-
-                    <div className="uploadPictures">
-                        <div class= "up-title"> 
-                        {t("Non Smiling Demo Image")} {" "}
-                        </div>
-                        <div class="up-image">
-                        <img
-                            className="image-placeholder"
-                            src={DemoNonsmilingImg}
-                            alt="..."
-                        />
-                        </div> 
-                        <div class="up-info">
-                            <input
-                                id="home-file-input-nonSmiling"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangeNonSmilingimage}
-                                disabled = {!formData.code}
-                            />
-                            <label
-                                id="non-smiling"
-                                className="image-input-label"
-                                htmlFor="home-file-input-nonSmiling"
-                            >
-                                {t("+ Click Here to Add Non-Smiling Face Photo")}
-                            </label>
-                        </div> 
-                    </div>
-                    
-                    <div className="uploadPictures">
-                        <div class= "up-title"> 
-                        {t("Left Bite Demo Image")}{"    "}
-                        </div>
-                        <div class="up-image">
-                            <img
-                                className="image-placeholder"
-                                src={DemoLeftImg}
-                                alt="..."
-                            />
-                        </div> 
-                        <div class="up-info">
-                            <input
-                                id="home-file-input-left"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangeleftimage}
-                                disabled = {!formData.code}
-                            />
-                            <label
-                                id="left"
-                                className="image-input-label"
-                                htmlFor="home-file-input-left"
-                            > 
-                            {t("+ Click Here to Add Left Teeth Bite Photo")}
-                            </label>
-                        </div>
-                    </div>
-
-                    <div className="uploadPictures">
-                        <div class= "up-title"> 
-                        {t("Right Bite Demo Image")}{" "}
-                        </div>
-                        <div class="up-image">
-                            <img
-                                className="image-placeholder"
-                                src={DemoRightImg}
-                                alt="..."
-                            />
-                        </div>
-                        <div class="up-info">
-                            <input
-                                id="home-file-input-right"
-                                type="file"
-                                class="input-file"
-                                onChange={onChangerightimage}
-                                disabled = {!formData.code}
-                            />
-                            <label
-                                id="right"
-                                className="image-input-label"
-                                htmlFor="home-file-input-right"
-                            >
-                           {t("+ Click Here to Add Right Teeth Bite Photo")}
-                            </label>
-                        </div>
-                    </div> 
-                
-                </div>
-                    ): "" }
-                   { (formData.optoutReason === "NA")? (
-                       <h4>
-                        <span class="required"> {t("*Please select all the required fields")}</span>
-                      {(isLoaded) ? ( 
-                        <button
-                            className="SubmitButton"
-                            type="submit"
-                            disabled={
-                                !(  formData.location &&
-                                    formData.district &&
-                                    formData.school &&
-                                    formData.code &&
-                                    formData.firstname3letters &&
-                                    formData.grade &&
-                                    formData.gender &&
-                                    formData.haveDentalInsurance &&
-                                    formData.frontTeeth &&
-                                    formData.topimage &&
-                                    formData.bottomimage
-                                //    formData.nonsmilingface &&
-                                //    formData.leftimage &&
-                                //    formData.rightimage
-                                )
-                            }
-                        >
-                            {t("Submit Student*")}
-
-                        </button>
-                      ):
-                      <button
-                            className="SubmitButton"
-                            type="button"
-                            disabled
-                        >
-                            {t("Please wait....")}
-
-                       </button> 
-                    }                        
-
-                    </h4>)
-                    : <h4>
-                        <span class="required"> {t("*Please select all the required fields")}</span>
-                        <button className="SubmitButton" type="submit"
-                         disabled={
-                                !(  formData.location &&
-                                    formData.district &&
-                                    formData.school &&
-                                    formData.code &&
-                                    formData.firstname3letters &&
-                                    formData.grade &&
-                                    formData.gender &&
-                                    formData.haveDentalInsurance
-                                )
-                                }
-                            >
-                                {t("Submit Student*")}
-                        </button>
-                    </h4>
-                    }
-                    <h6 align="left">
-                        {t("* By submiting, you authorize dental professionals to review the submitted data for screening purposes.")}
-                    </h6>
-                    <br/>
-                     {/* HIDE OPT OUT OPTION */}
+                                {/* HIDE OPT OUT OPTION */}
                                 <div className="mb-3">
-                                <h6 className="BasicDetails">{t("OPT OUT OPTION")}</h6>
-                                   
-
-                                   <h9>
-                                    <p>{t("Select a reason from the dropdown if you would like to optout of school dental screening and then clieck on Submit Student button above")}</p>
+                                    <h6 className="BasicDetails">{t("OPT OUT OPTION")}</h6>
+                                    <h9 align="left">
+                                        <p>{t("Select a reason from the dropdown if the student has optout of school dental screening")}</p>
                                     </h9>
                                     <Dropdown
                                         value={formData.optoutReason}
@@ -1125,9 +714,300 @@ const CollectionApp = () => {
                                         </Dropdown.Menu>
                                     </Dropdown>
                                     <h5></h5>
-                                </div>
-                               { /* */ }
-                            </div>
+                                </div> 
+                                </td><td>
+                               { /*  end of optout field */ }
+
+                            {/* If not opted out enter screening evaluation results */}
+                                    <div align="left" className="mb-3">
+                                        <p>{t("Untreated Decay?")} &nbsp;
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    untreatedDecay: "Yes",
+                                                });
+                                            //  handleOpen();
+                                            }}
+                                            type="Radio"
+                                            name="untreatedDecay"
+                                            id=""
+                                            style={{ marginRight: "5px" }}
+
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }
+                                        />
+                                        {t(`Yes`)} {"   "}
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    untreatedDecay: "No",
+                                                });
+                                            // handleOpen();
+                                            }}
+                                            type="radio"
+                                            defaultChecked
+                                            name="untreatedDecay"
+                                            style={{ marginRight: "5px" }}
+                                            
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }    
+                                        />
+                                        {t("No")}
+                                        </p>
+                                    </div>  
+                               
+                                    <div align="left" className="mb-3">
+                                        <p>{t("Treated Decay?")} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    treatedDecay: "Yes",
+                                                });
+                                            //  handleOpen();
+                                            }}
+                                            type="Radio"
+                                            name="treatedDecay"
+                                            id=""
+                                            style={{ marginRight: "5px" }}
+
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }
+                                        />
+                                        {t(`Yes`)} {"   "}
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    treatedDecay: "No",
+                                                });
+                                            // handleOpen();
+                                            }}
+                                            type="radio"
+                                            defaultChecked
+                                            name="treatedDecay"
+                                            style={{ marginRight: "5px" }}
+                                            
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }    
+                                        />
+                                        {t("No")}
+                                        </p>
+                                    </div>  
+                                    
+                                    <div align="left" className="mb-3">
+                                        <p>{t("Sealants Present?")} &nbsp;
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    sealantsPresent: "Yes",
+                                                });
+                                            //  handleOpen();
+                                            }}
+                                            type="Radio"
+                                            name="sealants"
+                                            id=""
+                                            style={{ marginRight: "5px" }}
+
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }
+                                        />
+                                        {t(`Yes`)} {"   "}
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    sealantsPresent: "No",
+                                                });
+                                            // handleOpen();
+                                            }}
+                                            type="radio"
+                                            defaultChecked
+                                            name="sealants"
+                                            style={{ marginRight: "5px" }}
+                                            
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }    
+                                        />
+                                        {t("No")}
+                                        </p>
+                                    </div>  
+
+                                    <div align="left" className="mb-3">
+                                        <p>{t("Treatment Option")} &nbsp;&nbsp;
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    treatmentRecommendationCode: "Code 1",
+                                                });
+                                            //  handleOpen();
+                                            }}
+                                            type="Radio"
+                                            defaultChecked
+                                            name="treatmentoption"
+                                            id=""
+                                            style={{ marginRight: "5px" }}
+
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }
+                                        />
+                                        {t(`Code 1`)} &nbsp;&nbsp;&nbsp;&nbsp;
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    treatmentRecommendationCode: "Code 2",
+                                                });
+                                            // handleOpen();
+                                            }}
+                                            type="radio"
+                                            name="treatmentoption"
+                                            style={{ marginRight: "5px" }}
+                                            
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }    
+                                        />
+                                        {t("Code 2")} &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    treatmentRecommendationCode: "Code 3",
+                                                });
+                                            // handleOpen();
+                                            }}
+                                            type="radio"
+                                            name="treatmentoption"
+                                            style={{ marginRight: "5px" }}
+                                            
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }    
+                                        />
+                                        {t("Code 3")} &nbsp;&nbsp;&nbsp;&nbsp;
+
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    treatmentRecommendationCode: "Code 4",
+                                                });
+                                            // handleOpen();
+                                            }}
+                                            type="radio"
+                                            name="treatmentoption"
+                                            style={{ marginRight: "5px" }}
+                                            
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }    
+                                        />
+                                        {t("Code 4")} 
+                                        </p>
+                                    </div>  
+                                </td>
+                                </tr>
+                                </table>
+
+                            {/* End of Screening Evaluation Results */}
+
+                            <div className="rightArea"></div>
+                        </div>
+                    </div>
+
+                   { (formData.optoutReason === "NA")? (
+                       <h4>
+                        <span class="required"> {t("*Please select all the required fields")}</span>
+                      {(isLoaded) ? ( 
+                        <button
+                            className="SubmitButton"
+                            type="submit"
+                            disabled={
+                                !(  formData.location &&
+                                    formData.district &&
+                                    formData.school &&
+                                    formData.code &&
+                                    formData.firstname3letters &&
+                                    formData.grade &&
+                                    formData.gender &&
+                                    formData.haveDentalInsurance
+                                )
+                            }
+                        >
+                            {t("Submit Student*")}
+
+                        </button>
+                      ):
+                      <button
+                            className="SubmitButton"
+                            type="button"
+                            disabled
+                        >
+                            {t("Please wait....")}
+
+                       </button> 
+                    }                        
+
+                    </h4>)
+                    : <h4>
+                        <span class="required"> {t("*Please select all the required fields")}</span>
+                        <button className="SubmitButton" type="submit"
+                         disabled={
+                                !(  formData.location &&
+                                    formData.district &&
+                                    formData.school &&
+                                    formData.code &&
+                                    formData.firstname3letters &&
+                                    formData.grade &&
+                                    formData.gender &&
+                                    formData.haveDentalInsurance
+                                )
+                                }
+                            >
+                                {t("Submit Student*")}
+                        </button>
+                    </h4>
+                    }
+                    <h6 align="left">
+                        {t("* By submiting, you authorize dental professionals to review the submitted data for screening purposes.")}
+                    </h6>
+                    <br/>
+                    
+
+                    </div>
                             
                 </div>
             </form>
@@ -1140,7 +1020,7 @@ const CollectionApp = () => {
                 <div style={modalStyle} className={classes.paper}>
                     <p>
                     {t(`Would you like to receive additional information on Kansas Medicaid:`)}  {"  "}
-                    </p>
+                    </p> <p></p>
                     <div>
                         <input
                             onClick={() => {
@@ -1191,13 +1071,13 @@ const CollectionApp = () => {
                    
                 </div>
             </Modal>
-        
+         {/*
             <div id="overlay" class="desktop-message">
               <div id="text">{t("This app can only be used using a tablet or smart phone")}</div>
             </div>
-       
+         */}
         </div>
 
     );
 };
-export default CollectionApp;
+export default ManualScreeningApp;

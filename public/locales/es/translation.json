@@ -2,11 +2,12 @@
     "School Dental Screening": "Examen dental escolar",
     "Help": "ayuda",
     "Welcome to 2020 Student Screening Program": "Bienvenido al programa de evaluación de estudiantes 2020",
-    "Screening Location": "ubicación",
+    "Screening Location": "Ubicación",
+    "Screener": "Cribador",
     "School District": "Distrito escolar",
     "School Name": "Nombre de escuela",
     "Student ID": "Identificación del Estudiante",
-    "First 3 Letters of Student's first Name": "primeras tres letras del primer nombre del estudiante",
+    "First 3 Letters of Student's Legal First Name": "primeras tres letras del primer nombre del estudiante",
     "Grade": "Grado",
     "Gender": "Género",
     "Male": "Masculino",
@@ -15,11 +16,12 @@
     "Yes": "Si",
     "No": "No",
     "Would you like to receive information on Kansas Medicaid?": "Le gustaría recibir información sobre Kansas Medicaid?",
-    "Parent/Guardian Email* ": "Padre / Tutor Correo electrónico* ",
+    "Parent/Guardian Email": "Padre / Tutor Correo electrónico",
     "* By providing email address you consent to receive emails with information such as screening results, Kansas Medicaid information, and other oral care education material":
                "* Al proporcionar la dirección de correo electrónico, usted acepta recibir correos electrónicos con información como resultados de exámenes, información de Kansas Medicaid y otro material educativo sobre el cuidado bucal.",
     "Video": "Video",
     "Photos": "Fotos",
+    "Are you currently experiencing any mouth pain?": "¿Está experimentando actualmente algún dolor en la boca?",
     "Please have your student in good lighting and take the pictures as shown. You can refer to this": "Por favor haga que su estudiante tenga buena iluminación y tome las fotografías como se muestra. Puedes referirte a esto",
     "on how to take the best photos for screening.": "sobre cómo sacar las mejores fotos para la proyección",
     "Non Smiling Demo Image": "Imagen de demostración sin sonrisa",
@@ -35,7 +37,12 @@
     "+ Bottom": "+ imagen inferior",
     "Submit Student*": "Enviar estudiante*",
     "* By submiting, you authorize dental professionals to review the submitted data for screening purposes.": "* Al enviar, autoriza a los profesionales dentales a revisar los datos enviados con fines de detección. ",
-    "This app can only be used using a tablet or smart phone": "Esta aplicación solo se puede utilizar con una tableta o un teléfono inteligente."
+    "This app can only be used using a tablet or smart phone": "Esta aplicación solo se puede utilizar con una tableta o un teléfono inteligente.",
+    "Select a reason from the dropdown if you would like to optout of school dental screening and then clieck on Submit Student button below": "Seleccione una razón del menú desplegable si desea optar por no participar en la evaluación dental de la escuela y luego haga clic en el botón Enviar estudiante a continuación",
+    "Untreated Decay?": "Caries no tratadas?",
+    "Treated Decay?": "Caries tratadas?",
+    "Sealants Present?": "Selladores presentes?",
+    "Treatment Option": "Opciones de tratamiento"
 
 
 
