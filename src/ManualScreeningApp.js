@@ -1001,7 +1001,7 @@ const ManualScreeningApp = () => {
                         </button>
                     </h4>
                     }
-                    <h6 align="left">
+                    <h6 align="center">
                         {t("* By submiting, you authorize dental professionals to review the submitted data for screening purposes.")}
                     </h6>
                     <br/>
