@@ -47,24 +47,6 @@ const initialFormState = {
     cannotEvaluate: "NA"
 };
 
-const resetFormState = {
-    code: "",
-    name: "",
-    gender: "Male",
-    firstname3letters: "",
-    
-    haveDentalInsurance: "Yes",
-    okToReceiveMedicaidInfo: "No",
-    evalStatus: "New",
-    optout: "No",
-    dentalPain: "No",
-    optoutReason: "NA",
-    untreatedDecay: "No",
-    treatedDecay: "No",
-    sealantsPresent: "No",
-    treatmentRecommendationCode: "Code 1",
-    cannotEvaluate: "NA"
-};
 /*
 const initialExtraFormState = {
     optoutReason: "NA",
@@ -157,8 +139,36 @@ const ManualScreeningApp = () => {
     const [confirmSubmitModel, setConfirmSubmitModel] = React.useState(false);
     const { t } = useTranslation();
     const [isLoaded, setIsLoaded] = useState(true);
+    const [reRunState, setReRunState] = useState("");
 
     let history = useHistory();
+
+
+    const resetFormState = {
+        code: "",
+        name: "",
+        firstname3letters: "",
+        gender: "Male",
+        
+        location: "School",
+        district: (formData.district)? formData.district : "",
+        school: (formData.school)? formData.school : "",
+        screener: (formData.screener)? formData.screener : "",
+        grade: (formData.grade)? formData.grade : "",
+    
+        haveDentalInsurance: "Yes",
+        okToReceiveMedicaidInfo: "No",
+        evalStatus: "New",
+        optout: "No",
+        dentalPain: "No",
+        optoutReason: "NA",
+        untreatedDecay: "No",
+        treatedDecay: "No",
+        sealantsPresent: "No",
+        treatmentRecommendationCode: "Code 1",
+        cannotEvaluate: "NA"
+    };
+
 
     const handleLanguage = (lang) => {
         i18next.changeLanguage(lang);
@@ -233,6 +243,7 @@ const ManualScreeningApp = () => {
             formData.optout = "Yes";
         }
        formData.screener = screener; 
+       formData.evalStatus = "Completed";
         //formData.dentalPain = extraFormData.dentalPain;
         
         console.log("FormData: ",formData);
@@ -244,6 +255,7 @@ const ManualScreeningApp = () => {
     async function createStudent(e) {
         e.preventDefault();
         if (!formData.code || !formData.gender) return;
+        
         await API.graphql({
             query: createStudentMutation,
             variables: { input: formData },
@@ -251,14 +263,21 @@ const ManualScreeningApp = () => {
         
         // handleConfirmSubmitModel();
         alert(`Student ${formData.code} Uploaded Successfully.\n\nThank You for participating in Hays (USD 489) 2021 Dental Screening Program.`);
+        setFormData(resetFormState);
+
         setIsLoaded(true);
 
+        setTimeout(function() { setReRunState("return"); },1000);
+
+         // This is just to reset the state value
+
+        /*
         if(formData.okToReceiveMedicaidInfo === "Yes" ) {
             window.location.href = "https://www.kdheks.gov/hcf/Medicaid/eligibility_guidelines.html"; 
         } else {
             setFormData(resetFormState);
            // window.location.reload(); 
-        }
+        } */
 
     }
 
@@ -719,6 +738,52 @@ const ManualScreeningApp = () => {
                                { /*  end of optout field */ }
 
                             {/* If not opted out enter screening evaluation results */}
+
+                                    <div align="left" className="mb-3">
+                                        <p>{t("Sealants Present?")} &nbsp;
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    sealantsPresent: "Yes",
+                                                });
+                                            //  handleOpen();
+                                            }}
+                                            type="Radio"
+                                            name="sealants"
+                                            id=""
+                                            style={{ marginRight: "5px" }}
+
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }
+                                        />
+                                        {t(`Yes`)} {"   "}
+                                        <input
+                                            onClick={() => {
+                                                setFormData({
+                                                    ...formData,
+                                                    sealantsPresent: "No",
+                                                });
+                                            // handleOpen();
+                                            }}
+                                            type="radio"
+                                            defaultChecked
+                                            name="sealants"
+                                            style={{ marginRight: "5px" }}
+                                            
+                                            disabled={
+                                                !(
+                                                    formData.optoutReason == "NA"
+                                                )
+                                            }    
+                                        />
+                                        {t("No")}
+                                        </p>
+                                    </div>  
+
                                     <div align="left" className="mb-3">
                                         <p>{t("Untreated Decay?")} &nbsp;
                                         <input
@@ -809,50 +874,7 @@ const ManualScreeningApp = () => {
                                         </p>
                                     </div>  
                                     
-                                    <div align="left" className="mb-3">
-                                        <p>{t("Sealants Present?")} &nbsp;
-                                        <input
-                                            onClick={() => {
-                                                setFormData({
-                                                    ...formData,
-                                                    sealantsPresent: "Yes",
-                                                });
-                                            //  handleOpen();
-                                            }}
-                                            type="Radio"
-                                            name="sealants"
-                                            id=""
-                                            style={{ marginRight: "5px" }}
-
-                                            disabled={
-                                                !(
-                                                    formData.optoutReason == "NA"
-                                                )
-                                            }
-                                        />
-                                        {t(`Yes`)} {"   "}
-                                        <input
-                                            onClick={() => {
-                                                setFormData({
-                                                    ...formData,
-                                                    sealantsPresent: "No",
-                                                });
-                                            // handleOpen();
-                                            }}
-                                            type="radio"
-                                            defaultChecked
-                                            name="sealants"
-                                            style={{ marginRight: "5px" }}
-                                            
-                                            disabled={
-                                                !(
-                                                    formData.optoutReason == "NA"
-                                                )
-                                            }    
-                                        />
-                                        {t("No")}
-                                        </p>
-                                    </div>  
+ 
 
                                     <div align="left" className="mb-3">
                                         <p>{t("Treatment Option")} &nbsp;&nbsp;
