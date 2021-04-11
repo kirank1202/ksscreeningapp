@@ -115,8 +115,10 @@ const ReportsApp = () => {
         let studentDataCode2List = [];
         let studentDataCode3List = [];
         let studentDataCode4List = [];
+        let studentDataOptout = [];
         let filterByGrade = unFiltStudents.filter((student) => {
-          return student.grade == gradeCodesList[i] && student.optout == "No";
+          // return student.grade == gradeCodesList[i] && student.optout == "No";
+          return student.grade == gradeCodesList[i];
         });
         console.log("All Student", unFiltStudents);
         console.log("By Grade Student", filterByGrade);
@@ -128,6 +130,7 @@ const ReportsApp = () => {
           std["treatedDecay_"+ obj.treatedDecay] = (std["treatedDecay_"+ obj.treatedDecay] || 0) + 1;
           std["sealantsPresent_"+ obj.sealantsPresent] = (std["sealantsPresent_"+ obj.sealantsPresent] || 0) + 1;
           std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] = (std["treatmentRecommendationCode_"+ obj.treatmentRecommendationCode] || 0) + 1;
+          std["optout_"+ obj.optout] = (std["optout_"+ obj.optout] || 0) + 1;
           //  Details Object
           if(obj.treatmentRecommendationCode == "Code 1") {
             let studentData = {
@@ -173,6 +176,17 @@ const ReportsApp = () => {
             studentDataCode4List.push(studentData);
             std["studentDataCode4List"] = studentDataCode4List;
           }
+          if(obj.optout == "Yes") {
+            let studentData = {
+              name: obj.name,
+              code: obj.code,
+              gender: obj.gender,
+              grade: obj.grade,
+              threeLetterList: obj.firstname3letters
+            }
+            studentDataOptout.push(studentData);
+            std["studentDataOptout"] = studentDataOptout;
+          }
           return std;
           }, {});
           wholeSummary.push(gradesSummary);
@@ -184,6 +198,7 @@ const ReportsApp = () => {
     let code2TotalSummary = [];
     let code3TotalSummary = [];
     let code4TotalSummary = [];
+    let optoutTotalSummary = [];
     for(var item in wholeSummary) {
       grade["grade"] = 'Total';
       grade['untreatedDecay_Yes'] = (grade['untreatedDecay_Yes'] ? grade['untreatedDecay_Yes'] : 0) + (wholeSummary[item]['untreatedDecay_Yes'] ? wholeSummary[item]['untreatedDecay_Yes'] : 0 );
@@ -216,6 +231,10 @@ const ReportsApp = () => {
       if(wholeSummary[item]['studentDataCode4List']) {
         code4TotalSummary.push(wholeSummary[item]['studentDataCode4List']);
         grade["Treatment Needs: Code 4"] = code4TotalSummary;
+      }
+      if(wholeSummary[item]['studentDataOptout']) {
+        optoutTotalSummary.push(wholeSummary[item]['studentDataOptout']);
+        grade["Optout: Yes"] = optoutTotalSummary;
       }
     }
     wholeSummary.push(grade);
@@ -323,7 +342,7 @@ const ReportsApp = () => {
             <table>
               <thead>
                 <tr>
-                  <th class="main-th" colSpan="11">Hays Unified School District 489
+                  <th class="main-th" colSpan="12">Hays Unified School District 489
                   {(selectedSchool) ? (
                       <div>{selectedSchool}</div>
                   ) : ""}
@@ -345,7 +364,7 @@ const ReportsApp = () => {
                   <th>Treatment Needs: <br/> Code 2 <br/> Sealants needed</th>
                   <th>Treatment Needs: <br/> Code 3 <br/> DDS exam suggested</th>
                   <th>Treatment Needs: <br/> Code 4 <br/> Urgent care needs</th>
-                  {/* <th>OptOut <br/> Yes</th> */}
+                  <th>OptOut <br/> Yes</th>
                 </tr>
               </thead>
 
@@ -385,11 +404,15 @@ const ReportsApp = () => {
                         {studentGrade['treatmentRecommendationCode_Code 4'] ? studentGrade['treatmentRecommendationCode_Code 4'] : "0"}
                       </a>
                     </td>
-                    {/* <td>{studentGrade.optout_Yes ? studentGrade.optout_Yes : "0"}</td> */}
+                    <td>
+                      <a class="td-link" onClick={() => showStudentInfo(["Optout: Yes"])}>
+                        {studentGrade.optout_Yes ? studentGrade.optout_Yes : "0"}
+                      </a>
+                    </td>
                   </tr>
                   ): ""
                 ))}
-                {(!isLoaded)?(<tr><td colSpan="11"> Loading... </td></tr>) : ""}
+                {(!isLoaded)?(<tr><td colSpan="12"> Loading... </td></tr>) : ""}
               </tbody>
             </table>
           </div>
@@ -427,7 +450,7 @@ const ReportsApp = () => {
             }
             {(!reportSummary[8][studentCode]) ? (
               <tr>
-                  <td colspan="5">No records found.</td>
+                  <td colSpan="5">No records found.</td>
               </tr>
             ) : ""}
             </table>
