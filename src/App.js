@@ -13,6 +13,7 @@ import CollectionApp from "./CollectionApp";
 import ReportsApp from './ReportsApp';
 import HelpVideoApp from './HelpVideoApp';
 import ManualScreeningApp from './ManualScreeningApp';
+import FullDataExtractionApp from "./FullDataExtractionApp";
 
 /*
 import { DataGrid } from '@material-ui/data-grid';
@@ -102,6 +103,8 @@ function App() {
           <Route path="/reports" component={ReportsApp} />
           <Route path="/help-video" component={HelpVideoApp} />
           <Route path="/manualscreening" component={ManualScreeningApp} />
+          <Route path="/fulldataextraction" component={FullDataExtractionApp} />
+          
           {fetchCurrentUserGroup}
           {
             userType === "DataCollection" ? (
@@ -112,9 +115,12 @@ function App() {
                   ) : ( 
                         userType === "DataEvaluator" ? (
                           <Redirect to="/evaluation" />
-                        ): ( <Redirect to="/reports" /> )
+                        ): ( 
+                          userType === "FullDataExtraction" ? (
+                            <Redirect to="/fulldataextraction" />
+                          ): ( <Redirect to="/reports" /> )
                       )
-                )
+                ) )
           }
           <AmplifySignOut />
       </Router>
