@@ -289,9 +289,13 @@ const ReportsApp = () => {
                 <img className="logo_style" src={logo} alt="..." />
                 <h5 className="logo-header" color="#fff">School Dental Screening - Reports</h5>
                 <nav role="navigation" class="desktop">
-                  <ul id="d-menu">
-                      <li> <a onClick={() => history.push('evaluation') }><h5> Evaluation</h5> </a> </li>
+                   <ul id="h-menu"> 
+                    <li> <a onClick={() => history.push('fulldataextraction') }><h6> FullDataExtraction</h6> </a> </li>
                   </ul>
+                  <ul id="d-menu">
+                      <li> <a onClick={() => history.push('evaluation') }><h6> Evaluation </h6> </a> </li> &nbsp; &nbsp;
+                  </ul>
+
                 </nav>
                 <nav role="navigation" class="mobile">
                   <div id="menuToggle">
@@ -299,9 +303,12 @@ const ReportsApp = () => {
                       <span></span>
                       <span></span>
                       <span></span>
-                      <ul id="menu">
-                        <li> <a onClick={() => history.push('evaluation') }>Evaluation</a> </li>
-                      </ul>
+                      <ul id="h-menu"> 
+                         <li> <a onClick={() => history.push('fulldataextraction') }><h6> FullDataExtraction</h6> </a> </li>
+                     </ul>
+                     <ul id="d-menu">
+                        <li> <a onClick={() => history.push('evaluation') }><h6> Evaluation </h6> </a> </li> &nbsp; &nbsp;
+                     </ul>
                   </div>
                 </nav>
               </Toolbar>

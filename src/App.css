@@ -63,6 +63,12 @@
   height: 50vmin;
   pointer-events: none;
 }
+.extract-logo-header {
+  text-align: left;
+  color: #1473a2;
+  margin: 0;
+  padding: rem 1rem 1.rem 0;
+}
 .logo-header {
   text-align: right;
   color: #1473a2;
@@ -384,6 +390,10 @@ tr {
   margin: 0 auto;
   padding: 70px 30px 30px;
 }
+.extracttable-scroll {
+  height: 900px;
+  overflow-y: scroll;
+}
 .table-scroll {
   height: 700px;
   overflow-y: scroll;
@@ -640,13 +650,35 @@ tr {
   justify-content: space-evenly;
 }
 #d-menu li a {
-  color: #000 !important;
+ /color: #000 !important; 
   padding: 0 0 0 10px;
 }
 #d-menu li a:hover {
   color: #007bff !important;
   text-decoration: none !important;
 }
+
+/* setup a hidden menu */
+#h-menu {
+  margin: 5px 0 0 19px;
+  padding: 0 20px;
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  display: inline-block;
+  display: inline-flex;
+  cursor:none;
+  justify-content: space-evenly;
+}
+#h-menu li a {
+ /* color: #000 !important; */
+ color:#f9f9f9;
+  padding: 0 0 0 10px;
+}
+#h-menu li a:hover {
+  color: #f5f6f8f5 !important;
+  text-decoration: none !important;
+}
+/* end of hidden menu option */
 #menu
 {
   position: absolute;
