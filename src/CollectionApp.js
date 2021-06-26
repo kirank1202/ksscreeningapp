@@ -275,7 +275,7 @@ const CollectionApp = () => {
 
         reader.onload = function (e) {
             const el = document.getElementById("left");
-            el.style.display = "block";
+            el.style.display = "inline-flex";
             el.style.background = `url(${e.target.result})`;
             el.style.backgroundRepeat = "no-repeat";
             el.style.backgroundSize = "cover";
@@ -300,7 +300,7 @@ const CollectionApp = () => {
 
         reader.onload = function (e) {
             const el = document.getElementById("right");
-            el.style.display = "block";
+            el.style.display = "inline-flex";
             el.style.background = `url(${e.target.result})`;
             el.style.backgroundRepeat = "no-repeat";
             el.style.backgroundSize = "cover";
@@ -326,7 +326,7 @@ const CollectionApp = () => {
 
         reader.onload = function (e) {
             const el = document.getElementById("top");
-            el.style.display = "block";
+            el.style.display = "inline-flex";
             el.style.background = `url(${e.target.result})`;
             el.style.backgroundRepeat = "no-repeat";
             el.style.backgroundSize = "cover";
@@ -354,7 +354,7 @@ const CollectionApp = () => {
 
         reader.onload = function (e) {
             const el = document.getElementById("bottom");
-            el.style.display = "block";
+            el.style.display = "inline-flex";
             el.style.background = `url(${e.target.result})`;
             el.style.backgroundRepeat = "no-repeat";
             el.style.backgroundSize = "cover";
@@ -382,14 +382,22 @@ const CollectionApp = () => {
         var reader = new FileReader();
 
         reader.onload = function (e) {
-            const el = document.getElementById("non-smiling");
-            el.style.display = "block";
-            el.style.background = `url(${e.target.result})`;
-            el.style.backgroundRepeat = "no-repeat";
-            el.style.backgroundSize = "cover";
-            el.style.width = "149.7px";
-            el.style.height = "142px";
-            el.innerHTML = "";
+            var label = document.getElementById('non-smiling');
+            var video = document.getElementById('non-smiling-video');
+            video.src = `${e.target.result}`;
+            video.style.display = "inline-flex";
+            video.style.width = "149.7px";
+            video.style.height = "142px";
+            video.play();
+            label.style.display = "none";
+            // const el = document.getElementById("non-smiling");
+            // el.style.display = "inline-flex";
+            // el.style.background = `url(${e.target.result})`;
+            // el.style.backgroundRepeat = "no-repeat";
+            // el.style.backgroundSize = "cover";
+            // el.style.width = "149.7px";
+            // el.style.height = "142px";
+            // el.innerHTML = "";
         };
 
         // const file = e.target.files[0];
@@ -409,7 +417,7 @@ const CollectionApp = () => {
 
         reader.onload = function (e) {
             const el = document.getElementById("front-teeth");
-            el.style.display = "block";
+            el.style.display = "inline-flex";
             el.style.background = `url(${e.target.result})`;
             el.style.backgroundRepeat = "no-repeat";
             el.style.backgroundSize = "cover";
@@ -1040,7 +1048,12 @@ const CollectionApp = () => {
                                 htmlFor="home-file-input-nonSmiling"
                             >
                                 {t("+ Click Here to Add Non-Smiling Face Photo")}
+                                
                             </label>
+                            <video id="non-smiling-video" 
+                                className="video-input-label"
+                                controls="true" preload="auto" src="">
+                            </video>
                         </div> 
                     </div>
                     
