@@ -18,7 +18,7 @@ import "./App.css";
 import { API, Storage, Auth } from "aws-amplify";
 
 import { createStudent as createStudentMutation } from "./graphql/mutations";
-import { listSchools } from "./graphql/queries";
+import { listSchools, listStudents } from "./graphql/queries";
 import { useHistory } from "react-router-dom";
 // Language translation imports.
 import { useTranslation } from "react-i18next";
@@ -50,6 +50,7 @@ let selectedBottomImage;
 const initialFormState = {
     code: "",
     name: "",
+    firstname3letters: "",
     gender: "Male",
     district: "Hays USD 489",
     school: "",
@@ -65,6 +66,45 @@ const initialFormState = {
     optoutReason: "NA",
     screener: ""
 };
+
+const mockStudentData = [
+    {
+        code: "TEST11",
+        name: "TEST11",
+        gender: "Female",
+        district: "Hays USD 489-11",
+        school: "TEST11 - School",
+        grade: "TEST11- 1",
+        leftimage: "",
+        rightimage: "",
+        location: "TEST11 - School",
+        haveDentalInsurance: "Yes",
+        okToReceiveMedicaidInfo: "No",
+        evalStatus: "New",
+        optout: "No",
+        dentalPain: "No",
+        optoutReason: "NA",
+        screener: ""
+    },
+    {
+        code: "TEST22",
+        name: "TEST22",
+        gender: "Male",
+        district: "Hays USD 489-22",
+        school: "TEST22 - School",
+        grade: "TEST22 - 1",
+        leftimage: "",
+        rightimage: "",
+        location: "TEST22 - School",
+        haveDentalInsurance: "Yes",
+        okToReceiveMedicaidInfo: "No",
+        evalStatus: "New",
+        optout: "No",
+        dentalPain: "No",
+        optoutReason: "NA",
+        screener: ""
+    }
+];
 /*
 const initialExtraFormState = {
     optoutReason: "NA",
@@ -124,15 +164,7 @@ async function fetchAllSchools() {
     const apiData = await API.graphql({ query: listSchools });
     const schoolsFromAPI = apiData.data.listSchools.items;
     schoolList = schoolsFromAPI; 
-    
-    //school end
-  
-    //   let sortedArr = apiData.data.listSchools.items.sort(
-    //     (a, b) =>
-    //       new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    //   ); // setStudents(apiData.data.listStudents.items);
-    //   setSchools(sortedArr);
-    }
+}
 
 // fetchAllSchools(); 
 
@@ -159,8 +191,13 @@ const CollectionApp = () => {
     const [confirmSubmitModel, setConfirmSubmitModel] = React.useState(false);
     const { t } = useTranslation();
     const [isLoaded, setIsLoaded] = useState(true);
+    const [isResetStudent, setResetStudent] = useState(false);
 
     let history = useHistory();
+    useEffect(() => {
+        fetchAllStudents();
+        console.log("On page load");
+    }, []); /* retrieve all students from DynamoDB using graphql API interace */
 
     const handleLanguage = (lang) => {
         i18next.changeLanguage(lang);
@@ -390,11 +427,64 @@ const CollectionApp = () => {
             ...formData,
             frontTeeth: generateImageFileName("front"),
         });
-
-        // await Storage.put(generateImageFileName("front"), file);
-        //alert("Front-Teeth image changes");
     }
-
+    // Fetch Student data    
+    async function fetchAllStudents() {
+        const apiData = await API.graphql({ query: listStudents });
+        const studentsFromAPI = apiData.data.listStudents.items;
+        await Promise.all(
+        studentsFromAPI.map(async (student) => {
+            if (student.leftimage) {
+            const image = await Storage.get(student.leftimage);
+            student.leftimage = image;
+            }
+            if (student.rightimage) {
+            const image = await Storage.get(student.rightimage);
+            student.rightimage = image;
+            }
+            if (student.topimage) {
+            const image = await Storage.get(student.topimage);
+            student.topimage = image;
+            }
+            if (student.bottomimage) {
+            const image = await Storage.get(student.bottomimage);
+            student.bottomimage = image;
+            }
+            if (student.nonsmilingface) {
+            const image = await Storage.get(student.nonsmilingface);
+            student.nonsmilingface = image;
+            }
+            if (student.frontTeeth) {
+            const image = await Storage.get(student.frontTeeth);
+            student.frontTeeth = image;
+            }
+            return student;
+        })
+        );
+        let sortedArr = apiData.data.listStudents.items.sort(
+        (a, b) =>
+            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+        console.log("Studentslist**", sortedArr);
+        setStudents(sortedArr);
+    }
+    //  Pre populate student data from student id.
+    function populateStudentData(stdCode) {
+       const filtedStd = students.filter((stdData) => {
+            return stdData.code === stdCode
+            && stdData.evalStatus !== "Completed"
+            && stdData.school === "Hays Middle School"
+            && stdData.district === "Hays USD 489";
+        });
+        if(filtedStd[0]) {
+            setResetStudent(true);
+            setFormData(filtedStd[0]);
+        }
+    }
+    function resetStudent() {
+        setFormData(initialFormState);
+        setResetStudent(false);
+    }
     async function handleSubmit(e) {
         setIsLoaded(false);
         /*
@@ -598,6 +688,7 @@ const CollectionApp = () => {
                                                 school: newValue.title,
                                             });
                                         }}
+                                        inputValue={formData.school}
                                         renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
                                     />
                                 </div>
@@ -608,13 +699,18 @@ const CollectionApp = () => {
                                             value={formData.code}
                                             aria-label="code"
                                             aria-describedby="basic-addon1"
-                                            onChange={(e) =>
+                                            onChange={(e) => {
                                                 setFormData({
                                                     ...formData,
                                                     code: e.target.value,
-                                                })
+                                                });
+                                                    populateStudentData(e.target.value);
+                                                }
                                             }
                                         />
+                                       {(isResetStudent) ? (
+                                            <span class="reset" onClick={() => resetStudent()}> Reset</span>
+                                       ) : " "}
                                     </InputGroup>
                                 </div>
                                 <div>
@@ -640,13 +736,13 @@ const CollectionApp = () => {
                                         id="combo-box-demo"
                                         options={gradelist}
                                         getOptionLabel={(option) => option.title}
-                                        //style={{ height: 5 }}
                                         onChange={(event, newValue) => {
                                             setFormData({
                                                 ...formData,
                                                 grade: newValue.title,
                                             });
                                         }}
+                                        inputValue={formData.grade}
                                         renderInput={(params) => <TextField {...params} label="" variant="outlined" />}
                                     />
                                 </div>

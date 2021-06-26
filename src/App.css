@@ -740,7 +740,13 @@ tr {
   transform: translate(-50%,-50%);
   -ms-transform: translate(-50%,-50%);
 }
-
+.reset {
+  position: absolute;
+  right: 20px;
+  top: 4px;
+  cursor: pointer;
+  color: #ced4da;
+}
 @media screen and (max-width: 1024px) {
   .desktop-message {
     display: none;
